@@ -6,6 +6,7 @@ const io = require('socket.io')(http);
 app.get('/', function(req, res) {});
 
 app.use(express.static('public/'));
+app.use(require('./routes/users.js'));
 
 io.on('connection', function(socket) {
 	console.log('an user connected');
