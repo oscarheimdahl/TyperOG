@@ -1,0 +1,25 @@
+.container {
+	position: absolute;
+	top: 10vw;
+	width: 60vw;
+	left: 18vw;
+	font-size: 2vw;
+	font-family: Roboto;
+	font-weight: 200;
+}
+.inputfield {
+	font-size: 2vw;
+	font-weight: 200;
+	width: 100%;
+	display: block;
+	padding: 1vw;
+	border: 1px solid black;
+}
+.text {
+	width: 100%;
+	display: block;
+	padding: 1vw;
+	margin: 1vw 0 0 0;
+	border: 1px solid black;
+	text-decoration-color: black;
+}
