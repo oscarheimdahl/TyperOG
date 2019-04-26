@@ -1,3 +1,7 @@
+* {
+	margin: 0;
+	padding: 0;
+}
 .container {
 	position: absolute;
 	top: 10vw;
@@ -8,6 +12,8 @@
 	font-weight: 200;
 }
 .inputfield {
+	position: relative;
+	top: 1vw;
 	font-size: 2vw;
 	font-weight: 200;
 	width: 100%;
@@ -19,7 +25,15 @@
 	width: 100%;
 	display: block;
 	padding: 1vw;
-	margin: 1vw 0 0 0;
+	margin: 1vw 0;
 	border: 1px solid black;
 	text-decoration-color: black;
+	background: white;
+}
+
+.progressbar {
+	position: relative;
+	height: 100vh;
+	left: 0;
+	top: 0;
 }
