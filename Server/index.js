@@ -2,11 +2,16 @@ const express = require('express');
 const app = express();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
+const mongoose = require('mongoose');
+app.use(express.static('public/'));
+app.use(require('./api/routes/users.js'));
+app.use(require('./api/routes/texts.js'));
+
+mongoose.connect('mongodb://localhost:27017/Typer', {
+	useNewUrlParser: true
+});
 
 app.get('/', function(req, res) {});
-
-app.use(express.static('public/'));
-app.use(require('./routes/users.js'));
 
 io.on('connection', function(socket) {
 	console.log('an user connected');

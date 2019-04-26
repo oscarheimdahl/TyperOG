@@ -1,16 +1,19 @@
 {
-  "name": "socketio",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "express": "^4.16.4",
-    "nodemon": "^1.18.11",
-    "socket.io": "^2.2.0"
-  }
+	"name": "socketio",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"server": "nodemon index.js"
+	},
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"bcrypt": "^3.0.6",
+		"express": "^4.16.4",
+		"jsonwebtoken": "^8.5.1",
+		"mongoose": "^5.5.4",
+		"nodemon": "^1.18.11",
+		"socket.io": "^2.2.0"
+	}
 }
