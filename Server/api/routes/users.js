@@ -63,7 +63,8 @@ router.post('/api/users/sign_in', (req, res) => {
 						return res.status(500);
 					} else {
 						user.password = hash;
-						user.save()
+						user
+							.save()
 							.then(result => {
 								console.log('saving user');
 								console.log(result);

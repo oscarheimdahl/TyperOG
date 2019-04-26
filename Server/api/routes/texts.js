@@ -39,7 +39,8 @@ router.post('/api/texts/add', (req, res) => {
 		author: req.body.text.author,
 		content: req.body.text.content
 	});
-	text.save()
+	text
+		.save()
 		.then(result => {
 			console.log(result);
 		})
