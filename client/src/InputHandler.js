@@ -13,22 +13,30 @@ export class InputHandler extends Component {
 		remainingText: this.props.text.split(' '),
 		complete: false,
 		time: 0,
-		timerStarted: false
+		timerStarted: false,
+		socket: null,
+		progress: 0,
+		lastTime: 0
 	};
 
-	tick() {
+	tick = () => {
 		setTimeout(() => {
-			if (!this.state.complete) {
-				this.setState({ time: this.state.time + 1 });
+			if (this.state.complete) {
+				this.props.emit('progress', this.state.progress);
+				this.props.emit('time', this.state.time);
+				this.props.setWPM((this.state.wordIndex / this.state.time) * 60);
+				this.props.emit('wpm', this.props.wpm);
+			} else {
+				if (this.state.time > this.state.lastTime + 1) {
+					this.props.setWPM((this.state.wordIndex / this.state.time) * 60);
+					this.setState({ lastTime: this.state.time });
+					this.props.emit('progress', this.state.progress);
+				}
 				this.tick();
 			}
-		}, 1000);
-	}
-
-	constructor(props) {
-		super(props);
-		this.inputField = React.createRef();
-	}
+			this.setState({ time: this.state.time + 0.1 });
+		}, 100);
+	};
 
 	handleInput = input => {
 		if (!this.state.timerStarted) {
@@ -50,7 +58,10 @@ export class InputHandler extends Component {
 				wordIndex: this.state.wordIndex + 1
 			});
 			this.setTextWord(input, onLastWord);
-			if (onLastWord) this.setState({ complete: true });
+			if (onLastWord) {
+				this.setState({ complete: true });
+				this.props.setComplete();
+			}
 		} else if (correctString === input) {
 			this.setState({
 				spelling: true
@@ -82,13 +93,64 @@ export class InputHandler extends Component {
 		this.state.remainingText.shift();
 	}
 
-	render() {
-		let temp = [...this.state.completedText];
+	setProgress = () => {
 		let progress =
-			this.state.completedText.toString().length /
-			(this.props.text.length + this.state.words.length - 1);
+			(this.state.completedText.length - 1) / this.state.words.length;
+		if (this.state.completedText.slice(-1)[0] === this.state.words.slice(-1)[0])
+			progress = 1;
+		this.setState({ progress: progress }); //TODO works?
+		return progress;
+	};
 
-		temp.pop();
+	setCurrentWordStyle = () => {
+		return this.state.spelling
+			? {
+					color: 'green',
+					textDecoration: 'underline'
+			  }
+			: {
+					color: 'lightcoral',
+					textDecoration: 'underline'
+			  };
+	};
+
+	setInputStyle = () => {
+		return this.state.spelling === true
+			? {
+					background: '#DDFFDD'
+			  }
+			: {
+					background: 'pink'
+			  };
+	};
+
+	setTextStyle = () => {
+		return this.state.complete ? { background: '#DDFFDD' } : {};
+	};
+	setCompletedTextStyle = () => {
+		return this.props.complete ? { color: 'black' } : { color: 'green' };
+	};
+
+	render() {
+		let completedText;
+		let currentWord;
+		if (!this.props.complete) {
+			completedText = [...this.state.completedText];
+			completedText.pop();
+			currentWord = this.state.completedText[
+				this.state.completedText.length - 1
+			];
+		} else {
+			completedText = this.state.completedText;
+			currentWord = '';
+		}
+
+		let progress = this.setProgress();
+		let currentWordStyle = this.setCurrentWordStyle();
+		let inputStyle = this.setInputStyle();
+		let textStyle = this.setTextStyle();
+		let completedTextStyle = this.setCompletedTextStyle();
+
 		return (
 			<div>
 				<div
@@ -99,43 +161,27 @@ export class InputHandler extends Component {
 					}}
 				/>
 				<div className="container">
+					<div className="text" style={textStyle}>
+						<span style={completedTextStyle}>{completedText}</span>
+						<span style={currentWordStyle}>{currentWord}</span>
+						<span>{this.state.remainingText.map(word => word + ' ')}</span>
+					</div>
+					<br />
 					<input
 						value={this.state.inputText}
 						type="text"
 						placeholder="..."
 						className="inputfield"
-						style={
-							this.state.spelling === true
-								? {
-										background: '#DDFFDD'
-								  }
-								: {
-										background: 'pink'
-								  }
-						}
+						style={inputStyle}
 						onChange={evt => {
 							if (!this.state.complete) {
 								this.handleInput(evt.target.value);
 							}
 						}}
 					/>
+					Time: {Math.round(this.state.time)}
 					<br />
-					<div
-						className="text"
-						style={this.state.complete ? { background: 'lightgreen' } : {}}
-					>
-						<span style={{ color: 'green' }}>{temp}</span>
-						<span
-							style={{
-								color: 'green',
-								textDecoration: 'underline'
-							}}
-						>
-							{this.state.completedText[this.state.completedText.length - 1]}
-						</span>
-						<span>{this.state.remainingText.map(word => word + ' ')}</span>
-					</div>
-					Time: {this.state.time}
+					WPM: {Math.round(this.props.wpm)}
 				</div>
 			</div>
 		);

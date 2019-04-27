@@ -11,29 +11,32 @@
 	font-family: Roboto;
 	font-weight: 200;
 }
+
+.text {
+	width: 100%;
+	display: block;
+	padding: 1vw;
+	margin: 0;
+	border: 1px solid black;
+	text-decoration-color: black;
+	background: white;
+}
+
 .inputfield {
 	position: relative;
-	top: 1vw;
 	font-size: 2vw;
 	font-weight: 200;
 	width: 100%;
 	display: block;
 	padding: 1vw;
 	border: 1px solid black;
-}
-.text {
-	width: 100%;
-	display: block;
-	padding: 1vw;
-	margin: 1vw 0;
-	border: 1px solid black;
-	text-decoration-color: black;
-	background: white;
+	margin-bottom: 1vw;
 }
 
 .progressbar {
 	position: relative;
 	height: 100vh;
+	transition-duration: 0.8s;
 	left: 0;
 	top: 0;
 }
