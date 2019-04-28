@@ -3,8 +3,6 @@ import './InputHandler.css';
 
 export class InputHandler extends Component {
 	state = {
-		input: '',
-		letterIndex: 0,
 		wordIndex: 0,
 		spelling: true,
 		words: this.props.text.split(' '),
@@ -13,8 +11,7 @@ export class InputHandler extends Component {
 		remainingText: this.props.text.split(' '),
 		startTime: null,
 		endTime: null,
-		progress: 0,
-		lastTime: 0
+		progress: 0
 	};
 
 	tick = () => {
@@ -68,6 +65,7 @@ export class InputHandler extends Component {
 		} else {
 			this.setState({ spelling: false });
 		}
+		this.setProgress();
 	};
 
 	/**
@@ -92,12 +90,16 @@ export class InputHandler extends Component {
 	}
 
 	setProgress = () => {
-		let progress =
-			(this.state.completedText.length - 1) / this.state.words.length;
-		if (this.state.completedText.slice(-1)[0] === this.state.words.slice(-1)[0])
-			progress = 1;
-		this.state.progress = progress; //TODO works?
-		return progress;
+		let prog = (this.state.completedText.length - 1) / this.state.words.length;
+		if (
+			this.state.completedText[this.state.wordIndex] ===
+				this.state.words[this.state.words.length - 1] &&
+			this.state.wordIndex === this.state.words.length - 1
+		) {
+			prog = 1;
+		}
+		this.setState({ progress: prog }); //TODO works?
+		this.props.setProgress(prog);
 	};
 
 	setCurrentWordStyle = () => {
@@ -126,7 +128,7 @@ export class InputHandler extends Component {
 		return this.state.complete ? { background: '#DDFFDD' } : {};
 	};
 	setCompletedTextStyle = () => {
-		return this.props.complete ? { color: 'black' } : { color: 'green' };
+		return this.props.complete ? { color: 'lightgreen' } : { color: 'green' };
 	};
 
 	render() {
@@ -143,7 +145,7 @@ export class InputHandler extends Component {
 			currentWord = '';
 		}
 
-		let progress = this.setProgress();
+		let progress = this.state.progress;
 
 		let currentWordStyle = this.setCurrentWordStyle();
 		let inputStyle = this.setInputStyle();
@@ -164,7 +166,7 @@ export class InputHandler extends Component {
 					className="progressbar"
 					style={{
 						width: 100 * progress + 'vw',
-						backgroundColor: 'rgba(128,128,128,' + progress + ')'
+						backgroundColor: 'rgba(180,180,180)'
 					}}
 				/>
 				<div className="container">

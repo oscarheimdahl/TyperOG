@@ -1,37 +1,54 @@
 import React, { Component } from 'react';
-import InputHandler from './InputHandler';
+import InputHandler from './InputHandler/InputHandler';
 import openSocket from 'socket.io-client';
+import Progress from './Progress/Progress';
 
 class Play extends Component {
 	state = {
 		complete: false,
-		wpm: 0
+		progress: 0,
+		wpm: 0,
+		username: 'oscar',
+		players: []
 	};
 
-	constructor() {
-		super();
+	async componentDidMount() {
 		this.initSocket();
 	}
 
-	emit = (type, progress) => {
-		const socket = this.state.socket;
-		socket.emit(type, progress);
+	emit = (type, data) => {
+		let msg = { username: this.state.username };
+		msg['data'] = data;
+		this.state.socket.emit(type, msg);
 	};
 
 	setComplete = () => {
 		this.setState({ complete: true });
 	};
 
+	setProgress = progress => {
+		this.setState({ progress: progress });
+	};
+
 	setWPM = wpm => {
 		this.setState({ wpm: wpm });
 	};
 
-	initSocket = () => {
+	initSocket = async () => {
 		const socket = openSocket('http://localhost:4000');
-		socket.on('connect', () => {
-			console.log('inne');
-			this.setState({ socket: socket });
+		socket.emit('join', this.state.username);
+		await socket.on('connect', () => {
+			this.setState({ socket });
 		});
+
+		await socket.on('progress', msg => {
+			this.handleProgress(msg);
+		});
+	};
+
+	handleProgress = msg => {
+		console.log(msg);
+		this.setState({ players: msg });
 	};
 
 	render() {
@@ -42,15 +59,24 @@ class Play extends Component {
 			'13 mm (0.5 in) rearward due to recoil, both locked together at this point.';
 		let text2 = 'This text is intentionally kind of short.';
 
+		let text3 = '';
+
+		for (let i = 0; i < 10; i++) {
+			text3 += 'a ';
+		}
+		text3 += 'a';
+
 		return (
 			<div>
+				<Progress players={this.state.players} />
 				<InputHandler
 					complete={this.state.complete}
-					text={text2}
+					text={text3}
 					emit={this.emit}
 					setComplete={this.setComplete}
 					setWPM={this.setWPM}
 					wpm={this.state.wpm}
+					setProgress={this.setProgress}
 				/>
 			</div>
 		);
