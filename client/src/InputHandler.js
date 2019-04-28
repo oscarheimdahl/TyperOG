@@ -11,37 +11,35 @@ export class InputHandler extends Component {
 		inputText: '',
 		completedText: [],
 		remainingText: this.props.text.split(' '),
-		complete: false,
-		time: 0,
-		timerStarted: false,
-		socket: null,
+		startTime: null,
+		endTime: null,
 		progress: 0,
 		lastTime: 0
 	};
 
 	tick = () => {
-		setTimeout(() => {
-			if (this.state.complete) {
-				this.props.emit('progress', this.state.progress);
-				this.props.emit('time', this.state.time);
-				this.props.setWPM((this.state.wordIndex / this.state.time) * 60);
+		setTimeout(_ => {
+			this.setWPM();
+			this.props.emit('progress', this.state.progress);
+			if (this.props.complete) {
+				this.props.emit('time', this.state.endTime - this.state.startTime);
 				this.props.emit('wpm', this.props.wpm);
 			} else {
-				if (this.state.time > this.state.lastTime + 1) {
-					this.props.setWPM((this.state.wordIndex / this.state.time) * 60);
-					this.setState({ lastTime: this.state.time });
-					this.props.emit('progress', this.state.progress);
-				}
 				this.tick();
 			}
-			this.setState({ time: this.state.time + 0.1 });
-		}, 100);
+		}, 1000);
+	};
+
+	setWPM = () => {
+		this.props.setWPM(
+			(this.state.wordIndex / (Date.now() - this.state.startTime)) * 60 * 1000
+		);
 	};
 
 	handleInput = input => {
-		if (!this.state.timerStarted) {
+		if (!this.state.startTime) {
 			this.tick();
-			this.setState({ timerStarted: true });
+			this.setState({ startTime: Date.now() });
 		}
 		this.setState({ inputText: input });
 		let currentWord = this.state.words[this.state.wordIndex];
@@ -59,7 +57,7 @@ export class InputHandler extends Component {
 			});
 			this.setTextWord(input, onLastWord);
 			if (onLastWord) {
-				this.setState({ complete: true });
+				this.setState({ endTime: Date.now() });
 				this.props.setComplete();
 			}
 		} else if (correctString === input) {
@@ -98,7 +96,7 @@ export class InputHandler extends Component {
 			(this.state.completedText.length - 1) / this.state.words.length;
 		if (this.state.completedText.slice(-1)[0] === this.state.words.slice(-1)[0])
 			progress = 1;
-		this.setState({ progress: progress }); //TODO works?
+		this.state.progress = progress; //TODO works?
 		return progress;
 	};
 
@@ -146,18 +144,27 @@ export class InputHandler extends Component {
 		}
 
 		let progress = this.setProgress();
+
 		let currentWordStyle = this.setCurrentWordStyle();
 		let inputStyle = this.setInputStyle();
 		let textStyle = this.setTextStyle();
 		let completedTextStyle = this.setCompletedTextStyle();
+
+		let time = 0;
+		if (this.state.startTime) {
+			time = this.props.complete
+				? (this.state.endTime - this.state.startTime) / 1000
+				: (Date.now() - this.state.startTime) / 1000;
+			time = Math.round(time);
+		}
 
 		return (
 			<div>
 				<div
 					className="progressbar"
 					style={{
-						width: progress * 100 + 'vw',
-						background: 'rgba(128, 128, 128,' + progress + ')'
+						width: 100 * progress + 'vw',
+						backgroundColor: 'rgba(128,128,128,' + progress + ')'
 					}}
 				/>
 				<div className="container">
@@ -174,12 +181,12 @@ export class InputHandler extends Component {
 						className="inputfield"
 						style={inputStyle}
 						onChange={evt => {
-							if (!this.state.complete) {
+							if (!this.props.complete) {
 								this.handleInput(evt.target.value);
 							}
 						}}
 					/>
-					Time: {Math.round(this.state.time)}
+					Time: {time}
 					<br />
 					WPM: {Math.round(this.props.wpm)}
 				</div>

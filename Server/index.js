@@ -23,7 +23,7 @@ io.on('connection', function(socket) {
 		console.log('Progress: ' + Math.round(msg * 100) + '%');
 	});
 	socket.on('time', function(msg) {
-		console.log('Time:     ' + msg.toFixed(2) + ' seconds');
+		console.log('Time:     ' + (msg / 1000).toFixed(2) + ' seconds');
 	});
 	socket.on('wpm', function(msg) {
 		console.log('Speed:    ' + Math.round(msg) + ' wpm');
