@@ -15,5 +15,15 @@
 		"mongoose": "^5.5.4",
 		"nodemon": "^1.18.11",
 		"socket.io": "^2.2.0"
+	},
+	"nodemonConfig": {
+		"restartable": "rs",
+		"ignore": [
+			"node_modules/**/node_modules"
+		],
+		"delay": "2500",
+		"env": {
+			"JWT_KEY": "thisIsASecret"
+		}
 	}
 }

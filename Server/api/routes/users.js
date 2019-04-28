@@ -38,36 +38,33 @@ router.get('/api/users/get/:id', (req, res) => {
 router.post('/api/users/sign_in', (req, res) => {
 	const user = new User({
 		_id: new mongoose.Types.ObjectId(),
-		username: req.body.user.username,
-		password: req.body.user.password,
-		gamesPlayed: req.body.user.gamesPlayed,
-		averageWPM: req.body.user.averageWPM
+		username: req.body.username,
+		password: req.body.password,
+		gamesPlayed: req.body.gamesPlayed,
+		averageWPM: req.body.averageWPM
 	});
 	User.find()
 		.where('username')
 		.equals(user.username)
 		.then((result, err) => {
-			console.log(result.length);
 			if (err) {
 				res.status(500).json({
 					error: 'Failed to get user'
 				});
 			}
-			if (result.length > 1) {
+			if (result.length > 0) {
 				console.log('Username already exists');
-				res.status(409);
-				res.end();
+				res.status(409).json({ error: 'Username already exists' });
 			} else {
 				bcrypt.hash(user.password, 10, (err, hash) => {
 					if (err) {
 						return res.status(500);
 					} else {
 						user.password = hash;
-						user
-							.save()
+						user.save()
 							.then(result => {
-								console.log('saving user');
-								console.log(result);
+								console.log('Saving user: ' + result.username);
+								res.end();
 							})
 							.catch(err => console.log(err));
 						res.status(201).json({
@@ -80,20 +77,85 @@ router.post('/api/users/sign_in', (req, res) => {
 		});
 });
 
-router.put('/api/users/update/:id', (req, res) => {
+router.post('/api/users/login', (req, res) => {
+	let username = req.body.username;
+	let password = req.body.password;
+	User.find()
+		.where('username')
+		.equals(username)
+		.then((results, err) => {
+			if (err) {
+				console.log('Failed to get user: ' + err);
+				res.end();
+			}
+			if (results < 1) {
+				return res.status(401).json({
+					message: 'Auth failed'
+				});
+			}
+			bcrypt.compare(password, results[0].password, (err, result) => {
+				if (err) {
+					return res.status(401).json({
+						message: 'Auth failed'
+					});
+				}
+				if (result) {
+					console.log(username + ' logged in');
+					const token = jwt.sign(
+						{
+							username: results[0].username,
+							userId: results[0]._id
+						},
+						process.env.JWT_KEY,
+						{
+							expiresIn: '1h'
+						}
+					);
+					return res.status(200).json({
+						message: 'Auth successful',
+						token: token
+					});
+				}
+				return res.status(401).json({
+					message: 'Auth failed'
+				});
+			});
+		});
+});
+
+router.put('/api/users/update/:id', checkAuth, (req, res) => {
 	const id = req.params.id;
+	if (req.body.password) {
+		bcrypt.hash(req.body.password, 10, (err, hash) => {
+			if (err) {
+				return res.status(500);
+			} else {
+				req.body.password = hash;
+				updateOneUser(id, req, res);
+			}
+		});
+	} else {
+		updateOneUser(id, req, res);
+	}
+});
+
+function updateOneUser(id, req, res) {
 	User.updateOne({ _id: id }, { $set: req.body }, { new: true })
 		.then(doc => {
-			console.log('User updated');
+			console.log('User with id: ' + id + ' was updated!');
+			console.log('These attributes where changed: ');
+			for (var i in req.body) {
+				if (!(i == 'token')) console.log('    ' + i);
+			}
 			res.status(200).json(doc);
 		})
 		.catch(err => {
 			console.log(err);
 			res.status(500).json({ error: err });
 		});
-});
+}
 
-router.delete('/api/users/remove/:id', (req, res) => {
+router.delete('/api/users/remove/:id', checkAuth, (req, res) => {
 	const id = req.params.id;
 	User.deleteOne()
 		.where('_id')
