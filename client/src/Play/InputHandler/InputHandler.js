@@ -145,8 +145,6 @@ export class InputHandler extends Component {
 			currentWord = '';
 		}
 
-		let progress = this.state.progress;
-
 		let currentWordStyle = this.setCurrentWordStyle();
 		let inputStyle = this.setInputStyle();
 		let textStyle = this.setTextStyle();
@@ -162,13 +160,6 @@ export class InputHandler extends Component {
 
 		return (
 			<div>
-				{/* <div
-					className="progressbar"
-					style={{
-						width: 100 * progress + 'vw',
-						backgroundColor: 'rgba(180,180,180)'
-					}}
-				/> */}
 				<div className="container">
 					<div className="text" style={textStyle}>
 						<span style={completedTextStyle}>{completedText}</span>
