@@ -1,5 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Play from './Play';
+import Typer from './Typer';
 
-ReactDOM.render(<Play />, document.getElementById('root'));
+ReactDOM.render(<Typer />, document.getElementById('root'));

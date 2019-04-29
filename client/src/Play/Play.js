@@ -37,7 +37,7 @@ class Play extends Component {
 	initSocket = async () => {
 		const socket = openSocket('http://localhost:4000');
 		socket.emit('join', this.state.username);
-		await socket.on('connect', () => {
+		socket.on('connect', () => {
 			this.setState({ socket });
 		});
 
@@ -73,7 +73,7 @@ class Play extends Component {
 				/>
 				<InputHandler
 					complete={this.state.complete}
-					text={text3}
+					text={text}
 					emit={this.emit}
 					setComplete={this.setComplete}
 					setWPM={this.setWPM}

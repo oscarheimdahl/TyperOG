@@ -7,10 +7,10 @@
 	position: relative;
 	left: 18vw;
 	width: 62vw;
-	height: 20vw;
 	padding: 1vw 0;
 	border: 1px solid black;
 	margin: 2vw 0;
+	font-size: 1.5vw;
 }
 
 .playerProgress {
