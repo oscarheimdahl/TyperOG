@@ -6,10 +6,10 @@ import Progress from './Progress/Progress';
 class Play extends Component {
 	state = {
 		complete: false,
-		progress: 0,
 		wpm: 0,
 		username: 'oscar',
-		players: []
+		playerProgress: 0,
+		opponents: []
 	};
 
 	async componentDidMount() {
@@ -26,8 +26,8 @@ class Play extends Component {
 		this.setState({ complete: true });
 	};
 
-	setProgress = progress => {
-		this.setState({ progress: progress });
+	setProgress = playerProgress => {
+		this.setState({ playerProgress });
 	};
 
 	setWPM = wpm => {
@@ -47,7 +47,6 @@ class Play extends Component {
 	};
 
 	handleProgress = msg => {
-		console.log(msg);
 		this.setState({ players: msg });
 	};
 
@@ -68,7 +67,10 @@ class Play extends Component {
 
 		return (
 			<div>
-				<Progress players={this.state.players} />
+				<Progress
+					opponents={this.state.opponents}
+					playerProgress={this.state.playerProgress}
+				/>
 				<InputHandler
 					complete={this.state.complete}
 					text={text3}

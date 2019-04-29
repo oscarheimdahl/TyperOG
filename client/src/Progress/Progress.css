@@ -2,3 +2,21 @@
 	margin: 0;
 	padding: 0;
 }
+
+.racetrack {
+	position: relative;
+	left: 18vw;
+	width: 62vw;
+	height: 20vw;
+	padding: 1vw 0;
+	border: 1px solid black;
+	margin: 2vw 0;
+}
+
+.playerProgress {
+	background: #ddffdd;
+	transition-duration: 0.8s;
+	height: 2vw;
+	padding-left: 5%;
+	border-right: solid black 1px;
+}
