@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './Login.css';
 import axios from 'axios';
+import { Redirect } from 'react-router-dom';
 
 export class Login extends Component {
 	state = {};
@@ -31,9 +32,12 @@ export class Login extends Component {
 				})
 				.then(res => {
 					if (res.status === '401') {
-						this.setState({ errormsg: 'Wrong username or password.' });
+						this.setState({
+							errormsg: 'Wrong username or password.'
+						});
 					} else {
 						this.props.setToken(res.data.token);
+						this.setState({ redirect: true });
 					}
 				})
 				.catch(err => {
@@ -42,27 +46,40 @@ export class Login extends Component {
 		}
 	};
 
+	renderRedirect = () => {
+		if (this.state.redirect) {
+			return <Redirect to="/play" />;
+		}
+	};
+
 	render() {
 		return (
 			<div className="loginwallpaper">
+				{this.renderRedirect()}
 				<div className="loginbox">
 					<h1>Typer</h1>
 					<div className="logininfo">
 						<label>Username</label>
-						<label className="errorlabel">{this.state.usernameerror}</label>
+						<label className="errorlabel">
+							{this.state.usernameerror}
+						</label>
 						<input
 							onChange={this.handleUsername}
 							className="username"
 							type="text"
 						/>
 						<label>Password</label>
-						<label className="errorlabel">{this.state.passworderror}</label>
+						<label className="errorlabel">
+							{this.state.passworderror}
+						</label>
 						<input
 							onChange={this.handlePassword}
 							className="password"
 							type="password"
 						/>
-						<label className="errormsg">{this.state.errormsg}</label>
+						<label className="errormsg">
+							{this.state.errormsg}
+						</label>
 					</div>
 					<div onClick={this.handleLogin} className="button">
 						Login
