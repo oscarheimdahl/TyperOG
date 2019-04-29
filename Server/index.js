@@ -3,6 +3,8 @@ const app = express();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 const mongoose = require('mongoose');
+const cors = require('cors');
+app.use(cors());
 app.use(express.static('public/'));
 app.use(require('./api/routes/users.js'));
 app.use(require('./api/routes/texts.js'));

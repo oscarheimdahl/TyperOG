@@ -41,7 +41,8 @@ router.post('/api/users/sign_in', (req, res) => {
 		username: req.body.username,
 		password: req.body.password,
 		gamesPlayed: req.body.gamesPlayed,
-		averageWPM: req.body.averageWPM
+		averageWPM: req.body.averageWPM,
+		email: req.body.email
 	});
 	User.find()
 		.where('username')
