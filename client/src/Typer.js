@@ -15,7 +15,6 @@ export class Typer extends Component {
 	setLoginAttributes = (token, username) => {
 		this.setState({ token });
 		this.setState({ username });
-		console.log(username);
 	};
 
 	render() {
@@ -23,7 +22,7 @@ export class Typer extends Component {
 			<div>
 				<CookiesProvider>
 					<BrowserRouter>
-						<Navbar />
+						<Navbar cookies={this.props.cookies} />
 						<Route exact path="/" component={Home} />
 						<Route
 							path="/login"

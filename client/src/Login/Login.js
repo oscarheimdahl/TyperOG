@@ -31,10 +31,14 @@ export class Login extends Component {
 					password: this.state.password
 				})
 				.then(res => {
-					this.props.setLoginAttributes(res.data.token, this.state.username);
+					this.props.setLoginAttributes(
+						res.data.token,
+						this.state.username
+					);
 					const { cookies } = this.props;
 					cookies.set('token', res.data.token, { path: '/' });
 					cookies.set('username', this.state.username, { path: '/' });
+					console.log('hej');
 					this.setState({ redirect: true });
 				})
 				.catch(err => {
@@ -61,20 +65,26 @@ export class Login extends Component {
 					<h1>Typer</h1>
 					<div className="logininfo">
 						<label>Username</label>
-						<label className="errorlabel">{this.state.usernameerror}</label>
+						<label className="errorlabel">
+							{this.state.usernameerror}
+						</label>
 						<input
 							onChange={this.handleUsername}
 							className="username"
 							type="text"
 						/>
 						<label>Password</label>
-						<label className="errorlabel">{this.state.passworderror}</label>
+						<label className="errorlabel">
+							{this.state.passworderror}
+						</label>
 						<input
 							onChange={this.handlePassword}
 							className="password"
 							type="password"
 						/>
-						<label className="errormsg">{this.state.errormsg}</label>
+						<label className="errormsg">
+							{this.state.errormsg}
+						</label>
 					</div>
 					<div onClick={this.handleLogin} className="button">
 						Login

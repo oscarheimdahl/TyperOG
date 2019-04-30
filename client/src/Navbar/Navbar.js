@@ -2,7 +2,11 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import './Navbar.css';
 
-export default function() {
+export default function(props) {
+	function logout() {
+		props.cookies.remove('token');
+		props.cookies.remove('username');
+	}
 	return (
 		<header className="header">
 			<div className="logo">
@@ -18,6 +22,9 @@ export default function() {
 					</NavLink>
 					<NavLink to="/">
 						<li>home</li>
+					</NavLink>
+					<NavLink to="/">
+						<li onClick={logout}>logout</li>
 					</NavLink>
 				</ul>
 			</nav>

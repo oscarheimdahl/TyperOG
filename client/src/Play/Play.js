@@ -2,17 +2,31 @@ import React, { Component } from 'react';
 import InputHandler from './InputHandler/InputHandler';
 import openSocket from 'socket.io-client';
 import Progress from './Progress/Progress';
+import axios from 'axios';
+import { Redirect } from 'react-router-dom';
 
 class Play extends Component {
 	state = {
 		complete: false,
 		wpm: 0,
 		playerProgress: 0,
-		opponents: []
+		opponents: [],
+		redirect: false
 	};
 
-	async componentDidMount() {
-		this.initSocket();
+	componentDidMount() {
+		const { cookies } = this.props;
+		axios
+			.post('http://localhost:4000/api/users/authenticate', {
+				token: cookies.get('token')
+			})
+			.then(res => {
+				this.initSocket();
+			})
+			.catch(err => {
+				console.log(err);
+				this.setState({ redirect: true });
+			});
 	}
 
 	emit = (type, data) => {
@@ -48,11 +62,21 @@ class Play extends Component {
 			socket.on('progress', msg => {
 				this.handleProgress(msg);
 			});
+
+			socket.on('hello', msg => {
+				console.log(msg);
+			});
 		}
 	};
 
 	handleProgress = msg => {
 		this.setState({ players: msg });
+	};
+
+	renderRedirect = () => {
+		if (this.state.redirect) {
+			return <Redirect to="/login" />;
+		}
 	};
 
 	render() {
@@ -72,6 +96,7 @@ class Play extends Component {
 
 		return (
 			<div>
+				{this.renderRedirect()}
 				<Progress
 					opponents={this.state.opponents}
 					playerProgress={this.state.playerProgress}

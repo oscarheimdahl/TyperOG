@@ -10,6 +10,10 @@ const checkAuth = require('../middleware/check-auth');
 router.use(bodyParser.urlencoded({ extended: false }));
 router.use(bodyParser.json());
 
+router.post('/api/users/authenticate', checkAuth, (req, res) => {
+	res.json({ message: 'User is athenticated' });
+});
+
 router.get('/api/users/get', (req, res) => {
 	User.find()
 		.then(doc => {
