@@ -10,14 +10,14 @@ class Play extends Component {
 		complete: false,
 		wpm: 0,
 		playerProgress: 0,
-		opponents: [],
+		opponents: null,
 		redirect: false
 	};
 
 	componentDidMount() {
 		const { cookies } = this.props;
 		axios
-			.post('http://localhost:4000/api/users/authenticate', {
+			.post('http://192.168.1.155:4000/api/users/authenticate', {
 				token: cookies.get('token')
 			})
 			.then(res => {
@@ -32,6 +32,7 @@ class Play extends Component {
 	emit = (type, data) => {
 		if (this.state.socket) {
 			const { cookies } = this.props;
+			//TODO all users in browser gets same username due to cookie being shared.
 			let msg = { username: cookies.get('username') };
 			msg['data'] = data;
 			this.state.socket.emit(type, msg);
@@ -51,26 +52,26 @@ class Play extends Component {
 	};
 
 	initSocket = async () => {
-		const socket = openSocket('http://130.239.236.226:4000/');
+		const socket = openSocket('http://192.168.1.155:4000/');
 		if (socket) {
 			const { cookies } = this.props;
 			socket.emit('join', cookies.get('username'));
 			socket.on('connect', () => {
 				this.setState({ socket });
 			});
-
+			//
 			socket.on('progress', msg => {
 				this.handleProgress(msg);
 			});
 
 			socket.on('hello', msg => {
-				console.log(msg);
+				// console.log(msg);
 			});
 		}
 	};
 
-	handleProgress = msg => {
-		this.setState({ players: msg });
+	handleProgress = opponents => {
+		this.setState({ opponents });
 	};
 
 	renderRedirect = () => {
@@ -100,6 +101,7 @@ class Play extends Component {
 				<Progress
 					opponents={this.state.opponents}
 					playerProgress={this.state.playerProgress}
+					username={this.props.username}
 				/>
 				<InputHandler
 					complete={this.state.complete}

@@ -7,7 +7,7 @@
 	position: relative;
 	left: 18vw;
 	width: 62vw;
-	padding: 1vw 0;
+	padding: 1vw 0 0 0;
 	border: 1px solid black;
 	margin: 2vw 0;
 	font-size: 1.5vw;
@@ -19,4 +19,5 @@
 	height: 2vw;
 	padding-left: 5%;
 	border-right: solid black 1px;
+	margin-bottom: 1vw;
 }

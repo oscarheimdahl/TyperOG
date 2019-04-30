@@ -18,12 +18,15 @@ let users = [
 	{ username: 'kalle', progress: 0 }
 ];
 
+const gameSize = 3;
+
 let games = [];
 
 let game = {
 	players: [],
 	winner: '',
-	id: ''
+	id: '',
+	started: false
 };
 
 let player = {
@@ -32,31 +35,86 @@ let player = {
 	id: null
 };
 
+let players = [];
+
 app.get('/', function(req, res) {});
 
 io.on('connection', socket => {
-	//socket.broadcast.to(socket.id).emit('gameID', getAvailableGame());
-	//välkommen du ska vara i rum x
-	socket.join(getAvailableGame());
+	socket.on('join', user => {
+		let gameIndex = getAvailableGame();
+		player.username = user;
+		player.id = socket.id;
+		players.push(player);
+		games[gameIndex].players.push(JSON.parse(JSON.stringify(player)));
+		socket.join(gameIndex);
+		if (games[gameIndex].players.length > 2) {
+			//startCOuntDown!
+		}
+	});
 
 	socket.on('progress', msg => {
-		console.log(
-			msg.username + ': progress: ' + Math.round(msg.data * 100) + '%'
-		);
-		socket.broadcast
-			.to(
-				Object.keys(socket.rooms).filter(function(item) {
-					return item !== socket.id;
-				})[0]
-			)
-			.emit('hello', 'tjena rummet');
+		// console.log(
+		// 	msg.username + ': progress: ' + Math.round(msg.data * 100) + '%'
+		// );
+
+		updatePlayerProgress(socket, msg.data);
+	});
+
+	socket.on('disconnect', () => {
+		players.map(player => {
+			if (player.id === socket.id)
+				console.log('Player ' + player.username + ' left.');
+		});
 	});
 
 	//io.sockets.in("room-"+roomno).emit('connectToRoom', "You are in room no. "+roomno);
 });
 
 function getAvailableGame() {
-	return 'game2';
+	let lastGameIndex = games.length - 1;
+	if (games.length > 0) {
+		let latestGame = games[lastGameIndex];
+		let playersInLatestGame = latestGame.players.length;
+		if (
+			games.length > 0 &&
+			playersInLatestGame < gameSize &&
+			!latestGame.started
+		) {
+			return lastGameIndex;
+		}
+	}
+	games.push(JSON.parse(JSON.stringify(game)));
+	return lastGameIndex + 1;
+}
+
+function updatePlayerProgress(socket, progress) {
+	let gameIndex = Object.keys(socket.rooms).filter(function(item) {
+		return item !== socket.id;
+	})[0];
+	games[gameIndex].players.map(p => {
+		if (p.id === socket.id) {
+			console.log('Updating progress of: ' + p.username);
+			console.log(progress);
+			p.progress = progress;
+			broadcastProgress(socket, games[gameIndex].players);
+		}
+	});
+}
+
+function broadcastProgress(socket, players) {
+	console.log(
+		'broadcasting to room ' +
+			Object.keys(socket.rooms).filter(function(item) {
+				return item !== socket.id;
+			})[0]
+	);
+	socket
+		.to(
+			Object.keys(socket.rooms).filter(function(item) {
+				return item !== socket.id;
+			})[0]
+		)
+		.emit('progress', players);
 }
 
 /* io.on('connection', function(socket) {
