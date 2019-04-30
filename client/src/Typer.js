@@ -4,35 +4,50 @@ import Login from './Login/Login';
 import Navbar from './Navbar/Navbar';
 import Home from './Home/Home';
 import { BrowserRouter, Route } from 'react-router-dom';
+import { withCookies, CookiesProvider } from 'react-cookie';
 
 export class Typer extends Component {
 	state = {
-		loggedin: false
+		loggedin: false,
+		username: null
 	};
 
-	setToken = token => {
+	setLoginAttributes = (token, username) => {
 		this.setState({ token });
+		this.setState({ username });
+		console.log(username);
 	};
 
 	render() {
 		return (
 			<div>
-				<BrowserRouter>
-					<Navbar />
-					<Route exact path="/" component={Home} />
-					<Route
-						path="/login"
-						render={() => <Login setToken={this.setToken} />}
-					/>
-					<Route
-						path="/play"
-						component={Play}
-						loggedin={this.state.loggedin}
-					/>
-				</BrowserRouter>
+				<CookiesProvider>
+					<BrowserRouter>
+						<Navbar />
+						<Route exact path="/" component={Home} />
+						<Route
+							path="/login"
+							render={() => (
+								<Login
+									setLoginAttributes={this.setLoginAttributes}
+									cookies={this.props.cookies}
+								/>
+							)}
+						/>
+						<Route
+							path="/play"
+							render={() => (
+								<Play
+									username={this.state.username}
+									cookies={this.props.cookies}
+								/>
+							)}
+						/>
+					</BrowserRouter>{' '}
+				</CookiesProvider>
 			</div>
 		);
 	}
 }
 
-export default Typer;
+export default withCookies(Typer);

@@ -32,7 +32,6 @@ io.on('connection', function(socket) {
 		console.log(
 			msg.username + ': progress: ' + Math.round(msg.data * 100) + '%'
 		);
-		console.log(users.length);
 		users.map(user => {
 			if (user.username === msg.username) user.progress = msg.data;
 		});

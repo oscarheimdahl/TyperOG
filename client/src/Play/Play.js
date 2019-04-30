@@ -7,7 +7,6 @@ class Play extends Component {
 	state = {
 		complete: false,
 		wpm: 0,
-		username: 'oscar',
 		playerProgress: 0,
 		opponents: []
 	};
@@ -17,9 +16,12 @@ class Play extends Component {
 	}
 
 	emit = (type, data) => {
-		let msg = { username: this.state.username };
-		msg['data'] = data;
-		this.state.socket.emit(type, msg);
+		if (this.state.socket) {
+			const { cookies } = this.props;
+			let msg = { username: cookies.get('username') };
+			msg['data'] = data;
+			this.state.socket.emit(type, msg);
+		}
 	};
 
 	setComplete = () => {
@@ -35,15 +37,18 @@ class Play extends Component {
 	};
 
 	initSocket = async () => {
-		const socket = openSocket('http://localhost:4000');
-		socket.emit('join', this.state.username);
-		socket.on('connect', () => {
-			this.setState({ socket });
-		});
+		const socket = openSocket('http://130.239.236.226:4000/');
+		if (socket) {
+			const { cookies } = this.props;
+			socket.emit('join', cookies.get('username'));
+			socket.on('connect', () => {
+				this.setState({ socket });
+			});
 
-		await socket.on('progress', msg => {
-			this.handleProgress(msg);
-		});
+			socket.on('progress', msg => {
+				this.handleProgress(msg);
+			});
+		}
 	};
 
 	handleProgress = msg => {
