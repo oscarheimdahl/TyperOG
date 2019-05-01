@@ -58,7 +58,7 @@ export class Progress extends Component {
 						className="playerProgress"
 						style={{ width: this.props.playerProgress * 95 + '%' }}
 					>
-						{this.props.goalPosition}
+						{this.props.goalPosition === 0 ? '' : this.props.goalPosition}
 					</div>
 					{this.renderOpponentsProgress()}
 				</div>

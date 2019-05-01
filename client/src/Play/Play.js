@@ -85,6 +85,8 @@ class Play extends Component {
 	setGoalPosition = () => {
 		console.log(this.state.opponents);
 		if (this.state.opponents && Array.isArray(this.state.opponents)) {
+			console.log(this.state.opponents);
+			console.log('object');
 			this.state.opponents.forEach(o => {
 				if (o.username === this.props.cookies.get('username')) {
 					this.setState({ goalPosition: o.goalPosition });
@@ -116,7 +118,7 @@ class Play extends Component {
 				/>
 				<InputHandler
 					complete={this.state.complete}
-					text={text}
+					text={text3}
 					emit={this.emit}
 					setComplete={this.setComplete}
 					setWPM={this.setWPM}

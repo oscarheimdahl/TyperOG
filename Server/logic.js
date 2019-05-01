@@ -16,7 +16,8 @@ let player = {
 	gameIndex: null,
 	goalPosition: 0,
 	wpm: 0,
-	time: 0
+	time: 0,
+	inGoal: false
 };
 
 let sockets = [];
@@ -113,8 +114,10 @@ module.exports = {
 					p.progress = data.progress;
 					p.wpm = data.wpm;
 					p.time = data.time;
-					if (p.progress === 1) {
+					if (p.progress === 1 && !p.inGoal) {
 						games[p.gameIndex].playersDone++;
+						console.log(games[p.gameIndex].playersDone);
+						p.inGoal = true;
 						p.goalPosition = games[p.gameIndex].playersDone;
 					}
 					this.broadcastProgress(socket, gme.players);
