@@ -11,7 +11,8 @@ class Play extends Component {
 		wpm: 0,
 		playerProgress: 0,
 		opponents: null,
-		redirect: false
+		redirect: false,
+		goalPosition: null
 	};
 
 	componentDidMount() {
@@ -72,11 +73,23 @@ class Play extends Component {
 
 	handleProgress = opponents => {
 		this.setState({ opponents });
+		this.setGoalPosition();
 	};
 
 	renderRedirect = () => {
 		if (this.state.redirect) {
 			return <Redirect to="/login" />;
+		}
+	};
+
+	setGoalPosition = () => {
+		console.log(this.state.opponents);
+		if (this.state.opponents && Array.isArray(this.state.opponents)) {
+			this.state.opponents.forEach(o => {
+				if (o.username === this.props.cookies.get('username')) {
+					this.setState({ goalPosition: o.goalPosition });
+				}
+			});
 		}
 	};
 
@@ -88,12 +101,7 @@ class Play extends Component {
 			'13 mm (0.5 in) rearward due to recoil, both locked together at this point.';
 		let text2 = 'This text is intentionally kind of short.';
 
-		let text3 = '';
-
-		for (let i = 0; i < 10; i++) {
-			text3 += 'a ';
-		}
-		text3 += 'a';
+		let text3 = 'a a';
 
 		return (
 			<div>
@@ -101,11 +109,13 @@ class Play extends Component {
 				<Progress
 					opponents={this.state.opponents}
 					playerProgress={this.state.playerProgress}
-					username={this.props.username}
+					goalPosition={this.state.goalPosition}
+					//getGoalPosition={this.getGoalPosition}
+					username={this.props.cookies.get('username')}
 				/>
 				<InputHandler
 					complete={this.state.complete}
-					text={text}
+					text={text3}
 					emit={this.emit}
 					setComplete={this.setComplete}
 					setWPM={this.setWPM}

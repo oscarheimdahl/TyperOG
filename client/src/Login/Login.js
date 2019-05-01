@@ -36,7 +36,7 @@ export class Login extends Component {
 					password: this.state.password
 				})
 				.then(res => {
-					this.props.setLoginAttributes(res.data.token, this.state.username);
+					// this.props.setLoginAttributes(res.data.token, this.state.username);
 					const { cookies } = this.props;
 					cookies.set('token', res.data.token, { path: '/' });
 					cookies.set('username', this.state.username, { path: '/' });
@@ -87,9 +87,9 @@ export class Login extends Component {
 						/>
 						<label className="errormsg">{this.state.errormsg}</label>
 					</div>
-					<div onClick={this.handleLogin} className="button">
+					<button onClick={this.handleLogin} className="button">
 						Login
-					</div>
+					</button>
 				</div>
 			</div>
 		);

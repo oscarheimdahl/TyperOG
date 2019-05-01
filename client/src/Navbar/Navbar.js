@@ -10,7 +10,7 @@ export default function(props) {
 	return (
 		<header className="header">
 			<div className="logo">
-				<p>Logo</p>
+				<h2>{props.cookies.get('username')}</h2>
 			</div>
 			<nav>
 				<ul>

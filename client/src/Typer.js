@@ -39,7 +39,7 @@ export class Typer extends Component {
 							path="/play"
 							render={() => (
 								<Play
-									username={this.state.username}
+									// username={this.state.username}
 									cookies={this.props.cookies}
 								/>
 							)}

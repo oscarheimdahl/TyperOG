@@ -17,10 +17,15 @@ export class InputHandler extends Component {
 	tick = () => {
 		setTimeout(_ => {
 			this.setWPM();
-			this.props.emit('progress', this.state.progress);
-			if (this.props.complete) {
-				this.props.emit('time', this.state.endTime - this.state.startTime);
-				this.props.emit('wpm', this.props.wpm);
+			const { progress } = this.state;
+			const { wpm, emit, complete } = this.props;
+			let data = { progress: progress, wpm: wpm };
+			// this.props.emit('progress', progress);
+			emit('progress', data);
+			if (complete) {
+				emit('progress', data);
+				// this.props.emit('time', endTime - startTime);
+				// this.props.emit('wpm', wpm);
 			} else {
 				this.tick();
 			}
