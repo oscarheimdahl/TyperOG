@@ -3,10 +3,13 @@
 	padding: 0;
 }
 
-.racetrack,
-.wpm {
+.racecontainer {
+	display: flex;
+}
+
+.racetrack {
 	position: relative;
-	left: 18vw;
+	left: 8vw;
 	width: 62vw;
 	padding: 1vw 0 0 0;
 	border: 1px solid black;
@@ -23,11 +26,23 @@
 	margin-bottom: 1vw;
 }
 
+.wpmcontainer {
+	position: relative;
+	text-align: right;
+	width: 10vw;
+	left: 7vw;
+	margin: 2vw 0;
+	padding: 1vw 0 0 0;
+	display: block;
+	font-size: 1.5vw;
+}
 .wpm {
-	background: red;
+	margin-bottom: 1vw;
 	left: -2vw;
 	text-align: right;
 	display: inline-block;
-	width: 0;
 	border: none;
+	height: 2vw;
+	width: 100%;
+	line-height: 2vw;
 }

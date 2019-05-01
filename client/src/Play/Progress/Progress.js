@@ -33,7 +33,12 @@ export class Progress extends Component {
 		if (this.props.opponents) {
 			return this.props.opponents.map(o => {
 				if (o.username !== this.props.username) {
-					return <div className="wpm">{Math.round(o.wpm)}</div>;
+					console.log(o.wpm);
+					return (
+						<div className="wpm">
+							{o.wpm === null ? 0 : Math.round(o.wpm)} WPM
+						</div>
+					);
 				} else {
 					return <div key={o.username} />;
 				}
@@ -43,7 +48,11 @@ export class Progress extends Component {
 
 	render() {
 		return (
-			<div>
+			<div className="racecontainer">
+				<div className="wpmcontainer">
+					<div className="wpm">{Math.round(this.props.wpm)} WPM</div>
+					{this.renderOpponentsWPM()}
+				</div>
 				<div className="racetrack">
 					<div
 						className="playerProgress"
@@ -53,7 +62,6 @@ export class Progress extends Component {
 					</div>
 					{this.renderOpponentsProgress()}
 				</div>
-				<div className="wpmcontainer">{this.renderOpponentsWPM()}</div>
 			</div>
 		);
 	}

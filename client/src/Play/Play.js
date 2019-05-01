@@ -112,10 +112,11 @@ class Play extends Component {
 					goalPosition={this.state.goalPosition}
 					//getGoalPosition={this.getGoalPosition}
 					username={this.props.cookies.get('username')}
+					wpm={this.state.wpm}
 				/>
 				<InputHandler
 					complete={this.state.complete}
-					text={text3}
+					text={text}
 					emit={this.emit}
 					setComplete={this.setComplete}
 					setWPM={this.setWPM}

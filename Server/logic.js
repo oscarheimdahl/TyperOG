@@ -67,10 +67,8 @@ module.exports = {
 			}
 		});
 		games[player.gameIndex].players.splice(removeIndex, 1);
-		console.log(games[player.gameIndex].players.length);
 		if (games[player.gameIndex].players.length === 0) {
-			games[player.gameIndex].playersDone = 0;
-			console.log(games);
+			games.splice(player.gameIndex, 1);
 		}
 	},
 

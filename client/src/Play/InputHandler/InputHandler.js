@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './InputHandler.css';
+import ReactDOM from 'react-dom';
 
 export class InputHandler extends Component {
 	state = {
@@ -33,9 +34,9 @@ export class InputHandler extends Component {
 	};
 
 	setWPM = () => {
-		this.props.setWPM(
-			(this.state.wordIndex / (Date.now() - this.state.startTime)) * 60 * 1000
-		);
+		let wpm =
+			(this.state.wordIndex / (Date.now() - this.state.startTime)) * 60 * 1000;
+		this.props.setWPM(wpm);
 	};
 
 	handleInput = input => {
@@ -183,9 +184,6 @@ export class InputHandler extends Component {
 							}
 						}}
 					/>
-					Time: {time}
-					<br />
-					WPM: {Math.round(this.props.wpm)}
 				</div>
 			</div>
 		);
