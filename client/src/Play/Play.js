@@ -83,7 +83,6 @@ class Play extends Component {
 	};
 
 	setGoalPosition = () => {
-		console.log(this.state.opponents);
 		if (this.state.opponents && Array.isArray(this.state.opponents)) {
 			console.log(this.state.opponents);
 			console.log('object');
@@ -101,9 +100,10 @@ class Play extends Component {
 			'as opposed to the slide actions of many other semi-automatic pistols.' +
 			' After a round is fired, the barrel and toggle assembly travel roughly ' +
 			'13 mm (0.5 in) rearward due to recoil, both locked together at this point.';
-		let text2 = 'This text is intentionally kind of short.';
+		/* 		let text2 = 'This text is intentionally kind of short.';
 
 		let text3 = 'a a';
+*/
 
 		return (
 			<div>
