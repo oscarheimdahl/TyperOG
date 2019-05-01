@@ -14,44 +14,43 @@ export class InputHandler extends Component {
 		progress: 0
 	};
 
+	constructor(props) {
+		super(props);
+		this.tick();
+	}
+
 	tick = () => {
 		setTimeout(_ => {
-			this.setWPM();
-			const { progress } = this.state;
-			const { wpm, emit, complete } = this.props;
-			let data = { progress: progress, wpm: wpm };
-			// this.props.emit('progress', progress);
-			emit('progress', data);
-			if (complete) {
-				emit('progress', data);
-				// this.props.emit('time', endTime - startTime);
-				// this.props.emit('wpm', wpm);
-			} else {
+			this.emitProgress();
+			if (!this.props.complete) {
 				this.tick();
 			}
 		}, 1000);
 	};
 
+	emitProgress = () => {
+		this.setWPM();
+		const { progress } = this.state;
+		const { wpm, emit } = this.props;
+		let data = { progress: progress, wpm: wpm };
+		emit('progress', data);
+	};
+
 	setWPM = () => {
 		let wpm =
-			(this.state.wordIndex / (Date.now() - this.state.startTime)) *
-			60 *
-			1000;
+			(this.state.wordIndex / (Date.now() - this.state.startTime)) * 60 * 1000;
 		this.props.setWPM(wpm);
 	};
 
 	handleInput = input => {
 		if (!this.state.startTime) {
-			this.tick();
+			// this.tick();
 			this.setState({ startTime: Date.now() });
 		}
 		this.setState({ inputText: input });
 		let currentWord = this.state.words[this.state.wordIndex];
 		let correctString = currentWord.substring(0, input.length);
-		let restString = currentWord.substring(
-			input.length,
-			currentWord.length
-		);
+		let restString = currentWord.substring(input.length, currentWord.length);
 		let onLastWord = this.state.wordIndex === this.state.words.length - 1;
 
 		if (
@@ -100,8 +99,7 @@ export class InputHandler extends Component {
 	}
 
 	setProgress = () => {
-		let prog =
-			(this.state.completedText.length - 1) / this.state.words.length;
+		let prog = (this.state.completedText.length - 1) / this.state.words.length;
 		if (
 			this.state.completedText[this.state.wordIndex] ===
 				this.state.words[this.state.words.length - 1] &&
@@ -139,9 +137,7 @@ export class InputHandler extends Component {
 		return this.state.complete ? { background: '#DDFFDD' } : {};
 	};
 	setCompletedTextStyle = () => {
-		return this.props.complete
-			? { color: 'lightgreen' }
-			: { color: 'green' };
+		return this.props.complete ? { color: 'lightgreen' } : { color: 'green' };
 	};
 
 	render() {
@@ -177,9 +173,7 @@ export class InputHandler extends Component {
 					<div className="text" style={textStyle}>
 						<span style={completedTextStyle}>{completedText}</span>
 						<span style={currentWordStyle}>{currentWord}</span>
-						<span>
-							{this.state.remainingText.map(word => word + ' ')}
-						</span>
+						<span>{this.state.remainingText.map(word => word + ' ')}</span>
 					</div>
 					<input
 						value={this.state.inputText}

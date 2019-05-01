@@ -33,7 +33,6 @@ class Play extends Component {
 	emit = (type, data) => {
 		if (this.state.socket) {
 			const { cookies } = this.props;
-			//TODO all users in browser gets same username due to cookie being shared.
 			let msg = { username: cookies.get('username') };
 			msg['data'] = data;
 			this.state.socket.emit(type, msg);
@@ -64,10 +63,6 @@ class Play extends Component {
 			socket.on('progress', msg => {
 				this.handleProgress(msg);
 			});
-
-			socket.on('hello', msg => {
-				// console.log(msg);
-			});
 		}
 	};
 
@@ -84,8 +79,6 @@ class Play extends Component {
 
 	setGoalPosition = () => {
 		if (this.state.opponents && Array.isArray(this.state.opponents)) {
-			console.log(this.state.opponents);
-			console.log('object');
 			this.state.opponents.forEach(o => {
 				if (o.username === this.props.cookies.get('username')) {
 					this.setState({ goalPosition: o.goalPosition });
@@ -100,10 +93,9 @@ class Play extends Component {
 			'as opposed to the slide actions of many other semi-automatic pistols.' +
 			' After a round is fired, the barrel and toggle assembly travel roughly ' +
 			'13 mm (0.5 in) rearward due to recoil, both locked together at this point.';
-		/* 		let text2 = 'This text is intentionally kind of short.';
+		let text2 = 'This text is intentionally kind of short.';
 
 		let text3 = 'a a';
-*/
 
 		return (
 			<div>
