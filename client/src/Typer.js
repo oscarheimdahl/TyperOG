@@ -6,7 +6,7 @@ import Home from './Home/Home';
 import { BrowserRouter, Route } from 'react-router-dom';
 import { withCookies, CookiesProvider } from 'react-cookie';
 
-localStorage.setItem('API', 'http://130.239.217.42:4000/');
+localStorage.setItem('API', 'http://130.239.183.198:4000/');
 
 export class Typer extends Component {
 	state = {

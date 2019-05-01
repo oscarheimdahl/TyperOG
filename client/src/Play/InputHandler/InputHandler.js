@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './InputHandler.css';
-import ReactDOM from 'react-dom';
 
 export class InputHandler extends Component {
 	state = {
@@ -35,7 +34,9 @@ export class InputHandler extends Component {
 
 	setWPM = () => {
 		let wpm =
-			(this.state.wordIndex / (Date.now() - this.state.startTime)) * 60 * 1000;
+			(this.state.wordIndex / (Date.now() - this.state.startTime)) *
+			60 *
+			1000;
 		this.props.setWPM(wpm);
 	};
 
@@ -47,7 +48,10 @@ export class InputHandler extends Component {
 		this.setState({ inputText: input });
 		let currentWord = this.state.words[this.state.wordIndex];
 		let correctString = currentWord.substring(0, input.length);
-		let restString = currentWord.substring(input.length, currentWord.length);
+		let restString = currentWord.substring(
+			input.length,
+			currentWord.length
+		);
 		let onLastWord = this.state.wordIndex === this.state.words.length - 1;
 
 		if (
@@ -96,7 +100,8 @@ export class InputHandler extends Component {
 	}
 
 	setProgress = () => {
-		let prog = (this.state.completedText.length - 1) / this.state.words.length;
+		let prog =
+			(this.state.completedText.length - 1) / this.state.words.length;
 		if (
 			this.state.completedText[this.state.wordIndex] ===
 				this.state.words[this.state.words.length - 1] &&
@@ -134,7 +139,9 @@ export class InputHandler extends Component {
 		return this.state.complete ? { background: '#DDFFDD' } : {};
 	};
 	setCompletedTextStyle = () => {
-		return this.props.complete ? { color: 'lightgreen' } : { color: 'green' };
+		return this.props.complete
+			? { color: 'lightgreen' }
+			: { color: 'green' };
 	};
 
 	render() {
@@ -156,13 +163,13 @@ export class InputHandler extends Component {
 		let textStyle = this.setTextStyle();
 		let completedTextStyle = this.setCompletedTextStyle();
 
-		let time = 0;
+		/* let time = 0;
 		if (this.state.startTime) {
 			time = this.props.complete
 				? (this.state.endTime - this.state.startTime) / 1000
 				: (Date.now() - this.state.startTime) / 1000;
 			time = Math.round(time);
-		}
+		} */
 
 		return (
 			<div>
@@ -170,7 +177,9 @@ export class InputHandler extends Component {
 					<div className="text" style={textStyle}>
 						<span style={completedTextStyle}>{completedText}</span>
 						<span style={currentWordStyle}>{currentWord}</span>
-						<span>{this.state.remainingText.map(word => word + ' ')}</span>
+						<span>
+							{this.state.remainingText.map(word => word + ' ')}
+						</span>
 					</div>
 					<input
 						value={this.state.inputText}

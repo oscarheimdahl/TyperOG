@@ -7,6 +7,19 @@ export default function(props) {
 		props.cookies.remove('token');
 		props.cookies.remove('username');
 	}
+
+	function renderLoginout() {
+		return props.cookies.get('username') ? (
+			<NavLink to="/">
+				<li onClick={logout}>Logout</li>
+			</NavLink>
+		) : (
+			<NavLink to="/login">
+				<li>Login</li>
+			</NavLink>
+		);
+	}
+
 	return (
 		<header className="header">
 			<div className="logo">
@@ -14,18 +27,13 @@ export default function(props) {
 			</div>
 			<nav>
 				<ul>
-					<NavLink to="/login">
-						<li>login</li>
+					<NavLink to="/">
+						<li>Home</li>
 					</NavLink>
 					<NavLink to="/play">
-						<li>play</li>
+						<li>Play</li>
 					</NavLink>
-					<NavLink to="/">
-						<li>home</li>
-					</NavLink>
-					<NavLink to="/">
-						<li onClick={logout}>logout</li>
-					</NavLink>
+					{renderLoginout()}
 				</ul>
 			</nav>
 		</header>
