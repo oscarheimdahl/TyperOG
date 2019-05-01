@@ -17,7 +17,7 @@ class Play extends Component {
 	componentDidMount() {
 		const { cookies } = this.props;
 		axios
-			.post('http://192.168.1.155:4000/api/users/authenticate', {
+			.post(localStorage.getItem('API') + 'api/users/authenticate', {
 				token: cookies.get('token')
 			})
 			.then(res => {
@@ -52,7 +52,7 @@ class Play extends Component {
 	};
 
 	initSocket = async () => {
-		const socket = openSocket('http://192.168.1.155:4000/');
+		const socket = openSocket(localStorage.getItem('API'));
 		if (socket) {
 			const { cookies } = this.props;
 			socket.emit('join', cookies.get('username'));

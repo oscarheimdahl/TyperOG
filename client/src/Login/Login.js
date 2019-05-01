@@ -15,6 +15,9 @@ export class Login extends Component {
 	};
 
 	handleLogin = e => {
+		this.setState({
+			errormsg: ''
+		});
 		let emptyfields = false;
 		if (!this.state.username) {
 			this.setState({ usernameerror: ' *' });
@@ -25,8 +28,9 @@ export class Login extends Component {
 			emptyfields = true;
 		}
 		if (!emptyfields) {
+			console.log(localStorage.getItem('API') + 'api/users/login');
 			axios
-				.post('http://192.168.1.155:4000/api/users/login', {
+				.post(localStorage.getItem('API') + 'api/users/login', {
 					//http://130.239.236.226:4000/api/users/login/', {
 					username: this.state.username,
 					password: this.state.password
@@ -40,7 +44,12 @@ export class Login extends Component {
 					this.setState({ redirect: true });
 				})
 				.catch(err => {
-					if (err.response.status === 401) {
+					if (!err.response) {
+						this.setState({
+							errormsg: 'Oh oh. Something bad happened.'
+						});
+						console.log(err);
+					} else if (err.response.status === 401) {
 						this.setState({
 							errormsg: 'Wrong username or password.'
 						});

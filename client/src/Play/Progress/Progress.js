@@ -8,15 +8,14 @@ export class Progress extends Component {
 				<div
 					className="playerProgress"
 					style={{ width: this.props.playerProgress * 95 + '%' }}
-				>
-					<div>{this.renderOpponents()}</div>
-				</div>
+				/>
 				{this.renderOpponents()}
 			</div>
 		);
 	}
 
 	renderOpponents = () => {
+		console.log(this.props.username);
 		if (this.props.opponents) {
 			console.log(this.props.opponents);
 			return this.props.opponents.map(o => {
