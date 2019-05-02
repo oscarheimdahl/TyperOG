@@ -201,7 +201,6 @@ export class InputHandler extends Component {
 					<input
 						value={this.state.inputText}
 						type="text"
-						placeholder="..."
 						className="inputfield"
 						style={inputStyle}
 						onChange={evt => {

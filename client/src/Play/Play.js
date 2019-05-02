@@ -71,7 +71,6 @@ class Play extends Component {
 			});
 
 			socket.on('gametext', gameText => {
-				console.log('JARRÅÅt');
 				this.setState({ text: gameText });
 			});
 		}
@@ -99,7 +98,6 @@ class Play extends Component {
 	};
 
 	renderInputHandler = () => {
-		console.log('text: ' + this.state.text);
 		return (
 			<InputHandler
 				complete={this.state.complete}

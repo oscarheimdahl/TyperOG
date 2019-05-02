@@ -1,4 +1,4 @@
-const gameSize = 3;
+const gameSize = 5;
 
 let games = [];
 //TODO RESET TEMPLETES AFETER
@@ -107,7 +107,7 @@ module.exports = {
 		socket.emit('gamestart', games[gameIndex].startTime);
 
 		setTimeout(() => {
-			games[gameIndex].started = true;
+			if (games[gameIndex]) games[gameIndex].started = true;
 		}, 5000);
 	},
 
