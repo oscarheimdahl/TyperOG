@@ -19,6 +19,15 @@ export class InputHandler extends Component {
 		this.tick();
 	}
 
+	componentDidUpdate(prevProps) {
+		if (this.props.text !== prevProps.text) {
+			this.setState({
+				words: this.props.text.split(' '),
+				remainingText: this.props.text.split(' ')
+			});
+		}
+	}
+
 	tick = () => {
 		setTimeout(_ => {
 			this.emitProgress();
@@ -37,44 +46,45 @@ export class InputHandler extends Component {
 	};
 
 	setWPM = () => {
-		let wpm =
-			(this.state.wordIndex / (Date.now() - this.state.startTime)) * 60 * 1000;
+		let time = (Date.now() - this.props.startTime) / (1000 * 60);
+		let wpm = this.state.wordIndex / time;
 		this.props.setWPM(wpm);
 	};
 
 	handleInput = input => {
 		if (!this.state.startTime) {
-			// this.tick();
 			this.setState({ startTime: Date.now() });
 		}
-		this.setState({ inputText: input });
-		let currentWord = this.state.words[this.state.wordIndex];
-		let correctString = currentWord.substring(0, input.length);
-		let restString = currentWord.substring(input.length, currentWord.length);
-		let onLastWord = this.state.wordIndex === this.state.words.length - 1;
+		if (this.props.startTime && Date.now() > this.props.startTime) {
+			this.setState({ inputText: input });
+			let currentWord = this.state.words[this.state.wordIndex];
+			let correctString = currentWord.substring(0, input.length);
+			let restString = currentWord.substring(input.length, currentWord.length);
+			let onLastWord = this.state.wordIndex === this.state.words.length - 1;
 
-		if (
-			(input === currentWord && onLastWord) ||
-			(input === currentWord + ' ' && !onLastWord)
-		) {
-			this.setState({
-				inputText: '',
-				wordIndex: this.state.wordIndex + 1
-			});
-			this.setTextWord(input, onLastWord);
-			if (onLastWord) {
-				this.setState({ endTime: Date.now() });
-				this.props.setComplete();
+			if (
+				(input === currentWord && onLastWord) ||
+				(input === currentWord + ' ' && !onLastWord)
+			) {
+				this.setState({
+					inputText: '',
+					wordIndex: this.state.wordIndex + 1
+				});
+				this.setTextWord(input, onLastWord);
+				if (onLastWord) {
+					this.setState({ endTime: Date.now() });
+					this.props.setComplete();
+				}
+			} else if (correctString === input) {
+				this.setState({
+					spelling: true
+				});
+				this.setTextLetter(input, restString);
+			} else {
+				this.setState({ spelling: false });
 			}
-		} else if (correctString === input) {
-			this.setState({
-				spelling: true
-			});
-			this.setTextLetter(input, restString);
-		} else {
-			this.setState({ spelling: false });
+			this.setProgress();
 		}
-		this.setProgress();
 	};
 
 	/**
@@ -140,6 +150,26 @@ export class InputHandler extends Component {
 		return this.props.complete ? { color: 'lightgreen' } : { color: 'green' };
 	};
 
+	renderStartTime = () => {
+		let startTime = '';
+		let hide;
+
+		if (!this.props.startTime) {
+			startTime = 'Waiting for players...';
+		} else {
+			this.props.startTime && Date.now() - this.props.startTime < 0
+				? (startTime = Math.round(
+						-((Date.now() - this.props.startTime) / 1000)
+				  ))
+				: (hide = { display: 'none' });
+		}
+		return (
+			<div className="startTime" style={hide}>
+				{startTime}
+			</div>
+		);
+	};
+
 	render() {
 		let completedText;
 		let currentWord;
@@ -159,17 +189,10 @@ export class InputHandler extends Component {
 		let textStyle = this.setTextStyle();
 		let completedTextStyle = this.setCompletedTextStyle();
 
-		/* let time = 0;
-		if (this.state.startTime) {
-			time = this.props.complete
-				? (this.state.endTime - this.state.startTime) / 1000
-				: (Date.now() - this.state.startTime) / 1000;
-			time = Math.round(time);
-		} */
-
 		return (
 			<div>
 				<div className="container">
+					{this.renderStartTime()}
 					<div className="text" style={textStyle}>
 						<span style={completedTextStyle}>{completedText}</span>
 						<span style={currentWordStyle}>{currentWord}</span>
@@ -188,7 +211,6 @@ export class InputHandler extends Component {
 						}}
 					/>
 				</div>
-				startTime: {Math.round((Date.now() - this.props.startTime) / 1000)}
 			</div>
 		);
 	}

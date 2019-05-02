@@ -13,7 +13,8 @@ class Play extends Component {
 		opponents: null,
 		redirect: false,
 		goalPosition: null,
-		startTime: null
+		startTime: null,
+		text: ''
 	};
 
 	componentDidMount() {
@@ -61,13 +62,17 @@ class Play extends Component {
 				this.setState({ socket });
 			});
 			//
-			socket.on('progress', msg => {
-				this.handleProgress(msg);
+			socket.on('progress', data => {
+				this.handleProgress(data);
 			});
 
-			socket.on('gamestart', msg => {
-				console.log('gamestart received: ' + msg);
-				this.setState({ startTime: msg });
+			socket.on('gamestart', time => {
+				this.setState({ startTime: time });
+			});
+
+			socket.on('gametext', gameText => {
+				console.log('JARRÅÅt');
+				this.setState({ text: gameText });
 			});
 		}
 	};
@@ -93,19 +98,23 @@ class Play extends Component {
 		}
 	};
 
+	renderInputHandler = () => {
+		console.log('text: ' + this.state.text);
+		return (
+			<InputHandler
+				complete={this.state.complete}
+				text={this.state.text}
+				emit={this.emit}
+				setComplete={this.setComplete}
+				setWPM={this.setWPM}
+				wpm={this.state.wpm}
+				setProgress={this.setProgress}
+				startTime={this.state.startTime}
+			/>
+		);
+	};
+
 	render() {
-		let text =
-			'The Luger has a toggle-lock action which uses a jointed arm to lock, ' +
-			'as opposed to the slide actions of many other semi-automatic pistols.' +
-			' After a round is fired, the barrel and toggle assembly travel roughly ' +
-			'13 mm (0.5 in) rearward due to recoil, both locked together at this point.';
-		let text2 = 'a a a';
-
-		let text3 =
-			'En text är en skriven eller muntlig utsaga som i sin kontext är meningsfull' +
-			' och där de språkliga enheterna har ett inbördes sammanhang. Exempel på skrivna ' +
-			' texter är romaner, tidningsartiklar och kontaktannonser.';
-
 		return (
 			<div>
 				{this.renderRedirect()}
@@ -117,16 +126,7 @@ class Play extends Component {
 					username={this.props.cookies.get('username')}
 					wpm={this.state.wpm}
 				/>
-				<InputHandler
-					complete={this.state.complete}
-					text={text}
-					emit={this.emit}
-					setComplete={this.setComplete}
-					setWPM={this.setWPM}
-					wpm={this.state.wpm}
-					setProgress={this.setProgress}
-					startTime={this.state.startTime}
-				/>
+				{this.renderInputHandler()}
 			</div>
 		);
 	}
