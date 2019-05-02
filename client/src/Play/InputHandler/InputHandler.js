@@ -126,7 +126,7 @@ export class InputHandler extends Component {
 	setInputStyle = () => {
 		return this.state.spelling === true
 			? {
-					background: '#DDFFDD'
+					background: 'white' //'#DDFFDD'
 			  }
 			: {
 					background: 'pink'
@@ -188,6 +188,7 @@ export class InputHandler extends Component {
 						}}
 					/>
 				</div>
+				startTime: {Math.round((Date.now() - this.props.startTime) / 1000)}
 			</div>
 		);
 	}

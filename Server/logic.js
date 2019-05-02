@@ -1,12 +1,13 @@
 const gameSize = 2;
 
 let games = [];
-
+//TODO RESET TEMPLETES AFETER
 let game = {
 	players: [],
 	playersDone: 0,
 	id: '',
-	started: false
+	started: false,
+	startTime: null
 };
 
 let player = {
@@ -14,7 +15,7 @@ let player = {
 	progress: 0,
 	game: null,
 	gameIndex: null,
-	goalPosition: 0,
+	goalPosition: null,
 	wpm: 0,
 	time: 0,
 	inGoal: false
@@ -85,9 +86,18 @@ module.exports = {
 		players.push(JSON.parse(JSON.stringify(player)));
 		games[gameIndex].players.push(JSON.parse(JSON.stringify(player)));
 
-		if (games[gameIndex].players.length > 2) {
-			//startCOuntDown!
+		if (games[gameIndex].players.length > 1) {
+			this.sendStartTime(socket, gameIndex);
 		}
+	},
+
+	sendStartTime: function(socket, gameIndex) {
+		if (!games[gameIndex].startTime) {
+			games[gameIndex].startTime = Date.now() + 10 * 1000;
+		}
+		console.log('Should send start time');
+		socket.in(gameIndex).emit('gamestart', games[gameIndex].startTime);
+		socket.emit('gamestart', games[gameIndex].startTime);
 	},
 
 	getAvailableGame: function() {

@@ -17,7 +17,6 @@
 	display: block;
 	padding: 1vw;
 	margin-bottom: 1vw;
-	border: 1px solid black;
 	text-decoration-color: black;
 	background: white;
 }
@@ -31,6 +30,10 @@
 	padding: 1vw;
 	border: 1px solid black;
 	margin-bottom: 1vw;
+}
+
+.inputfield:focus {
+	outline: none;
 }
 
 .progressbar {

@@ -11,19 +11,22 @@
 	position: relative;
 	left: 8vw;
 	width: 62vw;
-	padding: 1vw 0 0 0;
+	padding: 0;
 	border: 1px solid black;
 	margin: 2vw 0;
 	font-size: 1.5vw;
+	padding-bottom: 1vw;
 }
 
 .playerProgress {
 	background: #ddffdd;
 	transition-duration: 0.8s;
 	height: 2vw;
-	padding-left: 5%;
-	border-right: solid black 1px;
-	margin-bottom: 1vw;
+	padding-left: 1%;
+}
+
+.progressUsername {
+	height: 2vw;
 }
 
 .wpmcontainer {
@@ -36,8 +39,9 @@
 	display: block;
 	font-size: 1.5vw;
 }
+
 .wpm {
-	margin-bottom: 1vw;
+	margin: 1vw 0 1vw 0;
 	left: -2vw;
 	text-align: right;
 	display: inline-block;
@@ -45,4 +49,23 @@
 	height: 2vw;
 	width: 100%;
 	line-height: 2vw;
+}
+
+.goalposcontainer {
+	position: relative;
+	width: 10vw;
+	right: -9vw;
+	margin: 2vw 0;
+	padding: 1vw 0 0 0;
+	display: block;
+	font-size: 1.5vw;
+}
+
+.goalpos {
+	left: 0;
+	margin: 1vw 0 1vw 0;
+	width: 100%;
+	line-height: 2vw;
+	height: 2vw;
+	display: inline-block;
 }

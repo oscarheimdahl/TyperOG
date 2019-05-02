@@ -12,7 +12,8 @@ class Play extends Component {
 		playerProgress: 0,
 		opponents: null,
 		redirect: false,
-		goalPosition: null
+		goalPosition: null,
+		startTime: null
 	};
 
 	componentDidMount() {
@@ -63,6 +64,11 @@ class Play extends Component {
 			socket.on('progress', msg => {
 				this.handleProgress(msg);
 			});
+
+			socket.on('gamestart', msg => {
+				console.log('gamestart received: ' + msg);
+				this.setState({ startTime: msg });
+			});
 		}
 	};
 
@@ -93,9 +99,12 @@ class Play extends Component {
 			'as opposed to the slide actions of many other semi-automatic pistols.' +
 			' After a round is fired, the barrel and toggle assembly travel roughly ' +
 			'13 mm (0.5 in) rearward due to recoil, both locked together at this point.';
-		let text2 = 'This text is intentionally kind of short.';
+		let text2 = 'a a a';
 
-		let text3 = 'a a';
+		let text3 =
+			'En text är en skriven eller muntlig utsaga som i sin kontext är meningsfull' +
+			' och där de språkliga enheterna har ett inbördes sammanhang. Exempel på skrivna ' +
+			' texter är romaner, tidningsartiklar och kontaktannonser.';
 
 		return (
 			<div>
@@ -110,12 +119,13 @@ class Play extends Component {
 				/>
 				<InputHandler
 					complete={this.state.complete}
-					text={text3}
+					text={text}
 					emit={this.emit}
 					setComplete={this.setComplete}
 					setWPM={this.setWPM}
 					wpm={this.state.wpm}
 					setProgress={this.setProgress}
+					startTime={this.state.startTime}
 				/>
 			</div>
 		);
