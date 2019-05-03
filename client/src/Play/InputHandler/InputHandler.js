@@ -140,10 +140,6 @@ export class InputHandler extends Component {
 			  };
 	};
 
-	setDoneTextStyle = () => {
-		return this.state.complete ? { background: '#33EEaa' } : {};
-	};
-
 	setTextStyle = () => {
 		return this.state.complete ? { background: '#33EEaa' } : {};
 	};
@@ -176,7 +172,7 @@ export class InputHandler extends Component {
 		);
 	};
 
-	render() {
+	renderTextbox = () => {
 		let completedText;
 		let currentWord;
 		if (!this.props.complete) {
@@ -189,42 +185,51 @@ export class InputHandler extends Component {
 			completedText = this.state.completedText;
 			currentWord = '';
 		}
-
 		let currentWordStyle = this.setCurrentWordStyle();
-		let inputStyle = this.setInputStyle();
-		let doneTextStyle = this.setDoneTextStyle();
 		let completedTextStyle = this.setCompletedTextStyle();
 		let remainingTextStyle = this.setRemainingTextStyle();
+		return (
+			<div className="text">
+				<span style={completedTextStyle}>{completedText}</span>
+				<span style={currentWordStyle}>{currentWord}</span>
+				<span style={remainingTextStyle}>
+					{this.state.remainingText.map(word => word + ' ')}
+				</span>
+			</div>
+		);
+	};
 
+	renderInputfield = () => {
+		let inputStyle = this.setInputStyle();
+		return (
+			<input
+				autoComplete="off"
+				autoCorrect="off"
+				autoCapitalize="off"
+				spellCheck="false"
+				value={this.state.inputText}
+				type="text"
+				ref={input => {
+					this.textInput = input;
+				}}
+				className="inputfield"
+				style={inputStyle}
+				onChange={evt => {
+					if (!this.props.complete) {
+						this.handleInput(evt.target.value);
+					}
+				}}
+			/>
+		);
+	};
+
+	render() {
 		return (
 			<div>
 				<div className="container">
 					{this.renderStartTime()}
-					<div className="text" style={doneTextStyle}>
-						<span style={completedTextStyle}>{completedText}</span>
-						<span style={currentWordStyle}>{currentWord}</span>
-						<span style={remainingTextStyle}>
-							{this.state.remainingText.map(word => word + ' ')}
-						</span>
-					</div>
-					<input
-						autoComplete="off"
-						autoCorrect="off"
-						autoCapitalize="off"
-						spellCheck="false"
-						value={this.state.inputText}
-						type="text"
-						ref={input => {
-							this.textInput = input;
-						}}
-						className="inputfield"
-						style={inputStyle}
-						onChange={evt => {
-							if (!this.props.complete) {
-								this.handleInput(evt.target.value);
-							}
-						}}
-					/>
+					{this.renderTextbox()}
+					{this.renderInputfield()}
 				</div>
 			</div>
 		);

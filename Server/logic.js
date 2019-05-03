@@ -1,5 +1,5 @@
 const gameSize = 2;
-
+let guestUsers = 0;
 let games = [];
 let game = {
 	players: [],
@@ -88,10 +88,17 @@ module.exports = {
 		}
 	},
 
-	joinGame: function(socket, username) {
+	joinGame: function(socket, username, loggedin) {
 		console.log(username + ' connected');
 		let gameIndex = this.getAvailableGame();
-		player.username = username;
+		if (loggedin === 'true') {
+			console.log('logged in: ' + loggedin);
+			player.username = username;
+			console.log(username);
+		} else {
+			player.username = this.sendGuestID(socket);
+		}
+
 		player.id = socket.id;
 		socket.join(gameIndex);
 		player.game = gameIndex;
@@ -104,6 +111,14 @@ module.exports = {
 			this.sendGameText(socket, gameIndex);
 			this.sendStartTime(socket, gameIndex);
 		}
+	},
+
+	sendGuestID: function(socket) {
+		console.log('Sending guest id');
+		let guestid = 'Guest' + guestUsers;
+		socket.emit('guest', guestid);
+		guestUsers++;
+		return guestid;
 	},
 
 	sendStartTime: function(socket, gameIndex) {

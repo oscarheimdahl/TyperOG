@@ -40,6 +40,8 @@ export class Login extends Component {
 					const { cookies } = this.props;
 					cookies.set('token', res.data.token, { path: '/' });
 					cookies.set('username', this.state.username, { path: '/' });
+					cookies.set('guest', false);
+					cookies.set('loggedin', true);
 					this.setState({ redirect: true });
 				})
 				.catch(err => {
@@ -76,26 +78,20 @@ export class Login extends Component {
 					<h1>Typer</h1>
 					<div className="logininfo">
 						<label>Username</label>
-						<label className="errorlabel">
-							{this.state.usernameerror}
-						</label>
+						<label className="errorlabel">{this.state.usernameerror}</label>
 						<input
 							onChange={this.handleUsername}
 							className="username"
 							type="text"
 						/>
 						<label>Password</label>
-						<label className="errorlabel">
-							{this.state.passworderror}
-						</label>
+						<label className="errorlabel">{this.state.passworderror}</label>
 						<input
 							onChange={this.handlePassword}
 							className="password"
 							type="password"
 						/>
-						<label className="errormsg">
-							{this.state.errormsg}
-						</label>
+						<label className="errormsg">{this.state.errormsg}</label>
 					</div>
 					<button onClick={this.handleLogin} className="button">
 						Login

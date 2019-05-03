@@ -6,10 +6,11 @@ export default function(props) {
 	function logout() {
 		props.cookies.remove('token');
 		props.cookies.remove('username');
+		props.cookies.set('loggedin', false);
 	}
 
 	function renderLoginout() {
-		return props.cookies.get('username') ? (
+		return props.cookies.get('loggedin') === 'true' ? (
 			<NavLink to="/">
 				<li onClick={logout}>Logout</li>
 			</NavLink>

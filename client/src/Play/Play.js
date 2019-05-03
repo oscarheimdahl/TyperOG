@@ -23,14 +23,14 @@ class Play extends Component {
 			.post(localStorage.getItem('API') + 'api/users/authenticate', {
 				token: cookies.get('token')
 			})
-			.then(res => {
-				this.initSocket();
-			})
 			.catch(err => {
 				console.log(err);
-				this.setState({ redirect: true });
+				cookies.set('loggedin', false);
 			});
+
+		this.initSocket();
 	}
+
 	componentWillUnmount() {
 		if (this.props.socket) {
 			this.props.socket.disconnect();
@@ -41,7 +41,7 @@ class Play extends Component {
 		const { cookies } = this.props;
 		let msg = { username: cookies.get('username') };
 		msg['data'] = data;
-		this.props.socket.emit(type, msg);
+		if (this.props.socket) this.props.socket.emit(type, msg);
 	};
 
 	setComplete = () => {
@@ -60,11 +60,11 @@ class Play extends Component {
 		let socket = openSocket(localStorage.getItem('API'));
 		if (socket) {
 			const { cookies } = this.props;
-			socket.emit('join', cookies.get('username'));
+			socket.emit('join', cookies.get('username'), cookies.get('loggedin'));
 			socket.on('connect', () => {
 				this.setState({ socket });
 			});
-			//
+
 			socket.on('progress', data => {
 				this.handleProgress(data);
 			});
@@ -72,6 +72,11 @@ class Play extends Component {
 			socket.on('gamestart', time => {
 				console.log(time);
 				this.setState({ startTime: time });
+			});
+
+			socket.on('guest', guestname => {
+				cookies.set('username', guestname);
+				cookies.set('guest', true);
 			});
 
 			socket.on('gametext', gameText => {

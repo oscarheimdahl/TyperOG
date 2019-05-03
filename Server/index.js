@@ -18,9 +18,9 @@ mongoose.connect('mongodb://localhost:27017/Typer', {
 app.get('/', function(req, res) {});
 
 io.on('connection', socket => {
-	socket.on('join', username => {
+	socket.on('join', (username, guest) => {
 		logic.leaveOldGame(username, true);
-		logic.joinGame(socket, username);
+		logic.joinGame(socket, username, guest);
 	});
 
 	socket.on('progress', msg => {
