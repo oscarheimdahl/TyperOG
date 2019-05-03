@@ -6,7 +6,11 @@
 	line-height: 10vh;
 	color: white;
 	border-bottom: black solid 1px;
-	margin-bottom: 2vw;
+}
+
+.usernameprofile {
+	font-size: 1vw;
+	color: yellow;
 }
 
 .header .logo {
@@ -20,10 +24,11 @@
 .header .logo h2 {
 	margin-left: 2vw;
 	font-family: Quicksand;
+	font-size: calc(12px + 1.5vw);
 }
 
 .header nav {
-	width: 50%;
+	width: 50vw;
 	height: 100%;
 	float: right;
 }
@@ -43,7 +48,7 @@
 	line-height: 12vh;
 	display: inline-block;
 	margin: 0;
-	font-size: 1.2em;
+	font-size: calc(12px + 1vw);
 	font-family: Quicksand;
 	border-radius: 10px;
 	transition: background 300ms ease-in-out;

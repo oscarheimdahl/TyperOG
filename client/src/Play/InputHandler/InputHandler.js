@@ -31,7 +31,6 @@ export class InputHandler extends Component {
 		setTimeout(() => {
 			this.emitProgress();
 			if (!this.props.complete) {
-				if (this.textInput) this.textInput.focus();
 				this.tick();
 			}
 		}, 1000);
@@ -46,8 +45,10 @@ export class InputHandler extends Component {
 	};
 
 	setWPM = () => {
+		let completedCharacters = this.state.completedText.slice().join('').length;
 		let time = (Date.now() - this.props.startTime) / 1000;
-		let wpm = (this.state.wordIndex / time) * 60;
+		let wpm = 0;
+		if (time > 0) wpm = (completedCharacters / 5 / time) * 60;
 		this.props.setWPM(wpm);
 	};
 
@@ -159,11 +160,12 @@ export class InputHandler extends Component {
 		if (!this.props.startTime) {
 			startTime = 'Waiting for players...';
 		} else {
-			this.props.startTime && Date.now() - this.props.startTime < 0
-				? (startTime = Math.round(
-						-((Date.now() - this.props.startTime) / 1000)
-				  ))
-				: (hide = { display: 'none' });
+			if (this.props.startTime && Date.now() - this.props.startTime < 0) {
+				startTime = Math.round(-((Date.now() - this.props.startTime) / 1000));
+			} else {
+				hide = { display: 'none' };
+				if (this.textInput) this.textInput.focus();
+			}
 		}
 		return (
 			<div className="startTime" style={hide}>

@@ -4,6 +4,7 @@ import Progress from './Progress/Progress';
 import axios from 'axios';
 import openSocket from 'socket.io-client';
 import { Redirect } from 'react-router-dom';
+import './Play.css';
 
 class Play extends Component {
 	state = {
@@ -86,6 +87,11 @@ class Play extends Component {
 		this.props.setSocket(socket);
 	};
 
+	seeGames = () => {
+		console.log('going');
+		if (this.props.socket) this.props.socket.emit('printGames');
+	};
+
 	handleProgress = opponents => {
 		this.setState({ opponents });
 		this.setGoalPosition();
@@ -124,7 +130,7 @@ class Play extends Component {
 
 	render() {
 		return (
-			<div>
+			<div className="playcontent">
 				{this.renderRedirect()}
 				<Progress
 					opponents={this.state.opponents}
@@ -135,6 +141,7 @@ class Play extends Component {
 					wpm={this.state.wpm}
 				/>
 				{this.renderInputHandler()}
+				<button onClick={this.seeGames}>Log games on server</button>
 			</div>
 		);
 	}

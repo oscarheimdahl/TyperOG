@@ -30,6 +30,10 @@ io.on('connection', socket => {
 	socket.on('disconnect', () => {
 		logic.leaveIfPlayerFound(socket);
 	});
+
+	socket.on('printGames', () => {
+		logic.logGames();
+	});
 });
 
 http.listen(4000, function() {

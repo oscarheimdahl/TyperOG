@@ -15,7 +15,6 @@
 .text {
 	width: 100%;
 	display: block;
-	padding: 1vw;
 	margin-bottom: 1vw;
 	text-decoration-color: black;
 	background: white;
@@ -29,7 +28,7 @@
 	display: block;
 	padding: 1vw;
 	border: 1px solid black;
-	margin-bottom: 1vw;
+	margin: 2vw 0;
 }
 
 .inputfield:focus {

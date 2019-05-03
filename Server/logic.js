@@ -1,4 +1,5 @@
 const gameSize = 2;
+const playersToStart = 1;
 let guestUsers = 0;
 let games = [];
 let game = {
@@ -40,6 +41,11 @@ module.exports = {
 				this.removeFromSocketList(player);
 			}
 		});
+	},
+
+	logGames: function() {
+		console.log(games);
+		console.log(games.length);
 	},
 
 	leaveIfPlayerFound: function(socket) {
@@ -92,9 +98,7 @@ module.exports = {
 		console.log(username + ' connected');
 		let gameIndex = this.getAvailableGame();
 		if (loggedin === 'true') {
-			console.log('logged in: ' + loggedin);
 			player.username = username;
-			console.log(username);
 		} else {
 			player.username = this.sendGuestID(socket);
 		}
@@ -106,19 +110,24 @@ module.exports = {
 		sockets.push(socket);
 		players.push(JSON.parse(JSON.stringify(player)));
 		games[gameIndex].players.push(JSON.parse(JSON.stringify(player)));
+		this.sendGameText(socket, gameIndex);
 
-		if (games[gameIndex].players.length > gameSize - 1) {
-			this.sendGameText(socket, gameIndex);
+		if (games[gameIndex].players.length >= playersToStart) {
 			this.sendStartTime(socket, gameIndex);
 		}
 	},
 
 	sendGuestID: function(socket) {
 		console.log('Sending guest id');
-		let guestid = 'Guest' + guestUsers;
+		let guestid = 'Guest' + this.randomGuestNumber();
 		socket.emit('guest', guestid);
 		guestUsers++;
 		return guestid;
+	},
+
+	randomGuestNumber: function() {
+		var x = Math.sin(guestUsers + 1) * 10000;
+		return Math.round((x - Math.floor(x)) * 1000);
 	},
 
 	sendStartTime: function(socket, gameIndex) {
@@ -137,7 +146,7 @@ module.exports = {
 		if (!games[gameIndex].text) {
 			games[gameIndex].text = this.getRandomText();
 		}
-		socket.in(gameIndex).emit('gametext', games[gameIndex].text);
+		//socket.in(gameIndex).emit('gametext', games[gameIndex].text);
 		socket.emit('gametext', games[gameIndex].text);
 	},
 
