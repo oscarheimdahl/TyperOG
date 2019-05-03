@@ -3,6 +3,7 @@ import Play from './Play/Play';
 import Login from './Login/Login';
 import Navbar from './Navbar/Navbar';
 import Home from './Home/Home';
+import openSocket from 'socket.io-client';
 import { BrowserRouter, Route } from 'react-router-dom';
 import { withCookies, CookiesProvider } from 'react-cookie';
 
@@ -11,12 +12,17 @@ localStorage.setItem('API', 'http://130.239.217.148:4000/');
 export class Typer extends Component {
 	state = {
 		loggedin: false,
-		username: null
+		username: null,
+		socket: null
 	};
 
 	setLoginAttributes = (token, username) => {
 		this.setState({ token });
 		this.setState({ username });
+	};
+
+	setSocket = socket => {
+		this.setState({ socket });
 	};
 
 	render() {
@@ -40,6 +46,8 @@ export class Typer extends Component {
 							render={() => (
 								<Play
 									// username={this.state.username}
+									socket={this.state.socket}
+									setSocket={this.setSocket}
 									cookies={this.props.cookies}
 								/>
 							)}

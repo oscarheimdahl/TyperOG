@@ -1,4 +1,4 @@
-const gameSize = 3;
+const gameSize = 2;
 
 let games = [];
 let game = {
@@ -7,7 +7,8 @@ let game = {
 	id: '',
 	started: false,
 	startTime: null,
-	dead: false
+	dead: false,
+	text: null
 };
 
 let player = {
@@ -99,7 +100,7 @@ module.exports = {
 		players.push(JSON.parse(JSON.stringify(player)));
 		games[gameIndex].players.push(JSON.parse(JSON.stringify(player)));
 
-		if (games[gameIndex].players.length > 1) {
+		if (games[gameIndex].players.length > gameSize - 1) {
 			this.sendGameText(socket, gameIndex);
 			this.sendStartTime(socket, gameIndex);
 		}
@@ -118,15 +119,15 @@ module.exports = {
 	},
 
 	sendGameText: function(socket, gameIndex) {
-		let text = this.getRandomText();
-		text = 'kalle' + Math.random();
-		console.log('Sending text: ' + text);
-		socket.in(gameIndex).emit('gametext', text);
-		socket.emit('gametext', text);
+		if (!games[gameIndex].text) {
+			games[gameIndex].text = this.getRandomText();
+		}
+		socket.in(gameIndex).emit('gametext', games[gameIndex].text);
+		socket.emit('gametext', games[gameIndex].text);
 	},
 
 	getRandomText: function() {
-		let r = Math.round(Math.random() * 3);
+		let r = Math.floor(Math.random() * texts.length);
 		return texts[r];
 	},
 

@@ -15,13 +15,11 @@ export class InputHandler extends Component {
 	};
 
 	componentDidMount() {
-		this.textInput.focus();
 		this.tick();
 	}
 
 	componentDidUpdate(prevProps) {
 		if (this.props.text !== prevProps.text) {
-			console.log('new text,' + this.props.text);
 			this.setState({
 				words: this.props.text.split(' '),
 				remainingText: this.props.text.split(' ')
@@ -30,9 +28,10 @@ export class InputHandler extends Component {
 	}
 
 	tick = () => {
-		setTimeout(_ => {
+		setTimeout(() => {
 			this.emitProgress();
 			if (!this.props.complete) {
+				if (this.textInput) this.textInput.focus();
 				this.tick();
 			}
 		}, 1000);
@@ -47,16 +46,12 @@ export class InputHandler extends Component {
 	};
 
 	setWPM = () => {
-		let time = (Date.now() - this.props.startTime) / (1000 * 60);
-		let wpm = this.state.wordIndex / time;
+		let time = (Date.now() - this.props.startTime) / 1000;
+		let wpm = (this.state.wordIndex / time) * 60;
 		this.props.setWPM(wpm);
 	};
 
 	handleInput = input => {
-		if (!this.state.startTime) {
-			this.setState({ startTime: Date.now() });
-			this.textInput.focus();
-		}
 		if (this.props.startTime && Date.now() > this.props.startTime) {
 			this.setState({ inputText: input });
 			let currentWord = this.state.words[this.state.wordIndex];
@@ -126,7 +121,7 @@ export class InputHandler extends Component {
 	setCurrentWordStyle = () => {
 		return this.state.spelling
 			? {
-					color: 'green',
+					color: '#000',
 					textDecoration: 'underline'
 			  }
 			: {
@@ -145,11 +140,20 @@ export class InputHandler extends Component {
 			  };
 	};
 
-	setTextStyle = () => {
-		return this.state.complete ? { background: '#DDFFDD' } : {};
+	setDoneTextStyle = () => {
+		return this.state.complete ? { background: '#33EEaa' } : {};
 	};
+
+	setTextStyle = () => {
+		return this.state.complete ? { background: '#33EEaa' } : {};
+	};
+
 	setCompletedTextStyle = () => {
-		return this.props.complete ? { color: 'lightgreen' } : { color: 'green' };
+		return { color: '#AAA' };
+	};
+
+	setRemainingTextStyle = () => {
+		return { color: '#444' };
 	};
 
 	renderStartTime = () => {
@@ -188,19 +192,26 @@ export class InputHandler extends Component {
 
 		let currentWordStyle = this.setCurrentWordStyle();
 		let inputStyle = this.setInputStyle();
-		let textStyle = this.setTextStyle();
+		let doneTextStyle = this.setDoneTextStyle();
 		let completedTextStyle = this.setCompletedTextStyle();
+		let remainingTextStyle = this.setRemainingTextStyle();
 
 		return (
 			<div>
 				<div className="container">
 					{this.renderStartTime()}
-					<div className="text" style={textStyle}>
+					<div className="text" style={doneTextStyle}>
 						<span style={completedTextStyle}>{completedText}</span>
 						<span style={currentWordStyle}>{currentWord}</span>
-						<span>{this.state.remainingText.map(word => word + ' ')}</span>
+						<span style={remainingTextStyle}>
+							{this.state.remainingText.map(word => word + ' ')}
+						</span>
 					</div>
 					<input
+						autoComplete="off"
+						autoCorrect="off"
+						autoCapitalize="off"
+						spellCheck="false"
 						value={this.state.inputText}
 						type="text"
 						ref={input => {

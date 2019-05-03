@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import InputHandler from './InputHandler/InputHandler';
-import openSocket from 'socket.io-client';
 import Progress from './Progress/Progress';
 import axios from 'axios';
+import openSocket from 'socket.io-client';
 import { Redirect } from 'react-router-dom';
 
 class Play extends Component {
@@ -31,14 +31,17 @@ class Play extends Component {
 				this.setState({ redirect: true });
 			});
 	}
+	componentWillUnmount() {
+		if (this.props.socket) {
+			this.props.socket.disconnect();
+		}
+	}
 
 	emit = (type, data) => {
-		if (this.state.socket) {
-			const { cookies } = this.props;
-			let msg = { username: cookies.get('username') };
-			msg['data'] = data;
-			this.state.socket.emit(type, msg);
-		}
+		const { cookies } = this.props;
+		let msg = { username: cookies.get('username') };
+		msg['data'] = data;
+		this.props.socket.emit(type, msg);
 	};
 
 	setComplete = () => {
@@ -54,7 +57,7 @@ class Play extends Component {
 	};
 
 	initSocket = async () => {
-		const socket = openSocket(localStorage.getItem('API'));
+		let socket = openSocket(localStorage.getItem('API'));
 		if (socket) {
 			const { cookies } = this.props;
 			socket.emit('join', cookies.get('username'));
@@ -75,6 +78,7 @@ class Play extends Component {
 				this.setState({ text: gameText });
 			});
 		}
+		this.props.setSocket(socket);
 	};
 
 	handleProgress = opponents => {

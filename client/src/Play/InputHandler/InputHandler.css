@@ -49,11 +49,7 @@
 	position: absolute;
 	width: 40%;
 	left: 30%;
-	margin: 0 auto;
 	text-align: center;
-	line-height: 8vw;
-	height: 8vw;
-	background: white;
-	border: solid black 1px;
+	bottom: 1vw;
 	z-index: 3;
 }

@@ -17,7 +17,7 @@ export class Progress extends Component {
 								className="playerProgress"
 								style={{
 									width: o.progress * 99 + '%',
-									background: 'lightcoral'
+									background: '#222'
 								}}
 							/>
 						</div>

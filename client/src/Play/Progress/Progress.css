@@ -4,28 +4,33 @@
 }
 
 .racecontainer {
-	display: flex;
+	display: inline-flex;
 }
 
 .racetrack {
 	position: relative;
 	left: 8vw;
 	width: 62vw;
-	padding: 0;
 	border: 1px solid black;
-	margin: 2vw 0;
+	margin-top: 2vw;
 	font-size: 1.5vw;
-	padding-bottom: 1vw;
+	padding-bottom: 0vw;
+	height: 90%;
 }
 
 .playerProgress {
-	background: #ddffdd;
+	background: darkcyan;
+	background: dark;
 	transition-duration: 0.8s;
-	height: 2vw;
+	height: 1vw;
+	margin: 0 0 0.5vw 0;
 	padding-left: 1%;
+	border-top-right-radius: 10px;
+	border-bottom-right-radius: 10px;
 }
 
 .progressUsername {
+	margin-top: 0vw;
 	height: 2vw;
 }
 
@@ -34,19 +39,17 @@
 	text-align: right;
 	width: 10vw;
 	left: 7vw;
-	margin: 2vw 0;
+	margin: 2vw 0 0 0;
 	padding: 1vw 0 0 0;
-	display: block;
 	font-size: 1.5vw;
 }
 
 .wpm {
-	margin: 1vw 0 1vw 0;
+	margin: 0.5vw 0 1vw 0;
 	left: -2vw;
 	text-align: right;
 	display: inline-block;
 	border: none;
-	height: 2vw;
 	width: 100%;
 	line-height: 2vw;
 }
@@ -55,7 +58,7 @@
 	position: relative;
 	width: 10vw;
 	right: -9vw;
-	margin: 2vw 0;
+	margin-top: 2vw;
 	padding: 1vw 0 0 0;
 	display: block;
 	font-size: 1.5vw;
