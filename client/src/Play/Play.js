@@ -67,6 +67,7 @@ class Play extends Component {
 			});
 
 			socket.on('gamestart', time => {
+				console.log(time);
 				this.setState({ startTime: time });
 			});
 

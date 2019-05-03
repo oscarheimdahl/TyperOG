@@ -11,10 +11,9 @@ export class Progress extends Component {
 			return this.props.opponents.map(o => {
 				if (o.username !== this.props.username) {
 					return (
-						<div>
+						<div key={o.username}>
 							<div className="progressUsername">{o.username}</div>
 							<div
-								key={o.username}
 								className="playerProgress"
 								style={{
 									width: o.progress * 99 + '%',

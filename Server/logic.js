@@ -1,13 +1,13 @@
-const gameSize = 5;
+const gameSize = 3;
 
 let games = [];
-//TODO RESET TEMPLETES AFETER
 let game = {
 	players: [],
 	playersDone: 0,
 	id: '',
 	started: false,
-	startTime: null
+	startTime: null,
+	dead: false
 };
 
 let player = {
@@ -48,6 +48,10 @@ module.exports = {
 				console.log(player.username + ' disconnected');
 			}
 		});
+		if (players.length === 0) {
+			sockets = [];
+			games = [];
+		}
 	},
 
 	removeFromPlayerList: function(player) {
@@ -69,14 +73,17 @@ module.exports = {
 
 	removeFromGame: function(player) {
 		let removeIndex;
-		games[player.gameIndex].players.map((p, i) => {
-			if (p.username === player.username) {
-				removeIndex = i;
+		if (games[player.gameIndex]) {
+			games[player.gameIndex].players.map((p, i) => {
+				if (p.username === player.username) {
+					removeIndex = i;
+				}
+			});
+			games[player.gameIndex].players.splice(removeIndex, 1);
+			if (games[player.gameIndex].players.length === 0) {
+				//games.splice(player.gameIndex, 1);
+				games[player.gameIndex].dead = true;
 			}
-		});
-		games[player.gameIndex].players.splice(removeIndex, 1);
-		if (games[player.gameIndex].players.length === 0) {
-			games.splice(player.gameIndex, 1);
 		}
 	},
 
@@ -102,7 +109,6 @@ module.exports = {
 		if (!games[gameIndex].startTime) {
 			games[gameIndex].startTime = Date.now() + 10 * 1000;
 		}
-		console.log('Should send start time');
 		socket.in(gameIndex).emit('gamestart', games[gameIndex].startTime);
 		socket.emit('gamestart', games[gameIndex].startTime);
 
@@ -113,6 +119,8 @@ module.exports = {
 
 	sendGameText: function(socket, gameIndex) {
 		let text = this.getRandomText();
+		text = 'kalle' + Math.random();
+		console.log('Sending text: ' + text);
 		socket.in(gameIndex).emit('gametext', text);
 		socket.emit('gametext', text);
 	},
@@ -130,7 +138,8 @@ module.exports = {
 			if (
 				games.length > 0 &&
 				playersInLatestGame < gameSize &&
-				!latestGame.started
+				!latestGame.started &&
+				!latestGame.dead
 			) {
 				return lastGameIndex;
 			}
@@ -148,7 +157,6 @@ module.exports = {
 					p.time = data.time;
 					if (p.progress === 1 && !p.inGoal) {
 						games[p.gameIndex].playersDone++;
-						console.log(games[p.gameIndex].playersDone);
 						p.inGoal = true;
 						p.goalPosition = games[p.gameIndex].playersDone;
 					}

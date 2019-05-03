@@ -14,13 +14,14 @@ export class InputHandler extends Component {
 		progress: 0
 	};
 
-	constructor(props) {
-		super(props);
+	componentDidMount() {
+		this.textInput.focus();
 		this.tick();
 	}
 
 	componentDidUpdate(prevProps) {
 		if (this.props.text !== prevProps.text) {
+			console.log('new text,' + this.props.text);
 			this.setState({
 				words: this.props.text.split(' '),
 				remainingText: this.props.text.split(' ')
@@ -54,6 +55,7 @@ export class InputHandler extends Component {
 	handleInput = input => {
 		if (!this.state.startTime) {
 			this.setState({ startTime: Date.now() });
+			this.textInput.focus();
 		}
 		if (this.props.startTime && Date.now() > this.props.startTime) {
 			this.setState({ inputText: input });
@@ -201,6 +203,9 @@ export class InputHandler extends Component {
 					<input
 						value={this.state.inputText}
 						type="text"
+						ref={input => {
+							this.textInput = input;
+						}}
 						className="inputfield"
 						style={inputStyle}
 						onChange={evt => {
