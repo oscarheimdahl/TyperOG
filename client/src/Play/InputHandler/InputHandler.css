@@ -15,9 +15,8 @@
 .text {
 	width: 100%;
 	display: block;
-	margin-bottom: 1vw;
 	text-decoration-color: black;
-	background: white;
+	margin: 1vw 0;
 }
 
 .inputfield {
@@ -46,9 +45,11 @@
 
 .startTime {
 	position: absolute;
-	width: 40%;
-	left: 30%;
+	width: 100%;
+	left: 1.5%;
+	height: 10vw;
+	bottom: -3vw;
+	line-height: 10vw;
 	text-align: center;
-	bottom: 1vw;
 	z-index: 3;
 }

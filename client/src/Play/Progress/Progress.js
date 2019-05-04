@@ -8,24 +8,28 @@ export class Progress extends Component {
 
 	renderOpponentsProgress = () => {
 		if (this.props.opponents) {
-			return this.props.opponents.map(o => {
-				if (o.username !== this.props.username) {
-					return (
-						<div key={o.username}>
-							<div className="progressUsername">{o.username}</div>
-							<div
-								className="playerProgress"
-								style={{
-									width: o.progress * 99 + '%',
-									background: '#222'
-								}}
-							/>
-						</div>
-					);
-				} else {
-					return <div key={o.username} />;
-				}
-			});
+			if (this.props.opponents.length === 1) {
+				return <div className="opponentspending">Waiting for players...</div>;
+			} else {
+				return this.props.opponents.map(o => {
+					if (o.username !== this.props.username) {
+						return (
+							<div key={o.username}>
+								<div className="progressUsername">{o.username}</div>
+								<div
+									className="playerProgress"
+									style={{
+										width: o.progress * 99 + '%',
+										background: '#222'
+									}}
+								/>
+							</div>
+						);
+					} else {
+						return <div key={o.username} />;
+					}
+				});
+			}
 		}
 	};
 

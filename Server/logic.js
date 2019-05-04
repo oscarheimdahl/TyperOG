@@ -1,5 +1,5 @@
-const gameSize = 2;
-const playersToStart = 1;
+const gameSize = 3;
+const playersToStart = 2;
 let guestUsers = 0;
 let games = [];
 let game = {
@@ -26,7 +26,8 @@ let player = {
 let texts = [
 	'Bears are carnivoran mammals of the family Ursidae. They are classified as caniforms, or doglike carnivorans. Although only eight species of bears are extant, they are widespread, appearing in a wide variety of habitats throughout the Northern Hemisphere and partially in the Southern Hemisphere.',
 	'Popular culture holds the year 2000 as the first year of the 21st century and the 3rd millennium due to a tendency of grouping the years according to decimal values, as if year zero were counted.',
-	'Salamanders are a group of amphibians typically characterized by a lizard-like appearance, with slender bodies.'
+	'Salamanders are a group of amphibians typically characterized by a lizard-like appearance, with slender bodies.',
+	'a a'
 ];
 
 let sockets = [];
@@ -44,6 +45,7 @@ module.exports = {
 	},
 
 	logGames: function() {
+		console.log('____________________________________');
 		console.log(games);
 		console.log(games.length);
 	},
@@ -52,7 +54,6 @@ module.exports = {
 		players.map(player => {
 			if (player.id === socket.id) {
 				this.leaveOldGame(player.username);
-				console.log(player.username + ' disconnected');
 			}
 		});
 		if (players.length === 0) {
@@ -95,7 +96,6 @@ module.exports = {
 	},
 
 	joinGame: function(socket, username, loggedin) {
-		console.log(username + ' connected');
 		let gameIndex = this.getAvailableGame();
 		if (loggedin === 'true') {
 			player.username = username;
@@ -118,7 +118,6 @@ module.exports = {
 	},
 
 	sendGuestID: function(socket) {
-		console.log('Sending guest id');
 		let guestid = 'Guest' + this.randomGuestNumber();
 		socket.emit('guest', guestid);
 		guestUsers++;

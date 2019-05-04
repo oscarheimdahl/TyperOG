@@ -16,6 +16,14 @@
 	font-size: 1.5vw;
 	padding-bottom: 0vw;
 	height: 90%;
+	min-height: 7vw;
+}
+
+.opponentspending {
+	position: relative;
+	text-align: center;
+	width: 40%;
+	left: 30%;
 }
 
 .playerProgress {
@@ -30,7 +38,6 @@
 }
 
 .progressUsername {
-	margin-top: 0vw;
 	height: 2vw;
 }
 
@@ -59,14 +66,13 @@
 	width: 10vw;
 	right: -9vw;
 	margin-top: 2vw;
-	padding: 1vw 0 0 0;
 	display: block;
 	font-size: 1.5vw;
 }
 
 .goalpos {
 	left: 0;
-	margin: 1vw 0 1vw 0;
+	margin-top: 1.5vw;
 	width: 100%;
 	line-height: 2vw;
 	height: 2vw;

@@ -47,6 +47,7 @@ export class InputHandler extends Component {
 	setWPM = () => {
 		let completedCharacters = this.state.completedText.slice().join('').length;
 		let time = (Date.now() - this.props.startTime) / 1000;
+		if (this.state.endTime) time = (Date.now() - this.state.endTime) / 1000;
 		let wpm = 0;
 		if (time > 0) wpm = (completedCharacters / 5 / time) * 60;
 		this.props.setWPM(wpm);
@@ -157,16 +158,14 @@ export class InputHandler extends Component {
 		let startTime = '';
 		let hide;
 
-		if (!this.props.startTime) {
-			startTime = 'Waiting for players...';
+		if (this.props.startTime && Date.now() - this.props.startTime < 0) {
+			startTime = Math.round(-((Date.now() - this.props.startTime) / 1000));
+			if (startTime === 0) startTime = 1;
 		} else {
-			if (this.props.startTime && Date.now() - this.props.startTime < 0) {
-				startTime = Math.round(-((Date.now() - this.props.startTime) / 1000));
-			} else {
-				hide = { display: 'none' };
-				if (this.textInput) this.textInput.focus();
-			}
+			hide = { display: 'none' };
+			if (this.textInput && this.props.startTime) this.textInput.focus();
 		}
+
 		return (
 			<div className="startTime" style={hide}>
 				{startTime}
