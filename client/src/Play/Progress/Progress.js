@@ -9,7 +9,8 @@ export class Progress extends Component {
 	renderOpponentsProgress = () => {
 		if (this.props.opponents) {
 			if (this.props.opponents.length === 1) {
-				return <div className="opponentspending">Waiting for players...</div>;
+				if (!this.props.startTime)
+					return <div className="opponentspending">Waiting for players...</div>;
 			} else {
 				return this.props.opponents.map(o => {
 					if (o.username !== this.props.username) {
@@ -20,12 +21,14 @@ export class Progress extends Component {
 									className="playerProgress"
 									style={{
 										width: o.progress * 99 + '%',
-										background: '#222'
+										background: o.color
 									}}
 								/>
 							</div>
 						);
 					} else {
+						if (!this.state.playerColor)
+							this.setState({ playerColor: o.color });
 						return <div key={o.username} />;
 					}
 				});
@@ -77,7 +80,8 @@ export class Progress extends Component {
 					<div
 						className="playerProgress"
 						style={{
-							width: this.props.playerProgress * 99 + '%'
+							width: this.props.playerProgress * 99 + '%',
+							background: this.state.playerColor
 						}}
 					/>
 					{this.renderOpponentsProgress()}

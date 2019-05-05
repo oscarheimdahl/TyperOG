@@ -133,6 +133,7 @@ class Play extends Component {
 			<div className="playcontent">
 				{this.renderRedirect()}
 				<Progress
+					startTime={this.state.startTime}
 					opponents={this.state.opponents}
 					playerProgress={this.state.playerProgress}
 					goalPosition={this.state.goalPosition}

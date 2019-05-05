@@ -12,6 +12,8 @@ let game = {
 	text: null
 };
 
+colors = ['#FFE74C', '#FF5964', '#95E06C', '#2978A0', '#C60F7B'];
+
 let player = {
 	username: '',
 	progress: 0,
@@ -20,7 +22,8 @@ let player = {
 	goalPosition: null,
 	wpm: 0,
 	time: 0,
-	inGoal: false
+	inGoal: false,
+	color: null
 };
 
 let texts = [
@@ -106,6 +109,7 @@ module.exports = {
 		player.id = socket.id;
 		socket.join(gameIndex);
 		player.game = gameIndex;
+		player.color = colors[Math.floor(Math.random() * colors.length)];
 		player.gameIndex = gameIndex;
 		sockets.push(socket);
 		players.push(JSON.parse(JSON.stringify(player)));

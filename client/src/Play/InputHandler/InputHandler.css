@@ -13,21 +13,26 @@
 }
 
 .text {
-	width: 100%;
+	width: 60vw;
 	display: block;
 	text-decoration-color: black;
-	margin: 1vw 0;
+	padding: 1vw 1vw;
+	background: white;
+	color: #222;
 }
 
 .inputfield {
 	position: relative;
 	font-size: 2vw;
-	width: 100%;
+	width: 58vw;
 	height: 2vw;
 	display: block;
-	padding: 1vw;
-	border: 1px solid black;
-	margin: 2vw 0;
+	padding: 1vw 2vw;
+	border: none;
+	/* border: 0.5px solid #222; */
+	/* border-radius: 30px; */
+	border-bottom-right-radius: 2vw;
+	border-bottom-left-radius: 2vw;
 }
 
 .inputfield:focus {

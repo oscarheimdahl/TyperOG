@@ -47,7 +47,8 @@ export class InputHandler extends Component {
 	setWPM = () => {
 		let completedCharacters = this.state.completedText.slice().join('').length;
 		let time = (Date.now() - this.props.startTime) / 1000;
-		if (this.state.endTime) time = (Date.now() - this.state.endTime) / 1000;
+		if (this.state.endTime)
+			time = (this.state.endTime - this.props.startTime) / 1000;
 		let wpm = 0;
 		if (time > 0) wpm = (completedCharacters / 5 / time) * 60;
 		this.props.setWPM(wpm);
@@ -135,7 +136,7 @@ export class InputHandler extends Component {
 	setInputStyle = () => {
 		return this.state.spelling === true
 			? {
-					background: 'white' //'#DDFFDD'
+					background: '#eee' //'#DDFFDD'
 			  }
 			: {
 					background: 'pink'

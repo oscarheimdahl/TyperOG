@@ -11,10 +11,10 @@
 	position: relative;
 	left: 8vw;
 	width: 62vw;
-	border: 1px solid black;
-	margin-top: 2vw;
+	background: white;
+	color: black;
 	font-size: 1.5vw;
-	padding-bottom: 0vw;
+	padding: 2vw 0 1vw 0;
 	height: 90%;
 	min-height: 7vw;
 }
@@ -27,7 +27,6 @@
 }
 
 .playerProgress {
-	background: darkcyan;
 	background: dark;
 	transition-duration: 0.8s;
 	height: 1vw;
@@ -35,9 +34,11 @@
 	padding-left: 1%;
 	border-top-right-radius: 10px;
 	border-bottom-right-radius: 10px;
+	border-radius: 10px;
 }
 
 .progressUsername {
+	margin-left: 0.5vw;
 	height: 2vw;
 }
 
