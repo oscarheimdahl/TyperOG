@@ -3,11 +3,11 @@ import Play from './Play/Play';
 import Login from './Login/Login';
 import Navbar from './Navbar/Navbar';
 import Home from './Home/Home';
-import openSocket from 'socket.io-client';
 import { BrowserRouter, Route } from 'react-router-dom';
 import { withCookies, CookiesProvider } from 'react-cookie';
 
-localStorage.setItem('API', 'http://192.168.1.155:4000/');
+localStorage.setItem('API', 'http://130.239.216.253:4000/');
+localStorage.setItem('Server', 'http://130.239.216.253:5000/');
 
 export class Typer extends Component {
 	state = {

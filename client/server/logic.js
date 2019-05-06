@@ -1,4 +1,4 @@
-const gameSize = 3;
+const gameSize = 4;
 const playersToStart = 2;
 let guestUsers = 0;
 let games = [];

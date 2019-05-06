@@ -58,7 +58,7 @@ class Play extends Component {
 	};
 
 	initSocket = async () => {
-		let socket = openSocket(localStorage.getItem('API'));
+		let socket = openSocket(localStorage.getItem('Server'));
 		if (socket) {
 			const { cookies } = this.props;
 			socket.emit('join', cookies.get('username'), cookies.get('loggedin'));
