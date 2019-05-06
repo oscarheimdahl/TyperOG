@@ -3,7 +3,9 @@ const app = express();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
 
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static('public/'));
 const logic = require('./logic.js');
 
@@ -33,5 +35,5 @@ io.on('connection', socket => {
 });
 
 http.listen(5000, function() {
-	console.log('listening on *:5000');
+	console.log('Client server: listening on *:5000');
 });

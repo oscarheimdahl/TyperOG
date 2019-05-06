@@ -61,7 +61,11 @@ class Play extends Component {
 		let socket = openSocket(localStorage.getItem('Server'));
 		if (socket) {
 			const { cookies } = this.props;
-			socket.emit('join', cookies.get('username'), cookies.get('loggedin'));
+			socket.emit(
+				'join',
+				cookies.get('username'),
+				cookies.get('loggedin')
+			);
 			socket.on('connect', () => {
 				this.setState({ socket });
 			});
@@ -81,7 +85,7 @@ class Play extends Component {
 			});
 
 			socket.on('gametext', gameText => {
-				this.setState({ text: gameText });
+				this.setState({ text: gameText.content });
 			});
 		}
 		this.props.setSocket(socket);
@@ -128,19 +132,24 @@ class Play extends Component {
 		);
 	};
 
+	renderProgress = () => {
+		return (
+			<Progress
+				startTime={this.state.startTime}
+				opponents={this.state.opponents}
+				playerProgress={this.state.playerProgress}
+				goalPosition={this.state.goalPosition}
+				username={this.props.cookies.get('username')}
+				wpm={this.state.wpm}
+			/>
+		);
+	};
+
 	render() {
 		return (
 			<div className="playcontent">
 				{this.renderRedirect()}
-				<Progress
-					startTime={this.state.startTime}
-					opponents={this.state.opponents}
-					playerProgress={this.state.playerProgress}
-					goalPosition={this.state.goalPosition}
-					//getGoalPosition={this.getGoalPosition}
-					username={this.props.cookies.get('username')}
-					wpm={this.state.wpm}
-				/>
+				{this.renderProgress()}
 				{this.renderInputHandler()}
 				<button onClick={this.seeGames}>Log games on server</button>
 			</div>

@@ -1,4 +1,6 @@
-const gameSize = 4;
+const axios = require('axios');
+
+const gameSize = 5;
 const playersToStart = 2;
 let guestUsers = 0;
 let games = [];
@@ -145,17 +147,25 @@ module.exports = {
 		}, 5000);
 	},
 
-	sendGameText: function(socket, gameIndex) {
+	sendGameText: async function(socket, gameIndex) {
 		if (!games[gameIndex].text) {
-			games[gameIndex].text = this.getRandomText();
+			games[gameIndex].text = await this.getRandomText();
+			console.log(games[gameIndex].text);
 		}
 		//socket.in(gameIndex).emit('gametext', games[gameIndex].text);
 		socket.emit('gametext', games[gameIndex].text);
 	},
 
-	getRandomText: function() {
-		let r = Math.floor(Math.random() * texts.length);
-		return texts[r];
+	getRandomText: async function() {
+		try {
+			let res = await axios.get(
+				'http://130.239.239.211:4000/api/texts/get/random'
+			);
+			console.log(res.data.title);
+			return res.data;
+		} catch (err) {
+			console.log(err);
+		}
 	},
 
 	getAvailableGame: function() {

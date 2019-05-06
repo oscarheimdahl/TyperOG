@@ -19,6 +19,20 @@ router.get('/api/texts/get', (req, res) => {
 		});
 });
 
+router.get('/api/texts/get/random', (req, res) => {
+	Text.countDocuments().exec(function(err, count) {
+		var random = Math.floor(Math.random() * count);
+		Text.findOne()
+			.skip(random)
+			.then(result => {
+				res.json(result);
+			})
+			.catch(err => {
+				res.status(500).json({ error: err });
+			});
+	});
+});
+
 router.get('/api/texts/get/:id', (req, res) => {
 	const id = req.params.id;
 	Text.findById(id)
@@ -39,8 +53,7 @@ router.post('/api/texts/add', (req, res) => {
 		author: req.body.text.author,
 		content: req.body.text.content
 	});
-	text
-		.save()
+	text.save()
 		.then(result => {
 			console.log(result);
 		})
