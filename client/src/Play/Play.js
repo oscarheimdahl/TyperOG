@@ -5,6 +5,7 @@ import axios from 'axios';
 import openSocket from 'socket.io-client';
 import { Redirect } from 'react-router-dom';
 import './Play.css';
+import triangle from '../Resources/triangle3.svg';
 
 class Play extends Component {
 	state = {
@@ -61,11 +62,7 @@ class Play extends Component {
 		let socket = openSocket(localStorage.getItem('Server'));
 		if (socket) {
 			const { cookies } = this.props;
-			socket.emit(
-				'join',
-				cookies.get('username'),
-				cookies.get('loggedin')
-			);
+			socket.emit('join', cookies.get('username'), cookies.get('loggedin'));
 			socket.on('connect', () => {
 				this.setState({ socket });
 			});
@@ -75,8 +72,11 @@ class Play extends Component {
 			});
 
 			socket.on('gamestart', time => {
-				console.log(time);
-				this.setState({ startTime: time });
+				console.log('GAME START TIME RECIEVED!');
+				if (!this.state.startTime) {
+					this.setState({ startTime: Date.now() + time });
+					console.log(this.state.startTime);
+				}
 			});
 
 			socket.on('guest', guestname => {
@@ -85,7 +85,7 @@ class Play extends Component {
 			});
 
 			socket.on('gametext', gameText => {
-				this.setState({ text: gameText.content });
+				if (gameText) this.setState({ text: gameText.content });
 			});
 		}
 		this.props.setSocket(socket);
@@ -147,11 +147,16 @@ class Play extends Component {
 
 	render() {
 		return (
-			<div className="playcontent">
-				{this.renderRedirect()}
-				{this.renderProgress()}
-				{this.renderInputHandler()}
-				<button onClick={this.seeGames}>Log games on server</button>
+			<div>
+				<div className="overflower">
+					<img src={triangle} className="stretch" alt="aa" />
+				</div>
+				<div className="playcontent">
+					{this.renderRedirect()}
+					{this.renderProgress()}
+					{this.renderInputHandler()}
+					<button onClick={this.seeGames}>Log games on server</button>
+				</div>
 			</div>
 		);
 	}

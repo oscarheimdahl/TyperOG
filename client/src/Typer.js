@@ -7,8 +7,13 @@ import SignIn from './SignIn/SignIn';
 import { BrowserRouter, Route } from 'react-router-dom';
 import { withCookies, CookiesProvider } from 'react-cookie';
 
+<<<<<<< HEAD
 localStorage.setItem('API', 'http://130.239.236.80:5000/');
 localStorage.setItem('Server', 'http://130.239.236.80:4000/');
+=======
+localStorage.setItem('Server', 'http://130.239.219.49:4000/');
+localStorage.setItem('API', 'http://130.239.236.80:5000/');
+>>>>>>> 4c7d34cb940fe0d2fc58555981264f553929960f
 
 export class Typer extends Component {
 	state = {

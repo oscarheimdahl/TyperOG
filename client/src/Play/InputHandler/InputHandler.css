@@ -13,12 +13,14 @@
 }
 
 .text {
-	width: 60vw;
+	width: 58vw;
 	display: block;
 	text-decoration-color: black;
-	padding: 1vw 1vw;
+	padding: 2vw 2vw;
 	background: white;
 	color: #222;
+	border-radius: 2vw;
+	margin-bottom: 1vw;
 }
 
 .inputfield {
@@ -32,7 +34,7 @@
 	/* border: 0.5px solid #222; */
 	/* border-radius: 30px; */
 	border-bottom-right-radius: 2vw;
-	border-bottom-left-radius: 2vw;
+	border-radius: 2vw;
 }
 
 .inputfield:focus {

@@ -19,7 +19,7 @@
 		"build": "react-scripts build",
 		"test": "react-scripts test",
 		"eject": "react-scripts eject",
-		"dev": "concurrently \"nodemon server/index.js\" \"npm start\""
+		"dev": "concurrently –kill-others-on-fail \"nodemon server/index.js\" \"npm start\""
 	},
 	"proxy": "http://localhost:5000/",
 	"eslintConfig": {
