@@ -40,13 +40,15 @@ router.get('/api/users/get/:id', (req, res) => {
 });
 
 router.post('/api/users/sign_in', (req, res) => {
+	console.log('signing in user');
+	console.log(req.body);
 	const user = new User({
 		_id: new mongoose.Types.ObjectId(),
 		username: req.body.username,
 		password: req.body.password,
-		gamesPlayed: req.body.gamesPlayed,
-		averageWPM: req.body.averageWPM,
-		email: req.body.email
+		email: req.body.email,
+		gamesPlayed: 0,
+		averageWPM: 0
 	});
 	User.find()
 		.where('username')
@@ -63,6 +65,7 @@ router.post('/api/users/sign_in', (req, res) => {
 			} else {
 				bcrypt.hash(user.password, 10, (err, hash) => {
 					if (err) {
+						console.log('status 500');
 						return res.status(500);
 					} else {
 						user.password = hash;

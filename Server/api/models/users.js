@@ -15,11 +15,11 @@ const userSchema = mongoose.Schema({
 		required: true
 	},
 	gamesPlayed: {
-		type: String,
+		type: Number,
 		required: true
 	},
 	averageWPM: {
-		type: String,
+		type: Number,
 		required: true
 	}
 });

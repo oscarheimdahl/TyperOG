@@ -161,7 +161,6 @@ module.exports = {
 			let res = await axios.get(
 				'http://130.239.239.211:4000/api/texts/get/random'
 			);
-			console.log(res.data.title);
 			return res.data;
 		} catch (err) {
 			console.log(err);

@@ -3,11 +3,12 @@ import Play from './Play/Play';
 import Login from './Login/Login';
 import Navbar from './Navbar/Navbar';
 import Home from './Home/Home';
+import SignIn from './SignIn/SignIn';
 import { BrowserRouter, Route } from 'react-router-dom';
 import { withCookies, CookiesProvider } from 'react-cookie';
 
-localStorage.setItem('API', 'http://130.239.219.49:5000/');
-localStorage.setItem('Server', 'http://130.239.219.49:4000/');
+localStorage.setItem('API', 'http://130.239.236.80:5000/');
+localStorage.setItem('Server', 'http://130.239.236.80:4000/');
 
 export class Typer extends Component {
 	state = {
@@ -32,6 +33,7 @@ export class Typer extends Component {
 					<BrowserRouter>
 						<Navbar cookies={this.props.cookies} />
 						<Route exact path="/" component={Home} />
+						<Route path="/signin" component={SignIn} />
 						<Route
 							path="/login"
 							render={() => (
@@ -52,7 +54,7 @@ export class Typer extends Component {
 								/>
 							)}
 						/>
-					</BrowserRouter>{' '}
+					</BrowserRouter>
 				</CookiesProvider>
 			</div>
 		);

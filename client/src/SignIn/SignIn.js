@@ -1,78 +1,16 @@
 import React, { Component } from 'react';
-import './Login.css';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
+import './SignIn.css';
 
 export class Login extends Component {
-	state = {};
-
-	handleUsername = e => {
-		this.setState({ username: e.target.value });
+	state = {
+		username: ''
 	};
 
-	handlePassword = e => {
-		this.setState({ password: e.target.value });
-	};
-
-	handleLogin = e => {
+	handleTextinput = e => {
 		this.setState({
-			errormsg: ''
-		});
-		let emptyfields = false;
-		if (!this.state.username) {
-			this.setState({ usernameerror: ' *' });
-			emptyfields = true;
-		}
-		if (!this.state.password) {
-			this.setState({ passworderror: ' *' });
-			emptyfields = true;
-		}
-		if (!emptyfields) {
-			console.log(localStorage.getItem('API') + 'api/users/login');
-			axios
-				.post(localStorage.getItem('API') + 'api/users/login', {
-					//http://130.239.236.226:4000/api/users/login/', {
-					username: this.state.username,
-					password: this.state.password
-				})
-				.then(res => {
-					// this.props.setLoginAttributes(res.data.token, this.state.username);
-					const { cookies } = this.props;
-					cookies.set('token', res.data.token, { path: '/' });
-					cookies.set('username', this.state.username, { path: '/' });
-					cookies.set('guest', false);
-					cookies.set('loggedin', true);
-					this.setState({ redirectPlay: true });
-				})
-				.catch(err => {
-					if (!err.response) {
-						this.setState({
-							errormsg: 'Oh oh. Something bad happened.'
-						});
-						console.log(err);
-					} else if (err.response.status === 401) {
-						this.setState({
-							errormsg: 'Wrong username or password.'
-						});
-					} else {
-						this.setState({
-							errormsg:
-								'Wrong ip? - Response timed out, probably, maybe, kanske, vi tror det i alla fall'
-						});
-					}
-				});
-		}
-	};
-
-	renderRedirectPlay = () => {
-		if (this.state.redirectPlay) {
-			return <Redirect to="/play" />;
-		}
-	};
-
-	handleSignIn = () => {
-		this.setState({
-			redirectSign: true
+			[e.target.name]: [e.target.value]
 		});
 	};
 
@@ -82,40 +20,121 @@ export class Login extends Component {
 		}
 	};
 
+	renderRedirectCancel = () => {
+		if (this.state.redirectCancel) {
+			return <Redirect to="/login" />;
+		}
+	};
+
+	handleCancel = e => {
+		e.preventDefault();
+		this.setState({ redirectCancel: true });
+		console.log('cancel');
+	};
+
+	isPasswordsEqual = (password1, password2) => {
+		console.log(password1);
+		console.log(password2);
+		if (password1[0] !== password2[0]) {
+			this.setState({
+				passworderror: 'The passwords are not equal'
+			});
+			return false;
+		}
+		return true;
+	};
+
+	handleSignin = e => {
+		e.preventDefault();
+		const { password1, password2, username, email } = this.state;
+		if (this.isPasswordsEqual(password1, password2)) {
+			axios
+				.post(localStorage.getItem('API') + 'api/users/sign_in', {
+					username: username,
+					email: email,
+					password: password1
+				})
+				.then(res => {
+					console.log(res);
+				})
+				.catch(err => {
+					console.log(err);
+				});
+		}
+	};
+
 	render() {
 		return (
 			<div className="loginwallpaper">
-				{this.renderRedirectPlay()}
+				{this.renderRedirectCancel()}
 				{this.renderRedirectSignIn()}
-				<div className="loginbox">
-					<h1>Typer</h1>
-					<div className="logininfo">
-						<label>Username</label>
-						<label className="errorlabel">
-							{this.state.usernameerror}
-						</label>
-						<input
-							onChange={this.handleUsername}
-							className="username"
-							type="text"
-						/>
-						<label>Password</label>
-						<label className="errorlabel">
-							{this.state.passworderror}
-						</label>
-						<input
-							onChange={this.handlePassword}
-							className="password"
-							type="password"
-						/>
+				<div className="signinbox">
+					<h1>Sign In</h1>
+					<form className="signininfo" onSubmit={this.handleSignin}>
+						<div className="inputContainer">
+							<label>E-mail</label>
+							<input
+								onChange={this.handleTextinput}
+								className="email"
+								name="email"
+								type="text"
+							/>
+							<label className="errorlabel">
+								{this.state.emailerror}
+							</label>
+						</div>
+						<div className="inputContainer">
+							<label>Username</label>
+							<input
+								onChange={this.handleTextinput}
+								className="username"
+								name="username"
+								type="text"
+							/>
+							<label className="errorlabel">
+								{this.state.usernameerror}
+							</label>
+						</div>
+						<div className="inputContainer">
+							<label>Password</label>
+							<input
+								onChange={this.handleTextinput}
+								className="password"
+								name="password1"
+								type="password"
+							/>
+							<label className="errorlabel">
+								{this.state.passworderror}
+							</label>
+						</div>
+						<div className="inputContainer">
+							<label>Password</label>
+							<input
+								onChange={this.handleTextinput}
+								className="password"
+								name="password2"
+								type="password"
+							/>
+							<label className="errorlabel">
+								{this.state.passworderror}
+							</label>
+						</div>
 						<label className="errormsg">
 							{this.state.errormsg}
 						</label>
-					</div>
-					<button onClick={this.handleLogin} className="button">
-						Login
-					</button>
-					<p onClick={this.handleSignIn}>Sign in</p>
+						<div className="signinButtonContainer">
+							<button
+								onClick={this.handleCancel}
+								className="button"
+								id="cancel"
+							>
+								Cancel
+							</button>
+							<button type="submit" className="button">
+								Sign in
+							</button>
+						</div>
+					</form>
 				</div>
 			</div>
 		);
