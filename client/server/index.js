@@ -34,6 +34,6 @@ io.on('connection', socket => {
 	});
 });
 
-http.listen(5000, function() {
-	console.log('Client server: listening on *:5000');
+http.listen(4000, function() {
+	console.log('Client server: port 4000');
 });

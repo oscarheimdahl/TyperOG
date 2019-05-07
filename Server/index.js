@@ -15,6 +15,6 @@ mongoose.connect('mongodb://localhost:27017/Typer', {
 
 app.get('/', function(req, res) {});
 
-http.listen(4000, function() {
-	console.log('listening on *:4000');
+http.listen(5000, function() {
+	console.log('API: port 4000');
 });
