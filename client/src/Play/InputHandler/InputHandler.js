@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './InputHandler.css';
-
+let placeholder = 'Type here...';
 export class InputHandler extends Component {
 	state = {
 		wordIndex: 0,
@@ -128,7 +128,7 @@ export class InputHandler extends Component {
 					textDecoration: 'underline'
 			  }
 			: {
-					color: 'lightcoral',
+					color: '#FF5964',
 					textDecoration: 'underline'
 			  };
 	};
@@ -136,10 +136,11 @@ export class InputHandler extends Component {
 	setInputStyle = () => {
 		return this.state.spelling === true
 			? {
-					background: '#eee' //'#DDFFDD'
+					background: 'white' //'#DDFFDD'
 			  }
 			: {
-					background: 'pink'
+					border: '0.3vw solid #FF5964',
+					padding: '0.7vw 1.7vw'
 			  };
 	};
 
@@ -162,7 +163,8 @@ export class InputHandler extends Component {
 		if (this.props.startTime && Date.now() - this.props.startTime < 0) {
 			startTime = Math.round(-((Date.now() - this.props.startTime) / 1000));
 			if (startTime === 0) startTime = 1;
-		} else {
+		} else if (this.props.startTime) {
+			placeholder = '';
 			hide = { display: 'none' };
 			if (this.textInput && this.props.startTime) this.textInput.focus();
 		}
@@ -209,6 +211,7 @@ export class InputHandler extends Component {
 				autoCorrect="off"
 				autoCapitalize="off"
 				spellCheck="false"
+				placeholder={placeholder}
 				value={this.state.inputText}
 				type="text"
 				ref={input => {

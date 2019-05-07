@@ -1,6 +1,8 @@
+const APIIP = 'http://130.239.236.80';
+
 const axios = require('axios');
 
-const gameSize = 5;
+const gameSize = 4;
 const playersToStart = 2;
 let guestUsers = 0;
 let games = [];
@@ -136,11 +138,14 @@ module.exports = {
 	},
 
 	sendStartTime: function(socket, gameIndex) {
+		console.log('sending starttime');
 		if (!games[gameIndex].startTime) {
 			games[gameIndex].startTime = Date.now() + 10 * 1000;
 		}
-		socket.in(gameIndex).emit('gamestart', games[gameIndex].startTime);
-		socket.emit('gamestart', games[gameIndex].startTime);
+		socket
+			.in(gameIndex)
+			.emit('gamestart', games[gameIndex].startTime - Date.now());
+		socket.emit('gamestart', games[gameIndex].startTime - Date.now());
 
 		setTimeout(() => {
 			if (games[gameIndex]) games[gameIndex].started = true;
@@ -150,7 +155,6 @@ module.exports = {
 	sendGameText: async function(socket, gameIndex) {
 		if (!games[gameIndex].text) {
 			games[gameIndex].text = await this.getRandomText();
-			console.log(games[gameIndex].text);
 		}
 		//socket.in(gameIndex).emit('gametext', games[gameIndex].text);
 		socket.emit('gametext', games[gameIndex].text);
@@ -158,9 +162,7 @@ module.exports = {
 
 	getRandomText: async function() {
 		try {
-			let res = await axios.get(
-				'http://130.239.239.211:4000/api/texts/get/random'
-			);
+			let res = await axios.get(APIIP + ':5000/api/texts/get/random');
 			console.log(res.data.title);
 			return res.data;
 		} catch (err) {
@@ -196,12 +198,21 @@ module.exports = {
 					if (p.progress === 1 && !p.inGoal) {
 						games[p.gameIndex].playersDone++;
 						p.inGoal = true;
-						p.goalPosition = games[p.gameIndex].playersDone;
 					}
+					if (p.inGoal)
+						p.goalPosition = this.setGoalPosition(gme.players, p.wpm);
 					this.broadcastProgress(socket, gme.players);
 				}
 			});
 		});
+	},
+
+	setGoalPosition: function(playersInGame, wpm) {
+		let position = 1;
+		playersInGame.map(player => {
+			if (player.wpm > wpm) position++;
+		});
+		return position;
 	},
 
 	broadcastProgress: function(socket, playersInGame) {
