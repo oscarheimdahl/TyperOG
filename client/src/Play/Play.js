@@ -62,7 +62,11 @@ class Play extends Component {
 		let socket = openSocket(localStorage.getItem('Server'));
 		if (socket) {
 			const { cookies } = this.props;
-			socket.emit('join', cookies.get('username'), cookies.get('loggedin'));
+			socket.emit(
+				'join',
+				cookies.get('username'),
+				cookies.get('loggedin')
+			);
 			socket.on('connect', () => {
 				this.setState({ socket });
 			});
@@ -148,9 +152,6 @@ class Play extends Component {
 	render() {
 		return (
 			<div>
-				<div className="overflower">
-					<img src={triangle} className="stretch" alt="aa" />
-				</div>
 				<div className="playcontent">
 					{this.renderRedirect()}
 					{this.renderProgress()}

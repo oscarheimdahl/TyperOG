@@ -50,12 +50,13 @@ export class Login extends Component {
 		if (this.isPasswordsEqual(password1, password2)) {
 			axios
 				.post(localStorage.getItem('API') + 'api/users/sign_in', {
-					username: username,
-					email: email,
-					password: password1
+					username: username[0],
+					email: email[0],
+					password: password1[0]
 				})
 				.then(res => {
 					console.log(res);
+					this.setState({ redirectSign: true });
 				})
 				.catch(err => {
 					console.log(err);
