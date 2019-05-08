@@ -56,7 +56,7 @@ router.post('/api/users/sign_in', (req, res) => {
 		.then((result, err) => {
 			if (err) {
 				res.status(500).json({
-					error: 'Failed to get user'
+					error: 'Failed to get user' + err
 				});
 			}
 			if (result.length > 0) {
@@ -93,8 +93,9 @@ router.post('/api/users/login', (req, res) => {
 		.equals(username)
 		.then((results, err) => {
 			if (err) {
-				console.log('Failed to get user: ' + err);
-				res.end();
+				return res.status(500).json({
+					error: 'Faild to get user' + err
+				});
 			}
 			if (results < 1) {
 				return res.status(401).json({

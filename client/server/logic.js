@@ -205,7 +205,10 @@ module.exports = {
 						p.inGoal = true;
 					}
 					if (p.inGoal)
-						p.goalPosition = this.setGoalPosition(gme.players, p.wpm);
+						p.goalPosition = this.setGoalPosition(
+							gme.players,
+							p.wpm
+						);
 					this.broadcastProgress(socket, gme.players);
 				}
 			});
