@@ -28,7 +28,6 @@ export class Progress extends Component {
 					);
 				} else {
 					if (playerColor === '') {
-						console.log('Setting pcolor');
 						playerColor = o.color;
 					}
 				}
@@ -38,7 +37,7 @@ export class Progress extends Component {
 
 	renderWaitingForOpponents = () => {
 		if (!this.props.startTime) {
-			return <div className="opponentspending">-Waiting for players-</div>;
+			return <div className="opponentspending">Searching for players</div>;
 		}
 	};
 

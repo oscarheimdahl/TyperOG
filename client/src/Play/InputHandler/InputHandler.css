@@ -16,11 +16,10 @@
 	width: 58vw;
 	display: block;
 	text-decoration-color: black;
-	padding: 2vw 2vw;
-	background: white;
-	color: #222;
-	border-radius: 2vw;
-	margin-bottom: 1vw;
+	padding: 1vw 2vw;
+	background: transparent;
+	color: white;
+	margin-top: 1vw;
 }
 
 .inputfield {
@@ -30,11 +29,15 @@
 	height: 2vw;
 	display: block;
 	padding: 1vw 2vw;
-	border: none;
+	border: white solid 1px;
+	color: white;
+	background-color: transparent;
+	margin-top: 1vw;
 	/* border: 0.5px solid #222; */
 	/* border-radius: 30px; */
 	border-bottom-right-radius: 2vw;
-	border-radius: 2vw;
+	border-bottom-left-radius: 2vw;
+	border-radius: 0.5vw;
 }
 
 .inputfield:focus {
@@ -59,4 +62,9 @@
 	line-height: 10vw;
 	text-align: center;
 	z-index: 3;
+	color: white;
+}
+
+::placeholder {
+	color: rgba(255, 255, 255);
 }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './InputHandler.css';
-let placeholder = 'Type here...';
+let placeholder = 'Searching for players...';
 export class InputHandler extends Component {
 	state = {
 		wordIndex: 0,
@@ -25,6 +25,9 @@ export class InputHandler extends Component {
 				remainingText: this.props.text.split(' ')
 			});
 		}
+	}
+	componentWillUnmount() {
+		placeholder = 'Searching for players...';
 	}
 
 	tick = () => {
@@ -124,7 +127,7 @@ export class InputHandler extends Component {
 	setCurrentWordStyle = () => {
 		return this.state.spelling
 			? {
-					color: '#000',
+					color: '#FFF',
 					textDecoration: 'underline'
 			  }
 			: {
@@ -135,9 +138,7 @@ export class InputHandler extends Component {
 
 	setInputStyle = () => {
 		return this.state.spelling === true
-			? {
-					background: 'white' //'#DDFFDD'
-			  }
+			? {}
 			: {
 					border: '0.3vw solid #FF5964',
 					padding: '0.7vw 1.7vw'
@@ -153,7 +154,7 @@ export class InputHandler extends Component {
 	};
 
 	setRemainingTextStyle = () => {
-		return { color: '#444' };
+		return { color: '#DDD' };
 	};
 
 	renderStartTime = () => {
@@ -163,10 +164,9 @@ export class InputHandler extends Component {
 		if (this.props.startTime && Date.now() - this.props.startTime < 0) {
 			startTime = Math.round(-((Date.now() - this.props.startTime) / 1000));
 			if (startTime === 0) startTime = 1;
+			placeholder = 'Type here...';
 		} else if (this.props.startTime) {
-			// placeholder = '';
-			console.log('startTime');
-			console.log(this.props.startTime);
+			placeholder = '';
 			hide = { display: 'none' };
 			if (this.textInput && this.props.startTime) this.textInput.focus();
 		}

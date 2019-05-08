@@ -5,36 +5,57 @@
 
 .racecontainer {
 	display: inline-flex;
+	margin-top: 3vw;
 }
 
 .racetrack {
 	position: relative;
 	left: 8vw;
 	width: 62vw;
-	background: white;
-	color: black;
+	background: transparent;
+	border: solid white 1px;
+	color: white;
 	font-size: 1.5vw;
-	padding: 1vw 0 2vw 0;
-	min-height: 7vw;
-	border-radius: 2vw;
-	margin: 2vw 0 1vw 0;
+	padding: 1vw 0 1vw 0;
+	border-radius: 0.5vw;
 }
 
 .opponentspending {
-	position: relative;
+	position: absolute;
 	text-align: center;
-	text-decoration: underline;
-	text-decoration-color: #ffe74c;
 	font-size: 2vw;
 	width: 40%;
+	top: 0vw;
+	height: 6vw;
+	line-height: 6vw;
 	left: 30%;
-	color: black;
+	color: ffe74c;
+	-webkit-animation: waiting 4s linear infinite;
+	animation: waiting 4s linear infinite;
+}
+
+@keyframes waiting {
+	10% {
+		color: #ffe74c;
+	}
+	30% {
+		color: #95e06c;
+	}
+	50% {
+		color: #2978a0;
+	}
+	70% {
+		color: #c60f7b;
+	}
+	90% {
+		color: #ff5964;
+	}
 }
 
 .playerProgress {
 	transition-duration: 0.8s;
 	height: 1vw;
-	margin: 0 0 0.5vw 0;
+	margin: 0 0 1vw 0;
 	padding-left: 1%;
 	border-top-right-radius: 10px;
 	border-bottom-right-radius: 10px;
@@ -50,15 +71,14 @@
 	text-align: right;
 	width: 10vw;
 	left: 7vw;
-	padding: 1vw 0 0 0;
 	font-size: 1.5vw;
 	color: white;
-	margin-top: 2vw;
-	padding-top: 2vw;
+	margin-top: 1vw;
+	/* padding-top: 2vw;  */
 }
 
 .wpm {
-	margin: 0.5vw 0 1vw 0;
+	margin: 1.5vw 0 0.5vw 0;
 	left: -2vw;
 	text-align: right;
 	display: inline-block;
@@ -71,16 +91,14 @@
 	position: relative;
 	width: 10vw;
 	right: -9vw;
-	display: block;
 	font-size: 1.5vw;
 	color: white;
-	margin-top: 2vw;
-	padding-top: 2vw;
+	margin-top: 1vw;
 }
 
 .goalpos {
 	left: 0;
-	margin-top: 1.5vw;
+	margin: 1.5vw 0 0.5vw 0;
 	width: 100%;
 	line-height: 2vw;
 	height: 2vw;

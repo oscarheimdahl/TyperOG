@@ -9,7 +9,7 @@ import { withCookies, CookiesProvider } from 'react-cookie';
 import triangle from './Resources/triangle3.svg';
 
 localStorage.setItem('API', 'http://130.239.236.80:5000/');
-localStorage.setItem('Server', 'http://130.239.216.142:4000/');
+localStorage.setItem('Server', 'http://192.168.0.106:4000/');
 
 export class Typer extends Component {
 	state = {
