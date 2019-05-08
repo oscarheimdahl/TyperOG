@@ -164,7 +164,9 @@ export class InputHandler extends Component {
 			startTime = Math.round(-((Date.now() - this.props.startTime) / 1000));
 			if (startTime === 0) startTime = 1;
 		} else if (this.props.startTime) {
-			placeholder = '';
+			// placeholder = '';
+			console.log('startTime');
+			console.log(this.props.startTime);
 			hide = { display: 'none' };
 			if (this.textInput && this.props.startTime) this.textInput.focus();
 		}

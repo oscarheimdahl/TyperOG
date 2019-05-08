@@ -162,17 +162,16 @@ module.exports = {
 
 	getRandomText: async function() {
 		try {
-<<<<<<< HEAD
-			let res = await axios.get(
-				'http://130.239.239.211:4000/api/texts/get/random'
-			);
-=======
-			let res = await axios.get(APIIP + ':5000/api/texts/get/random');
-			console.log(res.data.title);
->>>>>>> 4c7d34cb940fe0d2fc58555981264f553929960f
-			return res.data;
+			let res = await axios.get(APIIP + ':5000/api/texts/get/random', {
+				timeout: 5000
+			});
+			if (res.data) return res.data;
 		} catch (err) {
-			console.log(err);
+			if (!err.code === 'ECONNABORTED') console.log(err);
+			return {
+				content:
+					"It's likely that the text server is down. Here's an alternative text for you hungry typers instead!"
+			};
 		}
 	},
 
