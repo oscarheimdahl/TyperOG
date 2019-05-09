@@ -56,12 +56,14 @@ router.post('/api/users/sign_in', (req, res) => {
 		.then((result, err) => {
 			if (err) {
 				res.status(500).json({
-					error: 'Failed to get user' + err
+					error: 'Failed to get user'
 				});
 			}
 			if (result.length > 0) {
 				console.log('Username already exists');
-				res.status(409).json({ error: 'Username already exists' });
+				res.status(409).json({
+					usernameerror: 'Username already exists'
+				});
 			} else {
 				bcrypt.hash(user.password, 10, (err, hash) => {
 					if (err) {

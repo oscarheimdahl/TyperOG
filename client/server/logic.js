@@ -1,4 +1,4 @@
-const APIIP = 'http://130.239.236.80';
+const APIIP = 'http://130.239.182.177';
 
 const axios = require('axios');
 

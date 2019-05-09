@@ -49,9 +49,9 @@ router.get('/api/texts/get/:id', (req, res) => {
 router.post('/api/texts/add', (req, res) => {
 	const text = new Text({
 		_id: new mongoose.Types.ObjectId(),
-		title: req.body.text.title,
-		author: req.body.text.author,
-		content: req.body.text.content
+		title: req.body.title,
+		author: req.body.author,
+		content: req.body.content
 	});
 	text.save()
 		.then(result => {
