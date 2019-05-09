@@ -1,6 +1,14 @@
 import React, { Component } from 'react';
 import './InputHandler.css';
 let placeholder = 'Type here...';
+
+let currentWordColor = 'black';
+let completedWordColor = 'darkgray';
+let remainingTextColor = 'black';
+let incorrectSpellingColor = 'lightcoral';
+let inputBoxInCorrectSpellingColor = 'pink';
+let inputBoxColor = 'rgba(255,255,255,0.8)';
+
 export class InputHandler extends Component {
 	state = {
 		wordIndex: 0,
@@ -11,12 +19,25 @@ export class InputHandler extends Component {
 		remainingText: this.props.text.split(' '),
 		startTime: null,
 		endTime: null,
-		progress: 0
+		progress: 0,
+		overflow: '',
+		lastCorrectString: ''
 	};
 
 	componentDidMount() {
 		this.tick();
+		this.resetRemainingTextOverflow();
 	}
+
+	resetRemainingTextOverflow = () => {
+		let remainingTextOverflow = this.props.text.split(' ');
+		let rto = [];
+		remainingTextOverflow.map((w, i) => {
+			if (i < remainingTextOverflow.length - 1) w = w + ' ';
+			rto.push(w);
+		});
+		this.setState({ remainingTextOverflow: rto });
+	};
 
 	componentDidUpdate(prevProps) {
 		if (this.props.text !== prevProps.text) {
@@ -59,7 +80,7 @@ export class InputHandler extends Component {
 
 	handleInput = input => {
 		if (this.props.startTime && Date.now() > this.props.startTime) {
-			this.setState({ inputText: input });
+			this.setState({ inputText: input, overflow: '' });
 			let currentWord = this.state.words[this.state.wordIndex];
 			let correctString = currentWord.substring(0, input.length);
 			let restString = currentWord.substring(input.length, currentWord.length);
@@ -71,7 +92,8 @@ export class InputHandler extends Component {
 			) {
 				this.setState({
 					inputText: '',
-					wordIndex: this.state.wordIndex + 1
+					wordIndex: this.state.wordIndex + 1,
+					lastCorrectString: ''
 				});
 				this.setTextWord(input, onLastWord);
 				if (onLastWord) {
@@ -79,15 +101,59 @@ export class InputHandler extends Component {
 					this.props.setComplete();
 				}
 			} else if (correctString === input) {
+				this.resetRemainingTextOverflow();
 				this.setState({
-					spelling: true
+					spelling: true,
+					lastCorrectString: correctString
 				});
 				this.setTextLetter(input, restString);
 			} else {
-				this.setState({ spelling: false });
+				console.log(input.length - this.state.lastCorrectString.length);
+				let overflow = this.setOverFlowText(
+					input.length - this.state.lastCorrectString.length
+				);
+				this.setRemainingText(overflow.length);
+				this.setState({
+					spelling: false,
+					overflow: overflow
+				});
 			}
 			this.setProgress();
 		}
+	};
+
+	setOverFlowText = length => {
+		let overflow = this.getRemainingTextAsString();
+		let sub = overflow.substring(0, length);
+		// console.log(
+		// 	'Overflowing ' +
+		// 		length +
+		// 		' characters, all text: -' +
+		// 		overflow +
+		// 		'-, substring: -' +
+		// 		sub +
+		// 		'-'
+		// );
+		return sub;
+	};
+
+	setRemainingText = overflow => {
+		let remainingTextOverflow = this.getRemainingTextAsString();
+		this.setState({
+			remainingTextOverflow: remainingTextOverflow.substring(
+				overflow,
+				remainingTextOverflow.length
+			)
+		});
+	};
+
+	getRemainingTextAsString = () => {
+		let remainingText = [...this.state.remainingText];
+		for (var i = 0; i < remainingText.length - 1; i++) {
+			remainingText[i] += ' ';
+		}
+		remainingText = remainingText.join('');
+		return remainingText;
 	};
 
 	/**
@@ -127,33 +193,36 @@ export class InputHandler extends Component {
 	setCurrentWordStyle = () => {
 		return this.state.spelling
 			? {
-					color: '#FFF',
+					color: currentWordColor,
 					textDecoration: 'underline'
 			  }
 			: {
-					color: '#FF5964',
+					color: currentWordColor,
 					textDecoration: 'underline'
 			  };
 	};
 
 	setInputStyle = () => {
 		return this.state.spelling === true
-			? { background: 'transparent' }
+			? { background: inputBoxColor }
 			: {
-					background: 'rgba(255,100,100,0.2)'
+					background: inputBoxInCorrectSpellingColor
 			  };
 	};
 
-	setTextStyle = () => {
-		return this.state.complete ? { background: '#33EEaa' } : {};
-	};
-
 	setCompletedTextStyle = () => {
-		return { color: '#AAA' };
+		return { color: completedWordColor };
 	};
 
 	setRemainingTextStyle = () => {
-		return { color: '#DDD' };
+		return { color: remainingTextColor };
+	};
+	setOverFlowStyle = () => {
+		return {
+			color: incorrectSpellingColor,
+			textDecoration: 'underline',
+			textDecorationColor: incorrectSpellingColor
+		};
 	};
 
 	renderStartTime = () => {
@@ -191,14 +260,22 @@ export class InputHandler extends Component {
 		}
 		let currentWordStyle = this.setCurrentWordStyle();
 		let completedTextStyle = this.setCompletedTextStyle();
+		let overflowStyle = this.setOverFlowStyle();
 		let remainingTextStyle = this.setRemainingTextStyle();
 		return (
 			<div className="text">
 				<span style={completedTextStyle}>{completedText}</span>
 				<span style={currentWordStyle}>{currentWord}</span>
-				<span style={remainingTextStyle}>
-					{this.state.remainingText.map(word => word + ' ')}
-				</span>
+				<span style={overflowStyle}>{this.state.overflow}</span>
+				{this.state.spelling ? (
+					<span style={remainingTextStyle}>
+						{this.state.remainingText.map(word => word + ' ')}
+					</span>
+				) : (
+					<span style={remainingTextStyle}>
+						{this.state.remainingTextOverflow}
+					</span>
+				)}
 			</div>
 		);
 	};

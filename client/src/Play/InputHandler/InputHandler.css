@@ -6,34 +6,33 @@
 }
 .container {
 	position: relative;
-	top: auto;
-	width: 60vw;
-	left: 18vw;
+	left: 0vw;
 	font-size: 2vw;
 }
 
 .text {
-	width: 58vw;
+	position: relative;
+	width: 80%;
+	left: 10%;
 	display: block;
 	text-decoration-color: black;
 	padding: 1vw 2vw;
 	background: transparent;
-	color: white;
-	margin-top: 1vw;
+	color: black;
 }
 
 .inputfield {
 	position: relative;
 	font-size: 2vw;
-	width: 58vw;
+	width: 52vw;
+	left: 7vw;
 	height: 2vw;
 	display: block;
 	padding: 1vw 2vw;
 	border: none;
-	border-bottom: white solid 1px;
-	color: white;
-	background-color: transparent;
-	margin-top: 1vw;
+	border: black solid 1px;
+	color: black;
+	border-radius: 0.2vw;
 
 	/* border-bottom-right-radius: 2vw;
 	border-bottom-left-radius: 2vw;
@@ -62,9 +61,9 @@
 	line-height: 10vw;
 	text-align: center;
 	z-index: 3;
-	color: white;
+	color: black;
 }
 
 ::placeholder {
-	color: rgba(255, 255, 255);
+	color: darkgray;
 }

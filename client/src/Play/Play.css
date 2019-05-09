@@ -1,9 +1,9 @@
 .playcontent {
 	position: relative;
 	height: 88vh;
-}
-
-.stretch {
+	width: 70vw;
+	left: 15vw;
+	background: rgba(220, 220, 220);
 }
 
 .overflower {

@@ -9,7 +9,7 @@ import { withCookies, CookiesProvider } from 'react-cookie';
 import triangle from './Resources/triangle3.svg';
 
 localStorage.setItem('API', 'http://130.239.182.177:5000/');
-localStorage.setItem('Server', 'http://130.239.216.142:4000/');
+localStorage.setItem('Server', 'http://192.168.1.155:4000/');
 
 export class Typer extends Component {
 	state = {
@@ -30,9 +30,9 @@ export class Typer extends Component {
 	render() {
 		return (
 			<div>
-				{/* <div className="overflower">
+				<div className="overflower">
 					<img src={triangle} className="stretch" alt="aa" />
-				</div> */}
+				</div>
 				<CookiesProvider>
 					<BrowserRouter>
 						<Route

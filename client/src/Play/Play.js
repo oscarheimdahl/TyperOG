@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import InputHandler2 from './InputHandler/InputHandler2';
+import InputHandler from './InputHandler/InputHandler';
 import Progress from './Progress/Progress';
 import axios from 'axios';
 import openSocket from 'socket.io-client';
@@ -119,9 +119,9 @@ class Play extends Component {
 
 	renderInputHandler = () => {
 		return (
-			<InputHandler2
+			<InputHandler
 				complete={this.state.complete}
-				text={'aaaa like to eat food everyday'} //this.state.text}
+				text={this.state.text}
 				emit={this.emit}
 				setComplete={this.setComplete}
 				setWPM={this.setWPM}

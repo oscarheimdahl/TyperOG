@@ -3,21 +3,18 @@
 	padding: 0;
 }
 
-.racecontainer {
-	display: inline-flex;
-	margin-top: 3vw;
-}
-
 .racetrack {
 	position: relative;
-	left: 8vw;
-	width: 62vw;
-	background: transparent;
-	border: solid white 1px;
-	color: white;
+	top: 2vw;
+	left: 7vw;
+	width: 56vw;
+	color: black;
+	background: rgba(255, 255, 255, 0.8);
+	border: 1px solid black;
 	font-size: 1.5vw;
 	padding: 1vw 0 1vw 0;
 	border-radius: 0.2vw;
+	margin-bottom: 2vw;
 }
 
 .opponentspending {
@@ -29,26 +26,20 @@
 	height: 6vw;
 	line-height: 6vw;
 	left: 30%;
-	color: ffe74c;
+	color: white;
 	-webkit-animation: waiting 10s linear infinite;
 	animation: waiting 10s linear infinite;
 }
 
 @keyframes waiting {
-	10% {
-		color: #ffe74c;
-	}
-	30% {
-		color: #95e06c;
+	0% {
+		color: darkgray;
 	}
 	50% {
-		color: #2978a0;
+		color: black;
 	}
-	70% {
-		color: #c60f7b;
-	}
-	90% {
-		color: #ff5964;
+	100% {
+		color: darkgrey;
 	}
 }
 
@@ -67,19 +58,17 @@
 }
 
 .wpmcontainer {
-	position: relative;
+	position: absolute;
 	text-align: right;
-	width: 10vw;
-	left: 7vw;
-	font-size: 1.5vw;
-	color: white;
-	margin-top: 1vw;
-	/* padding-top: 2vw;  */
+	left: 0vw;
+	width: 6.5vw;
+	top: 3vw;
+	font-size: 1.2vw;
+	color: black;
 }
 
 .wpm {
 	margin: 1.5vw 0 0.5vw 0;
-	left: -2vw;
 	text-align: right;
 	display: inline-block;
 	border: none;
@@ -88,19 +77,20 @@
 }
 
 .goalposcontainer {
-	position: relative;
-	width: 10vw;
-	right: -9vw;
-	font-size: 1.5vw;
-	color: white;
-	margin-top: 1vw;
+	position: absolute;
+	text-align: left;
+	right: 0vw;
+	width: 6.5vw;
+	top: 3vw;
+	font-size: 1.2vw;
+	color: black;
 }
 
 .goalpos {
-	left: 0;
 	margin: 1.5vw 0 0.5vw 0;
+	text-align: left;
+	display: inline-block;
+	border: none;
 	width: 100%;
 	line-height: 2vw;
-	height: 2vw;
-	display: inline-block;
 }

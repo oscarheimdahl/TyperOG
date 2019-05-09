@@ -38,9 +38,7 @@ export class Progress extends Component {
 
 	renderWaitingForOpponents = () => {
 		if (!this.props.startTime) {
-			return (
-				<div className="opponentspending">Searching for players</div>
-			);
+			return <div className="opponentspending">Searching for players</div>;
 		}
 	};
 
@@ -66,7 +64,7 @@ export class Progress extends Component {
 				if (o.username !== this.props.username) {
 					return (
 						<div key={o.username} className="goalpos">
-							{o.goalPosition}
+							{o.goalPosition ? o.goalPosition : <br />}
 						</div>
 					);
 				} else {
@@ -78,15 +76,13 @@ export class Progress extends Component {
 
 	render() {
 		return (
-			<div className="racecontainer">
+			<div className="progresscontainer">
 				<div className="wpmcontainer">
 					<div className="wpm">{Math.round(this.props.wpm)} WPM</div>
 					{this.renderOpponentsWPM()}
 				</div>
 				<div className="racetrack">
-					<div className="progressUsername">
-						{this.props.username}
-					</div>
+					<div className="progressUsername">{this.props.username}</div>
 					<div
 						className="playerProgress"
 						style={{
@@ -98,7 +94,9 @@ export class Progress extends Component {
 					{this.renderOpponentsProgress()}
 				</div>
 				<div className="goalposcontainer">
-					<div className="goalpos">{this.props.goalPosition}</div>
+					<div className="goalpos">
+						{this.props.goalPosition ? this.props.goalPosition : <br />}
+					</div>
 					{this.renderOpponentsGoalPosition()}
 				</div>
 			</div>
