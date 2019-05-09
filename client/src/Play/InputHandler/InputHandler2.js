@@ -11,12 +11,25 @@ export class InputHandler extends Component {
 		remainingText: this.props.text.split(' '),
 		startTime: null,
 		endTime: null,
-		progress: 0
+		progress: 0,
+		overflow: '',
+		lastCorrectString: ''
 	};
 
 	componentDidMount() {
 		this.tick();
+		this.resetRemainingTextOverflow();
 	}
+
+	resetRemainingTextOverflow = () => {
+		let remainingTextOverflow = this.props.text.split(' ');
+		let rto = [];
+		remainingTextOverflow.map((w, i) => {
+			if (i < remainingTextOverflow.length - 1) w = w + ' ';
+			rto.push(w);
+		});
+		this.setState({ remainingTextOverflow: rto });
+	};
 
 	componentDidUpdate(prevProps) {
 		if (this.props.text !== prevProps.text) {
@@ -58,36 +71,70 @@ export class InputHandler extends Component {
 	};
 
 	handleInput = input => {
-		if (this.props.startTime && Date.now() > this.props.startTime) {
-			this.setState({ inputText: input });
-			let currentWord = this.state.words[this.state.wordIndex];
-			let correctString = currentWord.substring(0, input.length);
-			let restString = currentWord.substring(input.length, currentWord.length);
-			let onLastWord = this.state.wordIndex === this.state.words.length - 1;
+		// if (this.props.startTime && Date.now() > this.props.startTime) {
+		this.setState({ inputText: input, overflow: '' });
+		let currentWord = this.state.words[this.state.wordIndex];
+		let correctString = currentWord.substring(0, input.length);
+		let restString = currentWord.substring(input.length, currentWord.length);
+		let onLastWord = this.state.wordIndex === this.state.words.length - 1;
 
-			if (
-				(input === currentWord && onLastWord) ||
-				(input === currentWord + ' ' && !onLastWord)
-			) {
-				this.setState({
-					inputText: '',
-					wordIndex: this.state.wordIndex + 1
-				});
-				this.setTextWord(input, onLastWord);
-				if (onLastWord) {
-					this.setState({ endTime: Date.now() });
-					this.props.setComplete();
-				}
-			} else if (correctString === input) {
-				this.setState({
-					spelling: true
-				});
-				this.setTextLetter(input, restString);
-			} else {
-				this.setState({ spelling: false });
+		if (
+			(input === currentWord && onLastWord) ||
+			(input === currentWord + ' ' && !onLastWord)
+		) {
+			this.setState({
+				inputText: '',
+				wordIndex: this.state.wordIndex + 1
+			});
+			this.setTextWord(input, onLastWord);
+			if (onLastWord) {
+				this.setState({ endTime: Date.now() });
+				this.props.setComplete();
 			}
-			this.setProgress();
+		} else if (correctString === input) {
+			this.resetRemainingTextOverflow();
+			this.setState({
+				spelling: true,
+				lastCorrectString: correctString
+			});
+			this.setTextLetter(input, restString);
+		} else {
+			let overflow = this.setOverFlowText(
+				input.length - this.state.lastCorrectString.length + 1
+			);
+			this.setRemainingText(overflow.length);
+			this.setState({
+				spelling: false,
+				overflow: overflow
+			});
 		}
+		this.setProgress();
+		// }
+	};
+
+	setOverFlowText = length => {
+		let overflow = '';
+		let i = 0;
+		while (overflow.length + i < length) {
+			overflow += this.state.remainingText[i] + ' ';
+			i++;
+		}
+		return overflow.substring(0, length - 1);
+	};
+
+	setRemainingText = overflow => {
+		console.log(overflow);
+		let remainingTextOverflow = [...this.state.remainingTextOverflow];
+		while (overflow > remainingTextOverflow[0].length) {
+			overflow -= remainingTextOverflow[0].length;
+			remainingTextOverflow.shift();
+		}
+		remainingTextOverflow[0] = remainingTextOverflow[0].substring(
+			overflow - 1,
+			remainingTextOverflow[0].length
+		);
+
+		this.setState({ remainingTextOverflow: remainingTextOverflow });
 	};
 
 	/**
@@ -131,7 +178,7 @@ export class InputHandler extends Component {
 					textDecoration: 'underline'
 			  }
 			: {
-					color: '#FF5964',
+					// color: '#FF5964',
 					textDecoration: 'underline'
 			  };
 	};
@@ -196,9 +243,16 @@ export class InputHandler extends Component {
 			<div className="text">
 				<span style={completedTextStyle}>{completedText}</span>
 				<span style={currentWordStyle}>{currentWord}</span>
-				<span style={remainingTextStyle}>
-					{this.state.remainingText.map(word => word + ' ')}
-				</span>
+				<span style={{ color: 'blue' }}>{this.state.overflow}</span>
+				{this.state.spelling ? (
+					<span style={remainingTextStyle}>
+						{this.state.remainingText.map(word => word + ' ')}
+					</span>
+				) : (
+					<span>
+						{this.state.remainingTextOverflow.map(word => word + ' ')}
+					</span>
+				)}
 			</div>
 		);
 	};

@@ -29,15 +29,15 @@
 	height: 2vw;
 	display: block;
 	padding: 1vw 2vw;
-	border: white solid 1px;
+	border: none;
+	border-bottom: white solid 1px;
 	color: white;
 	background-color: transparent;
 	margin-top: 1vw;
-	/* border: 0.5px solid #222; */
-	/* border-radius: 30px; */
-	border-bottom-right-radius: 2vw;
+
+	/* border-bottom-right-radius: 2vw;
 	border-bottom-left-radius: 2vw;
-	border-radius: 0.5vw;
+	border-radius: 0.5vw; */
 }
 
 .inputfield:focus {

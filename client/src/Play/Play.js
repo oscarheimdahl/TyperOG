@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import InputHandler from './InputHandler/InputHandler';
+import InputHandler2 from './InputHandler/InputHandler2';
 import Progress from './Progress/Progress';
 import axios from 'axios';
 import openSocket from 'socket.io-client';
@@ -62,11 +62,7 @@ class Play extends Component {
 		let socket = openSocket(localStorage.getItem('Server'));
 		if (socket) {
 			const { cookies } = this.props;
-			socket.emit(
-				'join',
-				cookies.get('username'),
-				cookies.get('loggedin')
-			);
+			socket.emit('join', cookies.get('username'), cookies.get('loggedin'));
 			socket.on('connect', () => {
 				this.setState({ socket });
 			});
@@ -123,9 +119,9 @@ class Play extends Component {
 
 	renderInputHandler = () => {
 		return (
-			<InputHandler
+			<InputHandler2
 				complete={this.state.complete}
-				text={this.state.text}
+				text={'aaaa like to eat food everyday'} //this.state.text}
 				emit={this.emit}
 				setComplete={this.setComplete}
 				setWPM={this.setWPM}
