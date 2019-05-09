@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import Play from './Play/Play';
 import Login from './Login/Login';
-import Navbar from './Navbar/Navbar';
 import Home from './Home/Home';
 import SignIn from './SignIn/SignIn';
+import Admin from './Admin/Admin';
 import { BrowserRouter, Route } from 'react-router-dom';
 import { withCookies, CookiesProvider } from 'react-cookie';
 import triangle from './Resources/triangle3.svg';
@@ -30,14 +30,30 @@ export class Typer extends Component {
 	render() {
 		return (
 			<div>
-				<div className="overflower">
+				{/* <div className="overflower">
 					<img src={triangle} className="stretch" alt="aa" />
-				</div>
+				</div> */}
 				<CookiesProvider>
 					<BrowserRouter>
-						<Navbar cookies={this.props.cookies} />
-						<Route exact path="/" component={Home} />
-						<Route path="/signin" component={SignIn} />
+						<Route
+							exact
+							path="/"
+							render={() => <Home cookies={this.props.cookies} />}
+						/>
+						<Route
+							exact
+							path="/admin"
+							render={() => (
+								<Admin
+									cookies={this.props.cookies}
+									setLoginAttributes={this.setLoginAttributes}
+								/>
+							)}
+						/>
+						<Route
+							path="/signin"
+							render={() => <SignIn cookies={this.props.cookies} />}
+						/>
 						<Route
 							path="/login"
 							render={() => (

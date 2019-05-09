@@ -3,9 +3,9 @@ import InputHandler2 from './InputHandler/InputHandler2';
 import Progress from './Progress/Progress';
 import axios from 'axios';
 import openSocket from 'socket.io-client';
+import Navbar from '../Navbar/Navbar';
 import { Redirect } from 'react-router-dom';
 import './Play.css';
-import triangle from '../Resources/triangle3.svg';
 
 class Play extends Component {
 	state = {
@@ -148,6 +148,7 @@ class Play extends Component {
 	render() {
 		return (
 			<div>
+				<Navbar cookies={this.props.cookies} />
 				<div className="playcontent">
 					{this.renderRedirect()}
 					{this.renderProgress()}
