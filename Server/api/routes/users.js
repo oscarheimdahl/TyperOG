@@ -107,17 +107,16 @@ router.post('/api/users/admin/login', (req, res) => {
 			}
 			if (results < 1) {
 				return res.status(401).json({
-					message: 'Auth failed'
+					message: 'Wrong username or password'
 				});
 			}
 			bcrypt.compare(password, results[0].password, (err, result) => {
 				if (err) {
 					return res.status(401).json({
-						message: 'Auth failed'
+						message: 'Wrong username or password'
 					});
 				}
 				if (result) {
-					console.log(results[0].admin);
 					if (results[0].admin) {
 						const token = jwt.sign(
 							{
@@ -136,12 +135,12 @@ router.post('/api/users/admin/login', (req, res) => {
 						});
 					} else {
 						return res.status(401).json({
-							message: 'Auth failed'
+							message: 'Administrative access required'
 						});
 					}
 				}
 				return res.status(401).json({
-					message: 'Auth failed'
+					message: 'Wrong username or password'
 				});
 			});
 		});

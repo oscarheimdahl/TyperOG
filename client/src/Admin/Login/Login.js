@@ -39,6 +39,7 @@ export class Login extends Component {
 					cookies.set('username', this.state.username, { path: '/' });
 					cookies.set('guest', false);
 					cookies.set('loggedin', true);
+					console.log(cookies.get('loggedin'));
 					this.setState({ redirect: true });
 				})
 				.catch(err => {
@@ -48,8 +49,9 @@ export class Login extends Component {
 						});
 						console.log(err);
 					} else if (err.response.status === 401) {
+						console.log(err.response.data.message);
 						this.setState({
-							errormsg: 'Wrong username or password.'
+							errormsg: err.response.data.message
 						});
 					} else {
 						this.setState({

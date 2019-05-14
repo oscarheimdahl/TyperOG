@@ -11,10 +11,11 @@ export class Users extends Component {
 
 	componentDidMount() {
 		const { cookies } = this.props;
+		console.log(cookies);
 		if (cookies.get('loggedin') === 'false') {
 			this.setState({ redirect: true });
 		}
-		axios
+		/* axios
 			.post(
 				localStorage.getItem('API') + 'api/users/admin/authenticate',
 				{
@@ -25,7 +26,7 @@ export class Users extends Component {
 				console.log(err);
 				cookies.set('loggedin', false);
 				this.setState({ redirect: true });
-			});
+			}); */
 	}
 
 	renderRedirect = () => {

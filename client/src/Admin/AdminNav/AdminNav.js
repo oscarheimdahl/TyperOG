@@ -3,13 +3,12 @@ import { NavLink } from 'react-router-dom';
 
 export class AdminNav extends Component {
 	logout = () => {
-		this.props.cookies.remove('token');
-		this.props.cookies.remove('username');
+		this.props.cookies.set('loggedin', false);
 	};
 
 	renderLoginout = () => {
 		return this.props.cookies.get('loggedin') === 'true' ? (
-			<NavLink to="/">
+			<NavLink to="/admin/login">
 				<li onClick={this.logout}>
 					Logout
 					<span className="usernameprofile">

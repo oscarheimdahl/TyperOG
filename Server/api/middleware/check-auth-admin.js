@@ -7,7 +7,7 @@ module.exports = (req, res, next) => {
 		req.userData = decoded;
 		if (!req.userData.admin) {
 			return res.status(401).json({
-				message: 'Auth failed'
+				message: 'Administrative access required'
 			});
 		}
 		next();
