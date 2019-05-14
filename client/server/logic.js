@@ -1,4 +1,4 @@
-const APIIP = 'http://130.239.182.177';
+const APIIP = 'http://130.239.239.207';
 
 const axios = require('axios');
 
@@ -205,7 +205,10 @@ module.exports = {
 						p.inGoal = true;
 					}
 					if (p.inGoal)
-						p.goalPosition = this.setGoalPosition(gme.players, p.wpm);
+						p.goalPosition = this.setGoalPosition(
+							gme.players,
+							p.wpm
+						);
 					this.broadcastProgress(socket, gme.players);
 				}
 			});

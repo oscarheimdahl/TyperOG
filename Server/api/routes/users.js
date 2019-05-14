@@ -6,11 +6,16 @@ const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const checkAuth = require('../middleware/check-auth');
+const checkAdminAuth = require('../middleware/check-auth-admin');
 
 router.use(bodyParser.urlencoded({ extended: false }));
 router.use(bodyParser.json());
 
 router.post('/api/users/authenticate', checkAuth, (req, res) => {
+	res.json({ message: 'User is athenticated' });
+});
+
+router.post('/api/users/admin/authenticate', checkAdminAuth, (req, res) => {
 	res.json({ message: 'User is athenticated' });
 });
 
@@ -47,6 +52,7 @@ router.post('/api/users/sign_in', (req, res) => {
 		username: req.body.username,
 		password: req.body.password,
 		email: req.body.email,
+		admin: false,
 		gamesPlayed: 0,
 		averageWPM: 0
 	});
@@ -87,6 +93,60 @@ router.post('/api/users/sign_in', (req, res) => {
 		});
 });
 
+router.post('/api/users/admin/login', (req, res) => {
+	let username = req.body.username;
+	let password = req.body.password;
+	User.find()
+		.where('username')
+		.equals(username)
+		.then((results, err) => {
+			if (err) {
+				return res.status(500).json({
+					error: 'Faild to get user' + err
+				});
+			}
+			if (results < 1) {
+				return res.status(401).json({
+					message: 'Auth failed'
+				});
+			}
+			bcrypt.compare(password, results[0].password, (err, result) => {
+				if (err) {
+					return res.status(401).json({
+						message: 'Auth failed'
+					});
+				}
+				if (result) {
+					console.log(results[0].admin);
+					if (results[0].admin) {
+						const token = jwt.sign(
+							{
+								username: results[0].username,
+								userId: results[0]._id,
+								admin: results[0].admin
+							},
+							process.env.JWT_KEY,
+							{
+								expiresIn: '1h'
+							}
+						);
+						return res.status(200).json({
+							message: 'Auth successful',
+							token: token
+						});
+					} else {
+						return res.status(401).json({
+							message: 'Auth failed'
+						});
+					}
+				}
+				return res.status(401).json({
+					message: 'Auth failed'
+				});
+			});
+		});
+});
+
 router.post('/api/users/login', (req, res) => {
 	let username = req.body.username;
 	let password = req.body.password;
@@ -115,7 +175,8 @@ router.post('/api/users/login', (req, res) => {
 					const token = jwt.sign(
 						{
 							username: results[0].username,
-							userId: results[0]._id
+							userId: results[0]._id,
+							admin: results[0].admin
 						},
 						process.env.JWT_KEY,
 						{

@@ -21,7 +21,8 @@ const userSchema = mongoose.Schema({
 	averageWPM: {
 		type: Number,
 		required: true
-	}
+	},
+	admin: { type: Boolean }
 });
 
 module.exports = mongoose.model('User', userSchema);
