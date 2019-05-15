@@ -23,9 +23,6 @@
 		"ignore": [
 			"node_modules/**/node_modules"
 		],
-		"delay": "2500",
-		"env": {
-			"JWT_KEY": "thisIsASecret"
-		}
+		"delay": "2500"
 	}
 }

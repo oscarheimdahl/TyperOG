@@ -39,7 +39,6 @@ export class Login extends Component {
 					cookies.set('username', this.state.username);
 					cookies.set('guest', false);
 					cookies.set('loggedin', true);
-					console.log(cookies.get('token', { path: '/' }));
 					this.setState({ redirect: true });
 				})
 				.catch(err => {

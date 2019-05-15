@@ -3,8 +3,7 @@ const jwt = require('jsonwebtoken');
 //verifys the token with the given
 module.exports = (req, res, next) => {
 	try {
-		console.log('test');
-		const decoded = jwt.verify(req.body.token, process.env.JWT_KEY);
+		const decoded = jwt.verify(req.body.token, process.env.JWT_KEY_ADMIN);
 		req.userData = decoded;
 		if (!req.userData.admin) {
 			return res.status(401).json({

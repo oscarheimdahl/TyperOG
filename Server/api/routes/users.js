@@ -124,7 +124,7 @@ router.post('/api/users/admin/login', (req, res) => {
 								userId: results[0]._id,
 								admin: results[0].admin
 							},
-							process.env.JWT_KEY,
+							process.env.JWT_KEY_ADMIN,
 							{
 								expiresIn: '1h'
 							}
@@ -194,7 +194,7 @@ router.post('/api/users/login', (req, res) => {
 		});
 });
 
-router.put('/api/users/update/:id', checkAuth, (req, res) => {
+router.put('/api/users/update/:id', checkAdminAuth, (req, res) => {
 	const id = req.params.id;
 	if (req.body.password) {
 		bcrypt.hash(req.body.password, 10, (err, hash) => {

@@ -1,4 +1,4 @@
-const APIIP = 'http://localhost';
+const APIIP = 'http://192.168.0.121';
 
 const axios = require('axios');
 
@@ -29,13 +29,6 @@ let player = {
 	inGoal: false,
 	color: null
 };
-
-let texts = [
-	'Bears are carnivoran mammals of the family Ursidae. They are classified as caniforms, or doglike carnivorans. Although only eight species of bears are extant, they are widespread, appearing in a wide variety of habitats throughout the Northern Hemisphere and partially in the Southern Hemisphere.',
-	'Popular culture holds the year 2000 as the first year of the 21st century and the 3rd millennium due to a tendency of grouping the years according to decimal values, as if year zero were counted.',
-	'Salamanders are a group of amphibians typically characterized by a lizard-like appearance, with slender bodies.',
-	'a a'
-];
 
 let sockets = [];
 let players = [];
