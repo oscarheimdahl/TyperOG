@@ -54,6 +54,8 @@ export class Users extends Component {
 				return (
 					<div key={u._id} className="user">
 						{u.username}
+						<br />
+						{u.email}
 						<button>Edit</button>
 						<button>Delete</button>
 					</div>
