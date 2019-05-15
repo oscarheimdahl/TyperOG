@@ -12,11 +12,11 @@ router.use(bodyParser.urlencoded({ extended: false }));
 router.use(bodyParser.json());
 
 router.post('/api/users/authenticate', checkAuth, (req, res) => {
-	res.json({ message: 'User is athenticated' });
+	res.json({ message: 'User is authenticated' });
 });
 
 router.post('/api/users/admin/authenticate', checkAdminAuth, (req, res) => {
-	res.json({ message: 'User is athenticated' });
+	res.json({ message: 'User is authenticated' });
 });
 
 router.get('/api/users/get', (req, res) => {

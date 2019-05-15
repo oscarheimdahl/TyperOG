@@ -10,23 +10,23 @@ export class Users extends Component {
 	};
 
 	componentDidMount() {
+		console.log(localStorage.getItem('API'));
 		const { cookies } = this.props;
-		console.log(cookies);
 		if (cookies.get('loggedin') === 'false') {
 			this.setState({ redirect: true });
 		}
-		/* axios
+		axios
 			.post(
 				localStorage.getItem('API') + 'api/users/admin/authenticate',
 				{
-					token: cookies.get('token')
+					token: cookies.get('token', { path: '/' })
 				}
 			)
 			.catch(err => {
 				console.log(err);
 				cookies.set('loggedin', false);
 				this.setState({ redirect: true });
-			}); */
+			});
 	}
 
 	renderRedirect = () => {

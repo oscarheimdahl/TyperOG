@@ -35,11 +35,11 @@ export class Login extends Component {
 				})
 				.then(res => {
 					const { cookies } = this.props;
-					cookies.set('token', res.data.token, { path: '/' });
-					cookies.set('username', this.state.username, { path: '/' });
+					cookies.set('token', res.data.token);
+					cookies.set('username', this.state.username);
 					cookies.set('guest', false);
 					cookies.set('loggedin', true);
-					console.log(cookies.get('loggedin'));
+					console.log(cookies.get('token', { path: '/' }));
 					this.setState({ redirect: true });
 				})
 				.catch(err => {

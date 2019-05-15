@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
+import './AdminNav.css';
 
 export class AdminNav extends Component {
 	logout = () => {
-		this.props.cookies.set('loggedin', false);
+		const { cookies } = this.props;
+		cookies.set('token', '');
+		cookies.set('username', '');
+		cookies.set('loggedin', false);
 	};
 
 	renderLoginout = () => {
@@ -24,19 +28,19 @@ export class AdminNav extends Component {
 	};
 	render() {
 		return (
-			<div>
-				<h1>Navigation</h1>
+			<nav className="admin-navbar">
+				<h1>Admin page</h1>
 				<ul>
-					<li>
-						<NavLink to="../admin/users">Users</NavLink>
-					</li>
-
-					<li>
-						<NavLink to="../admin/">Admin</NavLink>
-					</li>
+					<NavLink to="../admin/users">
+						<li>Users</li>
+					</NavLink>
+					<NavLink to="../admin/">
+						<li>Admin</li>
+					</NavLink>
 					{this.renderLoginout()}
 				</ul>
-			</div>
+				<hr />
+			</nav>
 		);
 	}
 }
