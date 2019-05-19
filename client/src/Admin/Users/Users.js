@@ -36,6 +36,18 @@ export class Users extends Component {
 			});
 	};
 
+	deleteUser = (thenAction, id) => {
+		const { cookies } = this.props;
+		axios
+			.delete(localStorage.getItem('API') + `api/users/remove/${id}`, {
+				token: cookies.get('token', { path: '/' })
+			})
+			.then(thenAction())
+			.catch(err => {
+				console.log(err);
+			});
+	};
+
 	getUsers = () => {
 		axios.get(localStorage.getItem('API') + 'api/users/get').then(res => {
 			this.setState({
@@ -48,17 +60,23 @@ export class Users extends Component {
 		if (this.state.redirect) return <Redirect to="/admin/login" />;
 	};
 
+	handleDelete = id => {
+		this.deleteUser(this.getUsers, id);
+	};
+
 	renderUsers = () => {
 		return this.state.users ? (
 			this.state.users.map(u => {
 				return (
-					<div key={u._id} className="user">
-						{u.username}
-						<br />
-						{u.email}
-						<button>Edit</button>
-						<button>Delete</button>
-					</div>
+					<tr key={u._id} className="user">
+						<th>{u.username}</th>
+						<th>{u.email}</th>
+						<th>{u.gamesPlayed}</th>
+						<th>{u.averageWPM}</th>
+						<th>{u.admin}</th>
+						<th>Edit</th>
+						<th onClick={() => this.handleDelete(u._id)}>Delete</th>
+					</tr>
 				);
 			})
 		) : (
@@ -73,7 +91,18 @@ export class Users extends Component {
 				<Navbar cookies={this.props.cookies} />
 				<div className="admin-users-container">
 					<h1>Users</h1>
-					<div className="users">{this.renderUsers()}</div>
+					<table>
+						<tbody>
+							<tr>
+								<th>Username</th>
+								<th>Email</th>
+								<th>Games played</th>
+								<th>Average WPM</th>
+								<th>Admin</th>
+							</tr>
+							{this.renderUsers()}
+						</tbody>
+					</table>
 				</div>
 			</div>
 		);

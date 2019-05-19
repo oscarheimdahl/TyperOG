@@ -226,7 +226,7 @@ function updateOneUser(id, req, res) {
 		});
 }
 
-router.delete('/api/users/remove/:id', checkAuth, (req, res) => {
+router.delete('/api/users/remove/:id', checkAdminAuth, (req, res) => {
 	const id = req.params.id;
 	User.deleteOne()
 		.where('_id')
