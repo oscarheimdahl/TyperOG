@@ -9,8 +9,8 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import { withCookies, CookiesProvider } from 'react-cookie';
 import triangle from './Resources/triangle3.svg';
 
-localStorage.setItem('API', 'http://192.168.0.121:5000/');
-localStorage.setItem('Server', 'http://192.168.0.121:4000/');
+localStorage.setItem('API', 'http://localhost:5000/');
+localStorage.setItem('Server', 'http://localhost:4000/');
 
 export class Typer extends Component {
 	state = {
