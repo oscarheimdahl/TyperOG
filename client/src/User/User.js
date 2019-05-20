@@ -23,6 +23,7 @@ export class User extends Component {
 	renderUserStats = () => {
 		if (
 			this.state.latestGames &&
+			this.state.latestGames.length > 0 &&
 			this.state.highestWPM &&
 			this.state.averageWPM &&
 			this.state.gamesPlayed

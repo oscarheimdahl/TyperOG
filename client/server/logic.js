@@ -3,7 +3,7 @@ const APIIP = 'http://192.168.1.142';
 const axios = require('axios');
 
 const gameSize = 4;
-const playersToStart = 1;
+const playersToStart = 2;
 let guestUsers = 0;
 let games = [];
 let game = {
