@@ -262,7 +262,12 @@ router.post('/api/users/updatewpm/', checkAuth, (req, res) => {
 			console.log(res[0]._id);
 			User.updateOne(
 				{ _id: res[0]._id },
-				{ $set: { latestGames: latestGames } },
+				{
+					$set: {
+						latestGames: latestGames,
+						averageWPM: getAverageWPM(latestGames)
+					}
+				},
 				{ new: true }
 			)
 				.then(res => {
@@ -273,5 +278,14 @@ router.post('/api/users/updatewpm/', checkAuth, (req, res) => {
 				});
 		});
 });
+
+function getAverageWPM(latestGames) {
+	let sum = 0;
+	latestGames.forEach(game => {
+		sum += game;
+	});
+
+	return sum / latestGames.length;
+}
 
 module.exports = router;
