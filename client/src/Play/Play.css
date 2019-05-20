@@ -1,9 +1,10 @@
 .playcontent {
 	position: relative;
-	height: 88vh;
+	height: calc(88vh - 20px);
 	width: 70vw;
-	left: 15vw;
-	background: rgba(220, 220, 220, 0.6);
+	left: calc(15vw - 10px);
+	background: transparent;
+	margin: 10px;
 }
 
 .overflower {

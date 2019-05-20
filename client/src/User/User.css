@@ -1,0 +1,42 @@
+.userstats {
+	position: absolute;
+	background: transparent;
+	left: calc(50vw - 250px);
+	width: 500px;
+	height: 650px;
+	margin-top: 10px;
+	color: white;
+	padding: 20px;
+	font-size: 30px;
+	border: white 1px solid;
+}
+
+.userstats > h1 {
+	font-size: 50px;
+	text-decoration: underline;
+}
+
+.user-stat {
+	position: absolute;
+	display: inline-block;
+	color: lightgreen;
+	right: 20px;
+}
+
+.userstats table {
+	position: absolute;
+	right: 20px;
+	top: 240px;
+	text-align: right;
+}
+
+.userstats td {
+	background: transparent;
+	border: none;
+	color: white;
+}
+
+.rightAlign {
+	text-align: right;
+	background: red;
+}

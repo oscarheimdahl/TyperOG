@@ -4,11 +4,8 @@ import Login from './Login/Login';
 import Home from './Home/Home';
 import SignIn from './SignIn/SignIn';
 import Users from './Admin/Users/Users';
-<<<<<<< HEAD
 import Edit from './Admin/Users/Edit/Edit';
-=======
 import User from './User/User';
->>>>>>> 7f6294c700887ddfa3c67983090f5fba8f924f21
 import AdminLogin from './Admin/Login/Login';
 import { BrowserRouter, Route } from 'react-router-dom';
 import { withCookies, CookiesProvider } from 'react-cookie';
@@ -48,15 +45,11 @@ export class Typer extends Component {
 						/>
 						<Route
 							path="/signin"
-							render={() => (
-								<SignIn cookies={this.props.cookies} />
-							)}
+							render={() => <SignIn cookies={this.props.cookies} />}
 						/>
 						<Route
 							path="/login"
-							render={() => (
-								<Login cookies={this.props.cookies} />
-							)}
+							render={() => <Login cookies={this.props.cookies} />}
 						/>
 						<Route
 							path="/play"
@@ -86,18 +79,13 @@ export class Typer extends Component {
 						<Route
 							path="/admin/users/edit"
 							render={() => (
-								<Edit
-									cookies={this.props.cookies}
-									user={this.state.editUser}
-								/>
+								<Edit cookies={this.props.cookies} user={this.state.editUser} />
 							)}
 						/>
 
 						<Route
 							path="/admin/login"
-							render={() => (
-								<AdminLogin cookies={this.props.cookies} />
-							)}
+							render={() => <AdminLogin cookies={this.props.cookies} />}
 						/>
 					</BrowserRouter>
 				</CookiesProvider>
