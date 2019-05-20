@@ -3,7 +3,8 @@
 	height: 88vh;
 	width: 70vw;
 	left: 15vw;
-	background: rgba(220, 220, 220);
+	background: rgb(245, 245, 245);
+	/* background-image: linear-gradient(to bottom, #bbb, #aaa); */
 }
 
 .overflower {
