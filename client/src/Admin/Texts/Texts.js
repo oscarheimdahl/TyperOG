@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import axios from 'axios';
 import './Texts.css';
 
 export class Texts extends Component {
-	state = {};
+	state = {
+		redirect: false
+	};
 	componentDidMount() {
 		const { cookies } = this.props;
 		if (cookies.get('loggedin') === 'false') {
@@ -89,9 +91,14 @@ export class Texts extends Component {
 		);
 	};
 
+	renderRedirect = () => {
+		if (this.state.redirect) return <Redirect to="../admin/login" />;
+	};
+
 	render() {
 		return (
 			<div className="admin-texts">
+				{this.renderRedirect()}
 				<table>
 					<tbody>
 						<tr>
