@@ -7,6 +7,8 @@ import Navbar from '../Navbar/Navbar';
 import { Redirect } from 'react-router-dom';
 import './Play.css';
 
+let postedStats = false;
+
 class Play extends Component {
 	state = {
 		complete: false,
@@ -16,8 +18,7 @@ class Play extends Component {
 		redirect: false,
 		goalPosition: null,
 		startTime: null,
-		text: '',
-		postedStats: false
+		text: ''
 	};
 
 	componentDidMount() {
@@ -45,17 +46,10 @@ class Play extends Component {
 		let msg = { username: cookies.get('username') };
 		msg['data'] = data;
 		if (this.props.socket) this.props.socket.emit(type, msg);
-		if (
-			this.state.complete &&
-			cookies.get('loggedin') === 'true' &&
-			!this.state.postedStats
-		) {
-			this.setState({ postedStats: true });
-			this.postStats();
-		}
 	};
 
 	postStats = () => {
+		console.log('POSTING STATS');
 		axios
 			.post(localStorage.getItem('API') + 'api/users/updatewpm', {
 				token: this.props.cookies.get('token'),
@@ -146,6 +140,7 @@ class Play extends Component {
 				wpm={this.state.wpm}
 				setProgress={this.setProgress}
 				startTime={this.state.startTime}
+				postStats={this.postStats}
 			/>
 		);
 	};

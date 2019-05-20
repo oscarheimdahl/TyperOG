@@ -3,8 +3,15 @@ import Play from './Play/Play';
 import Login from './Login/Login';
 import Home from './Home/Home';
 import SignIn from './SignIn/SignIn';
+<<<<<<< HEAD
 import Admin from './Admin/Admin';
 import User from './User/User';
+=======
+import Users from './Admin/Users/Users';
+import Edit from './Admin/Users/Edit/Edit';
+import User from './User/User';
+import AdminLogin from './Admin/Login/Login';
+>>>>>>> ac625fd86a9ccec2863d3a0689c2ea46921573a7
 import { BrowserRouter, Route } from 'react-router-dom';
 import { withCookies, CookiesProvider } from 'react-cookie';
 import triangle from './Resources/triangle3.svg';
@@ -38,15 +45,11 @@ export class Typer extends Component {
 						/>
 						<Route
 							path="/signin"
-							render={() => (
-								<SignIn cookies={this.props.cookies} />
-							)}
+							render={() => <SignIn cookies={this.props.cookies} />}
 						/>
 						<Route
 							path="/login"
-							render={() => (
-								<Login cookies={this.props.cookies} />
-							)}
+							render={() => <Login cookies={this.props.cookies} />}
 						/>
 						<Route
 							path="/play"
@@ -62,11 +65,35 @@ export class Typer extends Component {
 							path="/user"
 							render={() => <User cookies={this.props.cookies} />}
 						/>
+<<<<<<< HEAD
 						<Route
 							path="/admin"
 							render={() => (
 								<Admin cookies={this.props.cookies} />
 							)}
+=======
+						{/* Admin Routes */}
+						<Route
+							exact
+							path="/admin/users"
+							render={() => (
+								<Users
+									cookies={this.props.cookies}
+									setUser={this.setEditUser}
+								/>
+							)}
+						/>
+						<Route
+							path="/admin/users/edit"
+							render={() => (
+								<Edit cookies={this.props.cookies} user={this.state.editUser} />
+							)}
+						/>
+
+						<Route
+							path="/admin/login"
+							render={() => <AdminLogin cookies={this.props.cookies} />}
+>>>>>>> ac625fd86a9ccec2863d3a0689c2ea46921573a7
 						/>
 					</BrowserRouter>
 				</CookiesProvider>

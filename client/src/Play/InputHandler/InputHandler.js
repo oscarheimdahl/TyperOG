@@ -3,11 +3,11 @@ import './InputHandler.css';
 let placeholder = 'Type here...';
 
 let currentWordColor = 'lightgreen';
-let completedWordColor = 'white';
-let remainingTextColor = 'black';
+let completedWordColor = 'lightgreen';
+let remainingTextColor = 'white';
 let incorrectSpellingColor = 'lightcoral';
 let inputBoxInCorrectSpellingColor = 'pink';
-let inputBoxColor = 'rgba(255,255,255,0.8)';
+let inputBoxColor = 'white';
 
 export class InputHandler extends Component {
 	_timer = null;
@@ -23,7 +23,8 @@ export class InputHandler extends Component {
 		endTime: null,
 		progress: 0,
 		overflow: '',
-		lastCorrectString: ''
+		lastCorrectString: '',
+		postedStats: false
 	};
 
 	componentDidMount() {
@@ -62,6 +63,9 @@ export class InputHandler extends Component {
 				this.emitProgress();
 				if (!this.props.complete) {
 					this.tick();
+				} else if (!this.state.postedStats) {
+					this.setState({ postedStats: true });
+					this.props.postStats();
 				}
 			}
 		}, 1000);
