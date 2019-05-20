@@ -77,7 +77,8 @@ router.post('/api/users/sign_in', (req, res) => {
 						return res.status(500);
 					} else {
 						user.password = hash;
-						user.save()
+						user
+							.save()
 							.then(result => {
 								console.log('Saving user: ' + result.username);
 								res.end();
@@ -258,16 +259,16 @@ router.post('/api/users/updatewpm/', checkAuth, (req, res) => {
 			}
 			latestGames.push(22);
 			console.log(latestGames);
-			console.log(res._id);
+			console.log(res[0]._id);
 			User.updateOne(
-				{ _id: res._id },
+				{ _id: res[0]._id },
 				{ $set: { latestGames: latestGames } },
 				{ new: true }
 			)
 				.then(res => {
 					console.log(res);
 				})
-				.err(err => {
+				.catch(err => {
 					console.log(err);
 				});
 		});
