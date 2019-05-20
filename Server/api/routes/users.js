@@ -44,6 +44,20 @@ router.get('/api/users/get/:id', (req, res) => {
 		});
 });
 
+router.get('/api/users/get/:username', (req, res) => {
+	const username = req.params.username;
+	User.find()
+		.where({ username: username })
+		.then(doc => {
+			console.log('fetched user');
+			res.status(200).json(doc);
+		})
+		.catch(err => {
+			console.log('ERROR: ' + err);
+			res.status(500).json({ error: err });
+		});
+});
+
 router.post('/api/users/sign_in', (req, res) => {
 	console.log('signing in user');
 	console.log(req.body);
