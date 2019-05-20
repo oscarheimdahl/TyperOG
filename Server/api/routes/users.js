@@ -266,7 +266,8 @@ router.post('/api/users/updatewpm/', checkAuth, (req, res) => {
 					$set: {
 						latestGames: latestGames,
 						averageWPM: getAverageWPM(latestGames),
-						gamesPlayed: res[0].gamesPlayed + 1
+						gamesPlayed: res[0].gamesPlayed + 1,
+						highestWPM: wpm > res[0].highestWPM ? wpm : res[0].highestWPM
 					}
 				},
 				{ new: true }

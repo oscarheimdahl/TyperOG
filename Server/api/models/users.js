@@ -26,6 +26,10 @@ const userSchema = mongoose.Schema({
 		type: [Number],
 		required: false
 	},
+	highestWPM: {
+		type: Number,
+		required: false
+	},
 	admin: { type: Boolean }
 });
 
