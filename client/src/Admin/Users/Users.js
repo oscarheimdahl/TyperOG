@@ -28,7 +28,7 @@ export class Users extends Component {
 					token: cookies.get('token', { path: '/' })
 				}
 			)
-			.then(thenAction())
+			.then(thenAction)
 			.catch(err => {
 				console.log(err);
 				cookies.set('loggedin', false);
@@ -40,9 +40,11 @@ export class Users extends Component {
 		const { cookies } = this.props;
 		axios
 			.delete(localStorage.getItem('API') + `api/users/remove/${id}`, {
-				token: cookies.get('token', { path: '/' })
+				data: {
+					token: cookies.get('token', { path: '/' })
+				}
 			})
-			.then(thenAction())
+			.then(thenAction)
 			.catch(err => {
 				console.log(err);
 			});
@@ -64,18 +66,27 @@ export class Users extends Component {
 		this.deleteUser(this.getUsers, id);
 	};
 
+	renderAdmin = admin => {
+		return admin ? <p>True</p> : <p>False</p>;
+	};
+
 	renderUsers = () => {
 		return this.state.users ? (
 			this.state.users.map(u => {
 				return (
 					<tr key={u._id} className="user">
-						<th>{u.username}</th>
-						<th>{u.email}</th>
-						<th>{u.gamesPlayed}</th>
-						<th>{u.averageWPM}</th>
-						<th>{u.admin}</th>
-						<th>Edit</th>
-						<th onClick={() => this.handleDelete(u._id)}>Delete</th>
+						<td>{u.username}</td>
+						<td>{u.email}</td>
+						<td>{u.gamesPlayed}</td>
+						<td>{u.averageWPM}</td>
+						<td>{this.renderAdmin(u.admin)}</td>
+						<td className="edit-button">Edit</td>
+						<td
+							className="delete-button"
+							onClick={() => this.handleDelete(u._id)}
+						>
+							Delete
+						</td>
 					</tr>
 				);
 			})
@@ -90,7 +101,6 @@ export class Users extends Component {
 				{this.renderRedirect()}
 				<Navbar cookies={this.props.cookies} />
 				<div className="admin-users-container">
-					<h1>Users</h1>
 					<table>
 						<tbody>
 							<tr>

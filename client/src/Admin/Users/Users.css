@@ -4,15 +4,53 @@
 }
 
 .admin-users > .admin-users-container {
-	background: white;
 	width: 80%;
-	margin: 1vw auto;
+	margin: 5vw auto;
+	display: flex;
+	justify-content: center;
 }
 
 .admin-users > .admin-users-container > h1 {
 	margin-left: 2vw;
+	color: white;
 }
 
-.admin-users > .admin-users-container > .users {
+.admin-users > .admin-users-container > table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.admin-users > .admin-users-container th {
+	font-weight: 400;
+}
+
+.admin-users > .admin-users-container > table,
+td,
+th {
+	border: 1px solid white;
+	padding: 1%;
+	color: white;
+	background: rgba(128, 128, 128, 0.075);
+}
+
+.admin-users > .admin-users-container .edit-button {
+	color: rgb(247, 247, 157);
+	cursor: pointer;
+	transition: 250ms ease-in-out;
+}
+
+.admin-users > .admin-users-container .edit-button:hover {
+	background: yellow;
+	color: black;
+}
+
+.admin-users > .admin-users-container .delete-button {
+	color: rgb(255, 82, 82);
+	cursor: pointer;
+	transition: 250ms ease-in-out;
+}
+
+.admin-users > .admin-users-container .delete-button:hover {
 	background: red;
+	color: white;
 }

@@ -4,7 +4,6 @@ const jwt = require('jsonwebtoken');
 module.exports = (req, res, next) => {
 	try {
 		const decoded = jwt.verify(req.body.token, process.env.JWT_KEY_ADMIN);
-		console.log('hej');
 		req.userData = decoded;
 		if (!req.userData.admin) {
 			return res.status(401).json({
