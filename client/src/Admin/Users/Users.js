@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './Users.css';
 import axios from 'axios';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import Navbar from '../AdminNav/AdminNav';
 
 export class Users extends Component {
@@ -70,6 +70,10 @@ export class Users extends Component {
 		return admin ? <p>True</p> : <p>False</p>;
 	};
 
+	handleEdit = user => {
+		this.props.setUser(user);
+	};
+
 	renderUsers = () => {
 		return this.state.users ? (
 			this.state.users.map(u => {
@@ -80,7 +84,12 @@ export class Users extends Component {
 						<td>{u.gamesPlayed}</td>
 						<td>{u.averageWPM}</td>
 						<td>{this.renderAdmin(u.admin)}</td>
-						<td className="edit-button">Edit</td>
+						<td
+							className="edit-button"
+							onClick={() => this.handleEdit(u)}
+						>
+							<Link to="./users/edit">Edit</Link>
+						</td>
 						<td
 							className="delete-button"
 							onClick={() => this.handleDelete(u._id)}

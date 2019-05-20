@@ -77,8 +77,7 @@ router.post('/api/users/sign_in', (req, res) => {
 						return res.status(500);
 					} else {
 						user.password = hash;
-						user
-							.save()
+						user.save()
 							.then(result => {
 								console.log('Saving user: ' + result.username);
 								res.end();
@@ -197,12 +196,12 @@ router.post('/api/users/login', (req, res) => {
 
 router.put('/api/users/update/:id', checkAdminAuth, (req, res) => {
 	const id = req.params.id;
-	if (req.body.password) {
-		bcrypt.hash(req.body.password, 10, (err, hash) => {
+	if (req.body.user.password) {
+		bcrypt.hash(req.body.user.password, 10, (err, hash) => {
 			if (err) {
 				return res.status(500);
 			} else {
-				req.body.password = hash;
+				req.body.user.password = hash;
 				updateOneUser(id, req, res);
 			}
 		});
@@ -212,11 +211,11 @@ router.put('/api/users/update/:id', checkAdminAuth, (req, res) => {
 });
 
 function updateOneUser(id, req, res) {
-	User.updateOne({ _id: id }, { $set: req.body }, { new: true })
+	User.updateOne({ _id: id }, { $set: req.body.user }, { new: true })
 		.then(doc => {
 			console.log('User with id: ' + id + ' was updated!');
 			console.log('These attributes where changed: ');
-			for (var i in req.body) {
+			for (var i in req.body.user) {
 				if (!(i == 'token')) console.log('    ' + i);
 			}
 			res.status(200).json(doc);
@@ -267,7 +266,8 @@ router.post('/api/users/updatewpm/', checkAuth, (req, res) => {
 						latestGames: latestGames,
 						averageWPM: getAverageWPM(latestGames),
 						gamesPlayed: res[0].gamesPlayed + 1,
-						highestWPM: wpm > res[0].highestWPM ? wpm : res[0].highestWPM
+						highestWPM:
+							wpm > res[0].highestWPM ? wpm : res[0].highestWPM
 					}
 				},
 				{ new: true }

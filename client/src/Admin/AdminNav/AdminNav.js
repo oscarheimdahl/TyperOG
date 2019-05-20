@@ -31,10 +31,10 @@ export class AdminNav extends Component {
 			<nav className="admin-navbar">
 				<h1>Admin page</h1>
 				<ul>
-					<NavLink to="../admin/users">
+					<NavLink to="../users">
 						<li>Users</li>
 					</NavLink>
-					<NavLink to="../admin/">
+					<NavLink to="../">
 						<li>Admin</li>
 					</NavLink>
 					{this.renderLoginout()}
