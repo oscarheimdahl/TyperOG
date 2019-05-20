@@ -22,6 +22,10 @@ const userSchema = mongoose.Schema({
 		type: Number,
 		required: true
 	},
+	latestGames: {
+		type: [Number],
+		required: false
+	},
 	admin: { type: Boolean }
 });
 

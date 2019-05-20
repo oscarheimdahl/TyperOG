@@ -30,7 +30,7 @@ export class Progress extends Component {
 					if (playerColor === '') {
 						playerColor = o.color;
 					}
-					return <></>;
+					return <div key={o.username} />;
 				}
 			});
 		}

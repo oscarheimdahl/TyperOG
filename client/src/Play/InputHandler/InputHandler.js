@@ -3,7 +3,7 @@ import './InputHandler.css';
 let placeholder = 'Type here...';
 
 let currentWordColor = 'black';
-let completedWordColor = 'darkgray';
+let completedWordColor = 'lightgreen';
 let remainingTextColor = 'black';
 let incorrectSpellingColor = 'lightcoral';
 let inputBoxInCorrectSpellingColor = 'pink';
@@ -69,8 +69,7 @@ export class InputHandler extends Component {
 	};
 
 	setWPM = () => {
-		let completedCharacters = this.state.completedText.slice().join('')
-			.length;
+		let completedCharacters = this.state.completedText.slice().join('').length;
 		let time = (Date.now() - this.props.startTime) / 1000;
 		if (this.state.endTime)
 			time = (this.state.endTime - this.props.startTime) / 1000;
@@ -84,12 +83,8 @@ export class InputHandler extends Component {
 			this.setState({ inputText: input, overflow: '' });
 			let currentWord = this.state.words[this.state.wordIndex];
 			let correctString = currentWord.substring(0, input.length);
-			let restString = currentWord.substring(
-				input.length,
-				currentWord.length
-			);
-			let onLastWord =
-				this.state.wordIndex === this.state.words.length - 1;
+			let restString = currentWord.substring(input.length, currentWord.length);
+			let onLastWord = this.state.wordIndex === this.state.words.length - 1;
 
 			if (
 				(input === currentWord && onLastWord) ||
@@ -113,7 +108,6 @@ export class InputHandler extends Component {
 				});
 				this.setTextLetter(input, restString);
 			} else {
-				console.log(input.length - this.state.lastCorrectString.length);
 				let overflow = this.setOverFlowText(
 					input.length - this.state.lastCorrectString.length
 				);
@@ -130,15 +124,6 @@ export class InputHandler extends Component {
 	setOverFlowText = length => {
 		let overflow = this.getRemainingTextAsString();
 		let sub = overflow.substring(0, length);
-		// console.log(
-		// 	'Overflowing ' +
-		// 		length +
-		// 		' characters, all text: -' +
-		// 		overflow +
-		// 		'-, substring: -' +
-		// 		sub +
-		// 		'-'
-		// );
 		return sub;
 	};
 
@@ -183,8 +168,7 @@ export class InputHandler extends Component {
 	}
 
 	setProgress = () => {
-		let prog =
-			(this.state.completedText.length - 1) / this.state.words.length;
+		let prog = (this.state.completedText.length - 1) / this.state.words.length;
 		if (
 			this.state.completedText[this.state.wordIndex] ===
 				this.state.words[this.state.words.length - 1] &&
@@ -236,9 +220,7 @@ export class InputHandler extends Component {
 		let hide;
 
 		if (this.props.startTime && Date.now() - this.props.startTime < 0) {
-			startTime = Math.round(
-				-((Date.now() - this.props.startTime) / 1000)
-			);
+			startTime = Math.round(-((Date.now() - this.props.startTime) / 1000));
 			if (startTime === 0) startTime = 1;
 		} else if (this.props.startTime) {
 			placeholder = '';

@@ -77,7 +77,8 @@ router.post('/api/users/sign_in', (req, res) => {
 						return res.status(500);
 					} else {
 						user.password = hash;
-						user.save()
+						user
+							.save()
 							.then(result => {
 								console.log('Saving user: ' + result.username);
 								res.end();
@@ -238,6 +239,24 @@ router.delete('/api/users/remove/:id', checkAdminAuth, (req, res) => {
 		.catch(err => {
 			console.log('ERROR: ' + err);
 			res.status(500).json({ error: err });
+		});
+});
+
+router.post('/api/users/updatewpm/', checkAuth, (req, res) => {
+	let wpm = req.body.wpm;
+	let username = req.body.username;
+	let latestGames = [];
+	User.find()
+		.where('username')
+		.equals(username)
+		.then(res => {
+			if (res && res.length >= 10) {
+				latestGames = res;
+				latestGames.shift();
+				console.log(latestGames);
+			}
+			latestGames.push(wpm);
+			console.log(latestGames);
 		});
 });
 

@@ -44,6 +44,22 @@ class Play extends Component {
 		let msg = { username: cookies.get('username') };
 		msg['data'] = data;
 		if (this.props.socket) this.props.socket.emit(type, msg);
+		if (this.state.complete && cookies.get('loggedin') === 'true') {
+			this.postStats();
+		}
+	};
+
+	postStats = () => {
+		console.log('Posting');
+		axios
+			.post(localStorage.getItem('API') + 'api/users/updatewpm', {
+				token: this.props.cookies.get('token'),
+				username: this.props.cookies.get('username'),
+				wpm: this.state.wpm
+			})
+			.catch(err => {
+				console.log(err);
+			});
 	};
 
 	setComplete = () => {
