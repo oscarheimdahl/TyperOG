@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import './Users.css';
 import axios from 'axios';
 import { Redirect, Link } from 'react-router-dom';
-import Navbar from '../AdminNav/AdminNav';
 
 export class Users extends Component {
 	state = {
@@ -81,8 +80,9 @@ export class Users extends Component {
 					<tr key={u._id} className="user">
 						<td>{u.username}</td>
 						<td>{u.email}</td>
-						<td>{u.gamesPlayed}</td>
-						<td>{u.averageWPM}</td>
+						<td>{Math.round(u.gamesPlayed * 100) / 100}</td>
+						<td>{Math.round(u.averageWPM * 100) / 100}</td>
+						<td>{Math.round(u.highestWPM * 100) / 100}</td>
 						<td>{this.renderAdmin(u.admin)}</td>
 						<td
 							className="edit-button"
@@ -108,7 +108,6 @@ export class Users extends Component {
 		return (
 			<div className="admin-users">
 				{this.renderRedirect()}
-				<Navbar cookies={this.props.cookies} />
 				<div className="admin-users-container">
 					<table>
 						<tbody>
@@ -117,6 +116,7 @@ export class Users extends Component {
 								<th>Email</th>
 								<th>Games played</th>
 								<th>Average WPM</th>
+								<th>Highest WPM</th>
 								<th>Admin</th>
 							</tr>
 							{this.renderUsers()}

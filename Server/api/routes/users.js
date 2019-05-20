@@ -31,7 +31,7 @@ router.get('/api/users/get', (req, res) => {
 		});
 });
 
-router.get('/api/users/get/:id', (req, res) => {
+router.get('/api/users/getid/:id', (req, res) => {
 	const id = req.params.id;
 	User.findById(id)
 		.then(doc => {
@@ -46,11 +46,13 @@ router.get('/api/users/get/:id', (req, res) => {
 
 router.get('/api/users/get/:username', (req, res) => {
 	const username = req.params.username;
+	console.log(username);
 	User.find()
-		.where({ username: username })
+		.where('username')
+		.equals(username)
 		.then(doc => {
 			console.log('fetched user');
-			res.status(200).json(doc);
+			res.status(200).json(doc[0]);
 		})
 		.catch(err => {
 			console.log('ERROR: ' + err);
@@ -210,12 +212,12 @@ router.post('/api/users/login', (req, res) => {
 
 router.put('/api/users/update/:id', checkAdminAuth, (req, res) => {
 	const id = req.params.id;
-	if (req.body.user.password) {
-		bcrypt.hash(req.body.user.password, 10, (err, hash) => {
+	if (req.body.password[0].length < 20) {
+		bcrypt.hash(req.body.password[0], 10, (err, hash) => {
 			if (err) {
 				return res.status(500);
 			} else {
-				req.body.user.password = hash;
+				req.body.password = hash;
 				updateOneUser(id, req, res);
 			}
 		});
@@ -225,11 +227,11 @@ router.put('/api/users/update/:id', checkAdminAuth, (req, res) => {
 });
 
 function updateOneUser(id, req, res) {
-	User.updateOne({ _id: id }, { $set: req.body.user }, { new: true })
+	User.updateOne({ _id: id }, { $set: req.body }, { new: true })
 		.then(doc => {
 			console.log('User with id: ' + id + ' was updated!');
 			console.log('These attributes where changed: ');
-			for (var i in req.body.user) {
+			for (var i in req.body) {
 				if (!(i == 'token')) console.log('    ' + i);
 			}
 			res.status(200).json(doc);

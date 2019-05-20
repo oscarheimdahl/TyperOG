@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
-import Navbar from '../AdminNav/AdminNav';
 
 export class Login extends Component {
 	state = {};
@@ -64,7 +63,7 @@ export class Login extends Component {
 
 	renderRedirect = () => {
 		if (this.state.redirect) {
-			return <Redirect to="/admin/users" />;
+			return <Redirect to="./users" />;
 		}
 	};
 
@@ -72,7 +71,6 @@ export class Login extends Component {
 		return (
 			<>
 				{this.renderRedirect()}
-				<Navbar cookies={this.props.cookies} />
 				<div className="loginwallpaper">
 					<div className="loginbox">
 						<h1>Typer</h1>

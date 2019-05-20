@@ -1,21 +1,37 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
-import Navbar from '../../AdminNav/AdminNav';
 import './Edit.css';
 
 export class Edit extends Component {
 	state = {
-		user: '',
-		redirect: false
+		username: '',
+		password: '',
+		email: '',
+		averageWPM: '',
+		gamesPlayed: '',
+		highestWPM: '',
+		_id: '',
+		redirect: false,
+		redirectToUsers: false
 	};
 
 	componentDidMount() {
 		const { cookies, user } = this.props;
+		console.log(user);
 		if (cookies.get('loggedin') === 'false') {
 			this.setState({ redirect: true });
 		}
-		this.setState({ user });
+		this.setState({
+			user,
+			username: user.username,
+			password: user.password,
+			email: user.email,
+			averageWPM: user.averageWPM,
+			gamesPlayed: user.gamesPlayed,
+			highestWPM: user.highestWPM,
+			_id: user._id
+		});
 		this.authenticateUser(this.getUsers);
 	}
 
@@ -36,71 +52,94 @@ export class Edit extends Component {
 			});
 	};
 
-	handleSubmit = (id, e) => {
+	handleSubmit = e => {
 		e.preventDefault();
-		console.log('hellloa');
-		axios.put(localStorage.getItem('API') + `api/users/update/${id}`, {
-			user: this.state.user
-		});
+		console.log(this.state.user._id);
+		const {
+			username,
+			password,
+			email,
+			averageWPM,
+			gamesPlayed,
+			highestWPM,
+			_id
+		} = this.state;
+		axios
+			.put(localStorage.getItem('API') + `api/users/update/${_id}`, {
+				username,
+				password,
+				email,
+				averageWPM: parseFloat(averageWPM),
+				gamesPlayed: parseFloat(gamesPlayed),
+				highestWPM: parseFloat(highestWPM),
+				token: this.props.cookies.get('token', { path: '/' })
+			})
+			.then(res => {
+				if (res.status === 200)
+					this.setState({ redirectToUsers: true });
+			})
+			.catch(err => {
+				console.log(err);
+			});
 	};
 
 	handleTextinput = e => {
 		this.setState({
-			user: {
-				[e.target.name]: [e.target.value]
-			}
+			[e.target.name]: [e.target.value]
 		});
 	};
 
 	renderForm = () => {
 		const { user } = this.state;
 		return this.state.user ? (
-			<form onSubmit={() => this.handleSubmit(user._id)}>
+			<form onSubmit={this.handleSubmit}>
+				<h1>Editing: {user.username}</h1>
 				<label>Username</label>
 				<input
 					type="text"
 					name="username"
 					onChange={this.handleTextinput}
-					placeholder={user.username}
+					value={user.username}
 				/>
 				<label>Password</label>
 				<input
 					type="password"
 					name="password"
 					onChange={this.handleTextinput}
-					placeholder={user.password}
+					value={user.password}
 				/>
 				<label>Email</label>
 				<input
 					type="email"
 					name="email"
 					onChange={this.handleTextinput}
-					placeholder={user.email}
+					value={user.email}
 				/>
 				<label>Average WPM</label>
 				<input
-					type="text"
+					type="number"
+					step="any"
 					name="averageWPM"
 					onChange={this.handleTextinput}
-					placeholder={user.averageWPM}
+					value={user.averageWPM}
 				/>
 				<label>Games Played</label>
 				<input
-					type="text"
+					type="number"
+					step="any"
 					name="gamesPlayed"
 					onChange={this.handleTextinput}
-					placeholder={user.gamesPlayed}
+					value={user.gamesPlayed}
 				/>
 				<label>Personal Best</label>
 				<input
-					type="text"
+					type="number"
+					step="any"
 					name="highestWPM"
 					onChange={this.handleTextinput}
-					placeholder={user.highestWPM}
+					value={user.highestWPM}
 				/>
-				<button onClick={() => this.handleSubmit(user._id)}>
-					Save
-				</button>
+				<button type="submit">Save</button>
 			</form>
 		) : (
 			<p>Loading....</p>
@@ -108,15 +147,16 @@ export class Edit extends Component {
 	};
 
 	renderRedirect = () => {
-		if (this.state.redirect) return <Redirect to="../login" />;
+		if (this.state.redirect) return <Redirect to="/admin/login" />;
 	};
-
+	renderRedirectToUsers = () => {
+		if (this.state.redirectToUsers) return <Redirect to="/admin/users" />;
+	};
 	render() {
 		return (
 			<div className="edit-user">
 				{this.renderRedirect()}
-				<Navbar cookies={this.props.cookies} />
-				<h1>Hello EDIT</h1>
+				{this.renderRedirectToUsers()}
 				{this.renderForm()}
 			</div>
 		);

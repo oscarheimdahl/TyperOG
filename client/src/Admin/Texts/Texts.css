@@ -1,0 +1,45 @@
+.admin-texts {
+	width: 80%;
+	margin: auto;
+}
+
+.admin-texts > table {
+	width: 100%;
+	margin-top: 2vw;
+	border-collapse: collapse;
+}
+
+.admin-texts > th {
+	font-weight: 400;
+}
+
+.admin-texts > table,
+td,
+th {
+	border: 1px solid white;
+	padding: 1%;
+	color: white;
+	background: rgba(128, 128, 128, 0.075);
+}
+
+.admin-texts .edit-button {
+	color: rgb(247, 247, 157);
+	cursor: pointer;
+	transition: 250ms ease-in-out;
+}
+
+.admin-texts .edit-button:hover {
+	background: yellow;
+	color: black;
+}
+
+.admin-texts .delete-button {
+	color: rgb(255, 82, 82);
+	cursor: pointer;
+	transition: 250ms ease-in-out;
+}
+
+.admin-texts .delete-button:hover {
+	background: red;
+	color: white;
+}
