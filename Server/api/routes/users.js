@@ -252,8 +252,8 @@ router.post('/api/users/updatewpm/', checkAuth, (req, res) => {
 		.then(res => {
 			console.log(res);
 			if (res[0].latestGames) {
+				latestGames = res[0].latestGames;
 				if (res[0].latestGames.length >= 10) {
-					latestGames = res[0].latestGames;
 					latestGames.shift();
 				}
 			}
