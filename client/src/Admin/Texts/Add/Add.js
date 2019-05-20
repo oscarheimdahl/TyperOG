@@ -1,30 +1,21 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
-import './Edit.css';
 
-export class Edit extends Component {
+export class Add extends Component {
 	state = {
 		title: '',
 		author: '',
 		content: '',
-		_id: '',
 		redirect: false,
 		redirectToTexts: false
 	};
 
 	componentDidMount() {
-		const { cookies, text } = this.props;
+		const { cookies } = this.props;
 		if (cookies.get('loggedin') === 'false') {
 			this.setState({ redirect: true });
 		}
-		this.setState({
-			text,
-			title: text.title,
-			author: text.author,
-			content: text.content,
-			_id: text._id
-		});
 		this.authenticateUser(this.getUsers);
 	}
 
@@ -47,17 +38,16 @@ export class Edit extends Component {
 
 	handleSubmit = e => {
 		e.preventDefault();
-		const { title, author, content, _id } = this.state;
+		const { title, author, content } = this.state;
 		axios
-			.put(localStorage.getItem('API') + `api/texts/update/${_id}`, {
+			.post(localStorage.getItem('API') + 'api/texts/add', {
 				title,
 				author,
 				content,
 				token: this.props.cookies.get('token', { path: '/' })
 			})
 			.then(res => {
-				if (res.status === 200)
-					this.setState({ redirectToTexts: true });
+				this.setState({ redirectToTexts: true });
 			})
 			.catch(err => {
 				console.log(err);
@@ -68,38 +58,6 @@ export class Edit extends Component {
 		this.setState({
 			[e.target.name]: e.target.value
 		});
-	};
-
-	renderForm = () => {
-		const { text } = this.state;
-		return text ? (
-			<form onSubmit={this.handleSubmit}>
-				<h1>Editing: {text.title}</h1>
-				<label>Title</label>
-				<input
-					type="text"
-					name="title"
-					onChange={this.handleTextinput}
-					defaultValue={text.title}
-				/>
-				<label>Author</label>
-				<input
-					type="text"
-					name="author"
-					onChange={this.handleTextinput}
-					defaultValue={text.author}
-				/>
-				<label>Content</label>
-				<textarea
-					name="content"
-					onChange={this.handleTextinput}
-					defaultValue={text.content}
-				/>
-				<button type="submit">Save</button>
-			</form>
-		) : (
-			<p>Loading....</p>
-		);
 	};
 
 	renderRedirect = () => {
@@ -113,10 +71,26 @@ export class Edit extends Component {
 			<div className="edit-text">
 				{this.renderRedirect()}
 				{this.renderRedirectToTexts()}
-				{this.renderForm()}
+				<form onSubmit={this.handleSubmit}>
+					<label>Title</label>
+					<input
+						type="text"
+						name="title"
+						onChange={this.handleTextinput}
+					/>
+					<label>Author</label>
+					<input
+						type="text"
+						name="author"
+						onChange={this.handleTextinput}
+					/>
+					<label>Content</label>
+					<textarea name="content" onChange={this.handleTextinput} />
+					<button type="submit">Add</button>
+				</form>
 			</div>
 		);
 	}
 }
 
-export default Edit;
+export default Add;

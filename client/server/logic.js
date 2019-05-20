@@ -3,7 +3,7 @@ const APIIP = 'http://192.168.1.142';
 const axios = require('axios');
 
 const gameSize = 4;
-const playersToStart = 1;
+const playersToStart = 2;
 let guestUsers = 0;
 let games = [];
 let game = {
@@ -198,7 +198,10 @@ module.exports = {
 						p.inGoal = true;
 					}
 					if (p.inGoal)
-						p.goalPosition = this.setGoalPosition(gme.players, p.wpm);
+						p.goalPosition = this.setGoalPosition(
+							gme.players,
+							p.wpm
+						);
 					this.broadcastProgress(socket, gme.players);
 				}
 			});

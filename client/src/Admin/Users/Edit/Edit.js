@@ -54,7 +54,6 @@ export class Edit extends Component {
 
 	handleSubmit = e => {
 		e.preventDefault();
-		console.log(this.state.user._id);
 		const {
 			username,
 			password,
@@ -85,7 +84,7 @@ export class Edit extends Component {
 
 	handleTextinput = e => {
 		this.setState({
-			[e.target.name]: [e.target.value]
+			[e.target.name]: e.target.value
 		});
 	};
 
@@ -99,21 +98,21 @@ export class Edit extends Component {
 					type="text"
 					name="username"
 					onChange={this.handleTextinput}
-					value={user.username}
+					defaultValue={user.username}
 				/>
 				<label>Password</label>
 				<input
 					type="password"
 					name="password"
 					onChange={this.handleTextinput}
-					value={user.password}
+					defaultValue={user.password}
 				/>
 				<label>Email</label>
 				<input
 					type="email"
 					name="email"
 					onChange={this.handleTextinput}
-					value={user.email}
+					defaultValue={user.email}
 				/>
 				<label>Average WPM</label>
 				<input
@@ -121,7 +120,7 @@ export class Edit extends Component {
 					step="any"
 					name="averageWPM"
 					onChange={this.handleTextinput}
-					value={user.averageWPM}
+					defaultValue={user.averageWPM}
 				/>
 				<label>Games Played</label>
 				<input
@@ -129,7 +128,7 @@ export class Edit extends Component {
 					step="any"
 					name="gamesPlayed"
 					onChange={this.handleTextinput}
-					value={user.gamesPlayed}
+					defaultValue={user.gamesPlayed}
 				/>
 				<label>Personal Best</label>
 				<input
@@ -137,7 +136,7 @@ export class Edit extends Component {
 					step="any"
 					name="highestWPM"
 					onChange={this.handleTextinput}
-					value={user.highestWPM}
+					defaultValue={user.highestWPM}
 				/>
 				<button type="submit">Save</button>
 			</form>

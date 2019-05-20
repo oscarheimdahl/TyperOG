@@ -6,6 +6,7 @@
 .admin-texts > table {
 	width: 100%;
 	margin-top: 2vw;
+	margin-bottom: 5vw;
 	border-collapse: collapse;
 }
 
@@ -20,6 +21,17 @@ th {
 	padding: 1%;
 	color: white;
 	background: rgba(128, 128, 128, 0.075);
+}
+
+.admin-texts .upperRight {
+	border-left: none;
+}
+.admin-texts .add {
+	border-right: none;
+}
+
+.admin-texts .add a {
+	color: rgb(5, 207, 5);
 }
 
 .admin-texts .edit-button {

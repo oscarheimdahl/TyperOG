@@ -46,6 +46,21 @@ export class Texts extends Component {
 		this.props.setText(t);
 	};
 
+	handleDelete = id => {
+		axios
+			.delete(localStorage.getItem('API') + `api/texts/remove/${id}`, {
+				data: {
+					token: this.props.cookies.get('token', { path: '/' })
+				}
+			})
+			.then(res => {
+				this.getTexts();
+			})
+			.catch(err => {
+				console.log(err);
+			});
+	};
+
 	renderTexts = () => {
 		return this.state.texts ? (
 			this.state.texts.map(t => {
@@ -83,6 +98,10 @@ export class Texts extends Component {
 							<th>Title</th>
 							<th>Author</th>
 							<th>Content</th>
+							<th className="add">
+								<Link to="./texts/add">Add</Link>
+							</th>
+							<th className="upperRight" />
 						</tr>
 						{this.renderTexts()}
 					</tbody>

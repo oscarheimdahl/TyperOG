@@ -5,6 +5,7 @@ import Texts from './Texts/Texts';
 import UserEdit from './Users/Edit/Edit';
 import TextEdit from './Texts/Edit/Edit';
 import AdminLogin from './Login/Login';
+import Add from './Texts/Add/Add';
 import Navbar from './AdminNav/AdminNav';
 
 export class Admin extends Component {
@@ -64,6 +65,10 @@ export class Admin extends Component {
 							text={this.state.editText}
 						/>
 					)}
+				/>
+				<Route
+					path="/admin/texts/add"
+					render={() => <Add cookies={this.props.cookies} />}
 				/>
 
 				<Route

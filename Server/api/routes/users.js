@@ -213,6 +213,7 @@ router.post('/api/users/login', (req, res) => {
 router.put('/api/users/update/:id', checkAdminAuth, (req, res) => {
 	const id = req.params.id;
 	if (req.body.password[0].length < 20) {
+		console.log('updating password');
 		bcrypt.hash(req.body.password[0], 10, (err, hash) => {
 			if (err) {
 				return res.status(500);
