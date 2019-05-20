@@ -250,13 +250,15 @@ router.post('/api/users/updatewpm/', checkAuth, (req, res) => {
 		.where('username')
 		.equals(username)
 		.then(res => {
-			if (res && res.length >= 10) {
-				latestGames = res;
-				latestGames.shift();
-				console.log(latestGames);
+			if (res.latestGames) {
+				if (res.latestGames.length >= 10) {
+					latestGames = res.latestGames;
+					latestGames.shift();
+				}
 			}
 			latestGames.push(wpm);
 			console.log(latestGames);
+			User.updateOne({ _id: res.id }, { $set: latestGames }, { new: true });
 		});
 });
 
