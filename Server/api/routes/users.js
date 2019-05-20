@@ -258,7 +258,11 @@ router.post('/api/users/updatewpm/', checkAuth, (req, res) => {
 			}
 			latestGames.push(wpm);
 			console.log(latestGames);
-			User.updateOne({ _id: res.id }, { $set: latestGames }, { new: true });
+			User.updateOne(
+				{ _id: res.id },
+				{ $set: { latestGames: latestGames } },
+				{ new: true }
+			);
 		});
 });
 
