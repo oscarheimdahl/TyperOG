@@ -23,8 +23,7 @@ export class InputHandler extends Component {
 		endTime: null,
 		progress: 0,
 		overflow: '',
-		lastCorrectString: '',
-		postedStats: false
+		lastCorrectString: ''
 	};
 
 	componentDidMount() {
@@ -63,9 +62,9 @@ export class InputHandler extends Component {
 				this.emitProgress();
 				if (!this.props.complete) {
 					this.tick();
-				} else if (!this.state.postedStats) {
-					this.setState({ postedStats: true });
+				} else {
 					this.props.postStats();
+					clearTimeout(this._timer);
 				}
 			}
 		}, 1000);

@@ -6,9 +6,7 @@ import openSocket from 'socket.io-client';
 import Navbar from '../Navbar/Navbar';
 import { Redirect } from 'react-router-dom';
 import './Play.css';
-
-let postedStats = false;
-
+let send = 0;
 class Play extends Component {
 	state = {
 		complete: false,
@@ -54,11 +52,12 @@ class Play extends Component {
 			.post(localStorage.getItem('API') + 'api/users/updatewpm', {
 				token: this.props.cookies.get('token'),
 				username: this.props.cookies.get('username'),
-				wpm: this.state.wpm
+				wpm: send
 			})
 			.catch(err => {
 				console.log(err);
 			});
+		send++;
 	};
 
 	setComplete = () => {
