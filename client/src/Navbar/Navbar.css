@@ -8,8 +8,18 @@
 }
 
 .usernameprofile {
-	font-size: 1vw;
 	color: yellow;
+	text-align: center;
+	width: 10vw;
+	height: 12vh;
+	line-height: 12vh;
+	display: inline-block;
+	padding-right: 2vw;
+	font-size: calc(12px + 0.8vw);
+	font-family: Quicksand;
+	border-radius: 10px;
+	transition: background 300ms ease-in-out;
+	transition-duration: 3s;
 }
 
 .header .logo {
@@ -59,6 +69,7 @@ a {
 	color: white;
 }
 
-.header ul li:hover {
+.header ul li:hover,
+.header span:hover {
 	text-decoration: underline;
 }

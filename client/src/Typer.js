@@ -4,7 +4,11 @@ import Login from './Login/Login';
 import Home from './Home/Home';
 import SignIn from './SignIn/SignIn';
 import Users from './Admin/Users/Users';
+<<<<<<< HEAD
 import Edit from './Admin/Users/Edit/Edit';
+=======
+import User from './User/User';
+>>>>>>> 7f6294c700887ddfa3c67983090f5fba8f924f21
 import AdminLogin from './Admin/Login/Login';
 import { BrowserRouter, Route } from 'react-router-dom';
 import { withCookies, CookiesProvider } from 'react-cookie';
@@ -63,6 +67,10 @@ export class Typer extends Component {
 									cookies={this.props.cookies}
 								/>
 							)}
+						/>
+						<Route
+							path="/user"
+							render={() => <User cookies={this.props.cookies} />}
 						/>
 						{/* Admin Routes */}
 						<Route

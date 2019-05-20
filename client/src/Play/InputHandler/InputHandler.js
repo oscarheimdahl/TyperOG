@@ -2,14 +2,16 @@ import React, { Component } from 'react';
 import './InputHandler.css';
 let placeholder = 'Type here...';
 
-let currentWordColor = 'black';
-let completedWordColor = 'lightgreen';
+let currentWordColor = 'lightgreen';
+let completedWordColor = 'white';
 let remainingTextColor = 'black';
 let incorrectSpellingColor = 'lightcoral';
 let inputBoxInCorrectSpellingColor = 'pink';
 let inputBoxColor = 'rgba(255,255,255,0.8)';
 
 export class InputHandler extends Component {
+	_timer = null;
+
 	state = {
 		wordIndex: 0,
 		spelling: true,
@@ -27,12 +29,13 @@ export class InputHandler extends Component {
 	componentDidMount() {
 		this.tick();
 		this.resetRemainingTextOverflow();
+		this._isMounted = true;
 	}
 
 	resetRemainingTextOverflow = () => {
 		let remainingTextOverflow = this.props.text.split(' ');
 		let rto = [];
-		remainingTextOverflow.map((w, i) => {
+		remainingTextOverflow.forEach((w, i) => {
 			if (i < remainingTextOverflow.length - 1) w = w + ' ';
 			rto.push(w);
 		});
@@ -47,15 +50,19 @@ export class InputHandler extends Component {
 			});
 		}
 	}
+
 	componentWillUnmount() {
 		placeholder = 'Type here...';
+		clearTimeout(this._timer);
 	}
 
 	tick = () => {
-		setTimeout(() => {
-			this.emitProgress();
-			if (!this.props.complete) {
-				this.tick();
+		this._timer = setTimeout(() => {
+			if (this._isMounted) {
+				this.emitProgress();
+				if (!this.props.complete) {
+					this.tick();
+				}
 			}
 		}, 1000);
 	};

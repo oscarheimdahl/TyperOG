@@ -16,7 +16,8 @@ class Play extends Component {
 		redirect: false,
 		goalPosition: null,
 		startTime: null,
-		text: ''
+		text: '',
+		postedStats: false
 	};
 
 	componentDidMount() {
@@ -44,13 +45,17 @@ class Play extends Component {
 		let msg = { username: cookies.get('username') };
 		msg['data'] = data;
 		if (this.props.socket) this.props.socket.emit(type, msg);
-		if (this.state.complete && cookies.get('loggedin') === 'true') {
+		if (
+			this.state.complete &&
+			cookies.get('loggedin') === 'true' &&
+			!this.state.postedStats
+		) {
+			this.setState({ postedStats: true });
 			this.postStats();
 		}
 	};
 
 	postStats = () => {
-		console.log('Posting');
 		axios
 			.post(localStorage.getItem('API') + 'api/users/updatewpm', {
 				token: this.props.cookies.get('token'),
@@ -88,10 +93,8 @@ class Play extends Component {
 			});
 
 			socket.on('gamestart', time => {
-				console.log('GAME START TIME RECIEVED!');
 				if (!this.state.startTime) {
 					this.setState({ startTime: Date.now() + time });
-					console.log(this.state.startTime);
 				}
 			});
 
@@ -108,7 +111,6 @@ class Play extends Component {
 	};
 
 	seeGames = () => {
-		console.log('going');
 		if (this.props.socket) this.props.socket.emit('printGames');
 	};
 
