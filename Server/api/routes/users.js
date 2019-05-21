@@ -93,7 +93,8 @@ router.post('/api/users/sign_in', (req, res) => {
 						return res.status(500);
 					} else {
 						user.password = hash;
-						user.save()
+						user
+							.save()
 							.then(result => {
 								console.log('Saving user: ' + result.username);
 								res.end();
@@ -266,37 +267,36 @@ router.post('/api/users/updatewpm/', checkAuth, (req, res) => {
 		.where('username')
 		.equals(username)
 		.then(res => {
-			console.log(res);
 			if (res[0].latestGames) {
 				latestGames = res[0].latestGames;
 				if (res[0].latestGames.length >= 10) {
 					latestGames.shift();
 				}
 			}
-			latestGames.push(wpm);
-			console.log(latestGames);
-			console.log(res[0]._id);
-			User.updateOne(
-				{ _id: res[0]._id },
-				{
-					$set: {
-						latestGames: latestGames,
-						averageWPM: getAverageWPM(latestGames),
-						gamesPlayed: res[0].gamesPlayed + 1,
-						highestWPM:
-							wpm > res[0].highestWPM ? wpm : res[0].highestWPM
-					}
-				},
-				{ new: true }
-			)
-				.then(res => {
-					console.log(res);
-				})
-				.catch(err => {
-					console.log(err);
-				});
+			if (uniqueWPM(latestGames, wpm)) {
+				latestGames.push(wpm);
+				User.updateOne(
+					{ _id: res[0]._id },
+					{
+						$set: {
+							latestGames: latestGames,
+							averageWPM: getAverageWPM(latestGames),
+							gamesPlayed: res[0].gamesPlayed + 1,
+							highestWPM: wpm > res[0].highestWPM ? wpm : res[0].highestWPM
+						}
+					},
+					{ new: true }
+				);
+			}
 		});
 });
+
+function uniqueWPM(latestGames, wpm) {
+	latestGames.forEach(oldWPM => {
+		if (oldWPM === wpm) return false;
+	});
+	return true;
+}
 
 function getAverageWPM(latestGames) {
 	let sum = 0;

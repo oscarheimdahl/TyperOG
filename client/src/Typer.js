@@ -9,8 +9,8 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import { withCookies, CookiesProvider } from 'react-cookie';
 import triangle from './Resources/triangle3.svg';
 
-localStorage.setItem('API', 'http://85.11.23.148:5000/');
-localStorage.setItem('Server', 'http://85.11.23.148:4000/');
+localStorage.setItem('API', 'http://130.239.239.51:5000/');
+localStorage.setItem('Server', 'http://130.239.219.248:4000/');
 
 export class Typer extends Component {
 	state = {
@@ -38,15 +38,11 @@ export class Typer extends Component {
 						/>
 						<Route
 							path="/signin"
-							render={() => (
-								<SignIn cookies={this.props.cookies} />
-							)}
+							render={() => <SignIn cookies={this.props.cookies} />}
 						/>
 						<Route
 							path="/login"
-							render={() => (
-								<Login cookies={this.props.cookies} />
-							)}
+							render={() => <Login cookies={this.props.cookies} />}
 						/>
 						<Route
 							path="/play"
@@ -64,9 +60,7 @@ export class Typer extends Component {
 						/>
 						<Route
 							path="/admin"
-							render={() => (
-								<Admin cookies={this.props.cookies} />
-							)}
+							render={() => <Admin cookies={this.props.cookies} />}
 						/>
 					</BrowserRouter>
 				</CookiesProvider>
