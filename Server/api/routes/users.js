@@ -61,8 +61,7 @@ router.get('/api/users/get/:username', (req, res) => {
 });
 
 router.post('/api/users/sign_in', (req, res) => {
-	console.log('signing in user');
-	console.log(req.body);
+	console.log('Signing in user');
 	const user = new User({
 		_id: new mongoose.Types.ObjectId(),
 		username: req.body.username,
