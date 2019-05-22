@@ -92,8 +92,7 @@ router.post('/api/users/sign_in', (req, res) => {
 						return res.status(500);
 					} else {
 						user.password = hash;
-						user
-							.save()
+						user.save()
 							.then(result => {
 								console.log('Saving user: ' + result.username);
 								res.end();
@@ -273,11 +272,7 @@ router.post('/api/users/updatewpm/', checkAuth, (req, res) => {
 				}
 			}
 			if (uniqueWPM(latestGames, wpm)) {
-				console.log('Adding WPM' + wpm);
 				latestGames.push(wpm);
-				// res[0].gamesPlayed++;
-				// res[0].highestWPM = wpm > res[0].highestWPM ? wpm : res[0].highestWPM;
-				// console.log(res);
 				User.updateOne(
 					{ _id: res[0]._id },
 					{
@@ -285,7 +280,10 @@ router.post('/api/users/updatewpm/', checkAuth, (req, res) => {
 							latestGames: latestGames,
 							averageWPM: getAverageWPM(latestGames),
 							gamesPlayed: res[0].gamesPlayed + 1,
-							highestWPM: wpm > res[0].highestWPM ? wpm : res[0].highestWPM
+							highestWPM:
+								wpm > res[0].highestWPM
+									? wpm
+									: res[0].highestWPM
 						}
 					},
 					{ new: true }
