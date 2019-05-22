@@ -275,24 +275,27 @@ router.post('/api/users/updatewpm/', checkAuth, (req, res) => {
 			if (uniqueWPM(latestGames, wpm)) {
 				console.log('Adding WPM' + wpm);
 				latestGames.push(wpm);
-				res[0].gamesPlayed++;
-				res[0].highestWPM = wpm > res[0].highestWPM ? wpm : res[0].highestWPM;
-				console.log(res);
-				// User.updateOne(
-				// 	{ _id: res[0]._id },
-				// 	{
-				// 		$set: {
-				// 			latestGames: [1, 2, 3],
-				// 			averageWPM: getAverageWPM(latestGames),
-				// 			gamesPlayed: res[0].gamesPlayed + 1,
-				// 			highestWPM:
-				// 				wpm > res[0].highestWPM
-				// 					? wpm
-				// 					: res[0].highestWPM
-				// 		}
-				// 	},
-				// 	{ new: true }
-				// );
+				// res[0].gamesPlayed++;
+				// res[0].highestWPM = wpm > res[0].highestWPM ? wpm : res[0].highestWPM;
+				// console.log(res);
+				User.updateOne(
+					{ _id: res[0]._id },
+					{
+						$set: {
+							latestGames: latestGames,
+							averageWPM: getAverageWPM(latestGames),
+							gamesPlayed: res[0].gamesPlayed + 1,
+							highestWPM: wpm > res[0].highestWPM ? wpm : res[0].highestWPM
+						}
+					},
+					{ new: true }
+				)
+					.then(res => {
+						console.log(res);
+					})
+					.catch(err => {
+						console.log(err);
+					});
 			}
 		});
 });
