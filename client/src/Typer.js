@@ -27,7 +27,7 @@ export class Typer extends Component {
 		return (
 			<div>
 				<div className="overflower">
-					<img src={triangle} className="stretch" alt="aa" />
+					<img src={triangle} className="stretch" alt="background" />
 				</div>
 				<CookiesProvider>
 					<BrowserRouter>

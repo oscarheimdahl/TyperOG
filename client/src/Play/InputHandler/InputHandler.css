@@ -7,32 +7,32 @@
 .container {
 	position: relative;
 	left: 0vw;
-	font-size: 2vw;
+	font-size: 30px;
 }
 
 .text {
 	position: relative;
-	width: 52vw;
-	left: 10%;
+	width: 66%;
+	left: 15%;
 	display: block;
-	text-decoration-color: black;
-	padding: 1vw 2vw;
+	text-decoration-color: white;
+	padding: 20px 2% 0 2%;
 	background: transparent;
-	color: black;
+	color: white;
 }
 
 .inputfield {
 	position: relative;
-	font-size: 2vw;
-	width: 52vw;
-	left: 7vw;
-	height: 2vw;
+	font-size: 30px;
+	width: 66%;
+	left: 15%;
+	height: 25px;
 	display: block;
-	padding: 1vw 2vw;
+	padding: 20px 2%;
 	border: none;
-	border: black solid 1px;
-	color: black;
-	border-radius: 30px;
+	border-bottom: 2px solid white;
+	color: white;
+	/* border-radius: 100px; */
 
 	/* border-bottom-right-radius: 2vw;
 	border-bottom-left-radius: 2vw;
@@ -55,13 +55,12 @@
 .startTime {
 	position: absolute;
 	width: 100%;
-	left: 1.5%;
-	height: 5vw;
-	bottom: -0.5vw;
-	line-height: 5vw;
+	font-size: 50px;
+	line-height: 50px;
+	bottom: 15px;
 	text-align: center;
 	z-index: 3;
-	color: black;
+	color: #222;
 }
 
 ::placeholder {

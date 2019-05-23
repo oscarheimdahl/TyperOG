@@ -6,8 +6,8 @@ let currentWordColor = 'lightgreen';
 let completedWordColor = 'lightgreen';
 let remainingTextColor = 'white';
 let incorrectSpellingColor = 'lightcoral';
-let inputBoxInCorrectSpellingColor = 'pink';
-let inputBoxColor = 'white';
+let inputBoxInCorrectSpellingColor = 'red';
+let inputBoxColor = 'transparent';
 
 export class InputHandler extends Component {
 	_timer = null;
@@ -23,7 +23,8 @@ export class InputHandler extends Component {
 		endTime: null,
 		progress: 0,
 		overflow: '',
-		lastCorrectString: ''
+		lastCorrectString: '',
+		inputDisabled: false
 	};
 
 	componentDidMount() {
@@ -109,6 +110,7 @@ export class InputHandler extends Component {
 				if (onLastWord) {
 					this.setState({ endTime: Date.now() });
 					this.props.setComplete();
+					this.setState({ inputDisabled: true });
 				}
 			} else if (correctString === input) {
 				this.resetRemainingTextOverflow();
@@ -206,7 +208,9 @@ export class InputHandler extends Component {
 		return this.state.spelling === true
 			? { background: inputBoxColor }
 			: {
-					background: inputBoxInCorrectSpellingColor
+					background: inputBoxColor,
+					color: incorrectSpellingColor,
+					borderBottom: 'red 2px solid'
 			  };
 	};
 
@@ -301,6 +305,7 @@ export class InputHandler extends Component {
 						this.handleInput(evt.target.value);
 					}
 				}}
+				disabled={this.state.inputDisabled ? 'disabled' : ''}
 			/>
 		);
 	};

@@ -3,7 +3,8 @@ const APIIP = 'http://192.168.1.142';
 const axios = require('axios');
 
 const gameSize = 6;
-const playersToStart = 1;
+const playersToStart = 2;
+const countdownTime = 10;
 let guestUsers = 0;
 let games = [];
 let game = {
@@ -16,7 +17,7 @@ let game = {
 	text: null
 };
 
-colors = ['#2978A0', '#C60F7B', '#95E06C', '#FF5964', , '#FFE74C'];
+colors = ['#2978A0', '#C60F7B', '#95E06C', '#FF5964', '#FFE74C'];
 let colorIndex = 0;
 
 let player = {
@@ -135,7 +136,7 @@ module.exports = {
 	sendStartTime: function(socket, gameIndex) {
 		console.log('sending starttime');
 		if (!games[gameIndex].startTime) {
-			games[gameIndex].startTime = Date.now() + 10 * 1000;
+			games[gameIndex].startTime = Date.now() + countdownTime * 1000;
 		}
 		socket
 			.in(gameIndex)

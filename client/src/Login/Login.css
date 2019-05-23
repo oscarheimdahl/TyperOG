@@ -10,6 +10,7 @@
 	top: 15vh;
 	border: solid black 1px;
 	background: white;
+	border-radius: 1.5vw;
 }
 
 .loginbox > h1 {
@@ -32,6 +33,7 @@
 	font-size: 15px;
 	margin: 5px 0 20px 0;
 	border: solid black 1px;
+	border-radius: 1.5vw;
 }
 
 .loginbox > .logininfo > .errorlabel {
@@ -51,7 +53,7 @@
 	left: 35%;
 	background: #90ee90;
 	transition-duration: 0.3s;
-	border-radius: 3px;
+	border-radius: 1.5vw;
 	text-align: center;
 	line-height: 35px;
 	text-decoration: none;

@@ -152,7 +152,7 @@ class Play extends Component {
 	renderNewRaceButton = () => {
 		return this.state.complete ? (
 			<button className="newrace-button" onClick={this.newRace}>
-				NEW RACE
+				NEXT RACE
 			</button>
 		) : null;
 	};
@@ -190,13 +190,15 @@ class Play extends Component {
 		return (
 			<div>
 				<Navbar cookies={this.props.cookies} />
-				<div className="playcontent">
-					{this.renderRedirect()}
-					{this.state.hide ? null : this.renderProgress()}
-					{this.state.hide ? null : this.renderInputHandler()}
-					{/* <button onClick={this.seeGames}>Log games on server</button> */}
-					<button onClick={this.setComplete}>Insta win</button>
-					{this.renderNewRaceButton()}
+				<div className="play-wrapper">
+					<div className="playcontent">
+						{this.renderRedirect()}
+						{this.state.hide ? null : this.renderProgress()}
+						{this.state.hide ? null : this.renderInputHandler()}
+						{/* <button onClick={this.seeGames}>Log games on server</button> */}
+						{/* <button onClick={this.setComplete}>Insta win</button> */}
+						{this.renderNewRaceButton()}
+					</div>
 				</div>
 			</div>
 		);
