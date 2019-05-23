@@ -73,6 +73,15 @@ export class Users extends Component {
 		this.props.setUser(user);
 	};
 
+	renderLatestGames = latestGames => {
+		if (latestGames.length > 1) {
+			return latestGames.map(game => {
+				console.log(game);
+				return <p>{Math.round(game * 100) / 100}</p>;
+			});
+		}
+	};
+
 	renderUsers = () => {
 		return this.state.users ? (
 			this.state.users.map(u => {
@@ -80,7 +89,6 @@ export class Users extends Component {
 					<tr key={u._id} className="user">
 						<td>{u.username}</td>
 						<td>{u.email}</td>
-						<td>{u.password}</td>
 						<td>{Math.round(u.gamesPlayed * 100) / 100}</td>
 						<td>{Math.round(u.averageWPM * 100) / 100}</td>
 						<td>{Math.round(u.highestWPM * 100) / 100}</td>
@@ -115,7 +123,6 @@ export class Users extends Component {
 							<tr>
 								<th>Username</th>
 								<th>Email</th>
-								<th>Password</th>
 								<th>Games played</th>
 								<th>Average WPM</th>
 								<th>Highest WPM</th>

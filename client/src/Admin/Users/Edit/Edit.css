@@ -1,45 +1,92 @@
 .edit-user {
 	width: 100%;
 	height: 80vh;
+	margin-top: 2vw;
 }
 
 .edit-user > form {
 	position: relative;
-	width: 80%;
-	height: 80vh;
+	width: 60%;
 	margin: auto;
 	background: rgba(128, 128, 128, 0.295);
+	display: grid;
+	grid-row-gap: 2vw;
+	grid-template-rows: 1fr 1fr 4fr;
+	grid-template-areas:
+		'username password email'
+		'aWPM gp pb'
+		'admin . button';
+}
+
+.edit-user > form > .username {
+	grid-area: username;
+}
+
+.edit-user > form > .password {
+	grid-area: password;
+}
+
+.edit-user > form > .email {
+	grid-area: email;
+}
+
+.edit-user > form > .aWPM {
+	grid-area: aWPM;
+}
+
+.edit-user > form > .gp {
+	grid-area: gp;
+}
+
+.edit-user > form > .pb {
+	grid-area: pb;
+}
+
+.edit-user > form > .admin {
+	grid-area: admin;
 }
 
 .edit-user > form > h1 {
 	text-align: center;
 }
-.edit-user > form > label {
+.edit-user > form label {
 	display: block;
 	font-size: 1.1em;
-	margin-left: 2vw;
+	margin: 1vw 0 0.5vw 2vw;
+	color: wheat;
 }
 
-.edit-user > form > label:first-child {
-	padding-top: 2vw;
-}
-.edit-user > form > input {
-	padding: 0.5%;
-	border-radius: 3px;
-	margin-left: 2vw;
+.edit-user > form input {
+	padding-left: 2%;
+	border-radius: 30px;
+	margin-left: 1.5vw;
 	border: none;
-	width: 20%;
-	height: 5%;
+	width: 80%;
+	height: 3vw;
 	margin-bottom: 2%;
+	outline: none;
 }
 
-.edit-user > form > button {
-	position: absolute;
-	right: 2vw;
-	width: 10%;
-	height: 7%;
-	border-radius: 5px;
+.edit-user > form textarea {
+	border-radius: 30px;
+	width: 90%;
+	height: 65%;
+	resize: none;
+	padding: 2%;
+}
+
+.edit-user > form button {
+	border-radius: 30px;
 	border: none;
+	width: 30%;
+	height: 15%;
+	margin: auto;
 	background: green;
 	cursor: pointer;
+	grid-area: button;
+	transition: 250ms ease-in-out;
+}
+
+.edit-user > form button:hover {
+	background: rgb(85, 252, 44);
 }

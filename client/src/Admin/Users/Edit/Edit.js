@@ -52,22 +52,33 @@ export class Edit extends Component {
 			});
 	};
 
+	latestGamesToArray = latestGames => {
+		if (latestGames) {
+			return latestGames.split(',');
+		}
+	};
+
 	handleSubmit = e => {
 		e.preventDefault();
 		const {
 			username,
 			password,
 			email,
+			admin,
 			averageWPM,
 			gamesPlayed,
 			highestWPM,
+			latestGames,
 			_id
 		} = this.state;
+
 		axios
 			.put(localStorage.getItem('API') + `api/users/update/${_id}`, {
 				username,
 				password,
 				email,
+				admin,
+				latestGames: this.latestGamesToArray(latestGames),
 				averageWPM: parseFloat(averageWPM),
 				gamesPlayed: parseFloat(gamesPlayed),
 				highestWPM: parseFloat(highestWPM),
@@ -92,52 +103,85 @@ export class Edit extends Component {
 		const { user } = this.state;
 		return this.state.user ? (
 			<form onSubmit={this.handleSubmit}>
-				<h1>Editing: {user.username}</h1>
-				<label>Username</label>
-				<input
-					type="text"
-					name="username"
-					onChange={this.handleTextinput}
-					defaultValue={user.username}
-				/>
-				<label>Password</label>
-				<input
-					type="password"
-					name="password"
-					onChange={this.handleTextinput}
-					defaultValue={user.password}
-				/>
-				<label>Email</label>
-				<input
-					type="email"
-					name="email"
-					onChange={this.handleTextinput}
-					defaultValue={user.email}
-				/>
-				<label>Average WPM</label>
-				<input
-					type="number"
-					step="any"
-					name="averageWPM"
-					onChange={this.handleTextinput}
-					defaultValue={user.averageWPM}
-				/>
-				<label>Games Played</label>
-				<input
-					type="number"
-					step="any"
-					name="gamesPlayed"
-					onChange={this.handleTextinput}
-					defaultValue={user.gamesPlayed}
-				/>
-				<label>Personal Best</label>
-				<input
-					type="number"
-					step="any"
-					name="highestWPM"
-					onChange={this.handleTextinput}
-					defaultValue={user.highestWPM}
-				/>
+				<div className="username">
+					<label>Username</label>
+					<input
+						type="text"
+						name="username"
+						onChange={this.handleTextinput}
+						defaultValue={user.username}
+					/>
+				</div>
+				<div className="password">
+					<label>Password</label>
+					<input
+						type="password"
+						name="password"
+						onChange={this.handleTextinput}
+						defaultValue={user.password}
+					/>
+				</div>
+				<div className="email">
+					<label>Email</label>
+					<input
+						type="email"
+						name="email"
+						onChange={this.handleTextinput}
+						defaultValue={user.email}
+					/>
+				</div>
+				<div className="aWPM">
+					<label>Average WPM</label>
+					<input
+						type="number"
+						step="any"
+						name="averageWPM"
+						onChange={this.handleTextinput}
+						defaultValue={user.averageWPM}
+					/>
+				</div>
+				<div className="gp">
+					<label>Games Played</label>
+					<input
+						type="number"
+						step="any"
+						name="gamesPlayed"
+						onChange={this.handleTextinput}
+						defaultValue={user.gamesPlayed}
+					/>
+				</div>
+				<div className="pb">
+					<label>Personal Best</label>
+					<input
+						type="number"
+						step="any"
+						name="highestWPM"
+						onChange={this.handleTextinput}
+						defaultValue={user.highestWPM}
+					/>
+				</div>
+				<div className="admin">
+					<label>Admin</label>
+					<input
+						type="text"
+						step="any"
+						name="admin"
+						onChange={this.handleTextinput}
+						defaultValue={user.admin}
+					/>
+				</div>
+				<div className="latestGames">
+					<label>Latest Games</label>
+					<textarea
+						type="text"
+						step="any"
+						name="latestGames"
+						onChange={this.handleTextinput}
+						defaultValue={user.latestGames.map(game => {
+							return game + '\n';
+						})}
+					/>
+				</div>
 				<button type="submit">Save</button>
 			</form>
 		) : (
