@@ -7,6 +7,8 @@ import Navbar from '../Navbar/Navbar';
 import { Redirect } from 'react-router-dom';
 import './Play.css';
 class Play extends Component {
+	_reloadTimer = null;
+
 	state = {
 		complete: false,
 		wpm: 0,
@@ -15,7 +17,8 @@ class Play extends Component {
 		redirect: false,
 		goalPosition: null,
 		startTime: null,
-		text: ''
+		text: '',
+		hide: false
 	};
 
 	componentDidMount() {
@@ -36,6 +39,7 @@ class Play extends Component {
 		if (this.props.socket) {
 			this.props.socket.disconnect();
 		}
+		clearTimeout(this._reloadTimer);
 	}
 
 	emit = (type, data) => {
@@ -60,6 +64,25 @@ class Play extends Component {
 
 	setComplete = () => {
 		this.setState({ complete: true });
+	};
+
+	newRace = () => {
+		this.setState({ hide: true });
+		this.props.socket.disconnect();
+		this.initSocket();
+		this.setState({
+			complete: false,
+			wpm: 0,
+			playerProgress: 0,
+			opponents: null,
+			redirect: false,
+			goalPosition: null,
+			startTime: null,
+			text: ''
+		});
+		setTimeout(() => {
+			this.setState({ hide: false });
+		});
 	};
 
 	setProgress = playerProgress => {
@@ -126,6 +149,14 @@ class Play extends Component {
 		}
 	};
 
+	renderNewRaceButton = () => {
+		return this.state.complete ? (
+			<button className="newrace-button" onClick={this.newRace}>
+				NEW RACE
+			</button>
+		) : null;
+	};
+
 	renderInputHandler = () => {
 		return (
 			<InputHandler
@@ -161,9 +192,11 @@ class Play extends Component {
 				<Navbar cookies={this.props.cookies} />
 				<div className="playcontent">
 					{this.renderRedirect()}
-					{this.renderProgress()}
-					{this.renderInputHandler()}
-					<button onClick={this.seeGames}>Log games on server</button>
+					{this.state.hide ? null : this.renderProgress()}
+					{this.state.hide ? null : this.renderInputHandler()}
+					{/* <button onClick={this.seeGames}>Log games on server</button> */}
+					<button onClick={this.setComplete}>Insta win</button>
+					{this.renderNewRaceButton()}
 				</div>
 			</div>
 		);

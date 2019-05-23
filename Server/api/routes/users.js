@@ -92,7 +92,8 @@ router.post('/api/users/sign_in', (req, res) => {
 						return res.status(500);
 					} else {
 						user.password = hash;
-						user.save()
+						user
+							.save()
 							.then(result => {
 								console.log('Saving user: ' + result.username);
 								res.end();
@@ -265,13 +266,13 @@ router.post('/api/users/updatewpm/', checkAuth, (req, res) => {
 		.where('username')
 		.equals(username)
 		.then(res => {
-			if (res[0].latestGames) {
-				latestGames = res[0].latestGames;
-				if (res[0].latestGames.length >= 10) {
-					latestGames.shift();
-				}
-			}
 			if (uniqueWPM(latestGames, wpm)) {
+				if (res[0].latestGames) {
+					latestGames = res[0].latestGames;
+					if (res[0].latestGames.length >= 10) {
+						latestGames.shift();
+					}
+				}
 				latestGames.push(wpm);
 				User.updateOne(
 					{ _id: res[0]._id },
@@ -280,10 +281,7 @@ router.post('/api/users/updatewpm/', checkAuth, (req, res) => {
 							latestGames: latestGames,
 							averageWPM: getAverageWPM(latestGames),
 							gamesPlayed: res[0].gamesPlayed + 1,
-							highestWPM:
-								wpm > res[0].highestWPM
-									? wpm
-									: res[0].highestWPM
+							highestWPM: wpm > res[0].highestWPM ? wpm : res[0].highestWPM
 						}
 					},
 					{ new: true }
@@ -300,7 +298,7 @@ router.post('/api/users/updatewpm/', checkAuth, (req, res) => {
 
 function uniqueWPM(latestGames, wpm) {
 	latestGames.forEach(oldWPM => {
-		if (oldWPM === wpm) {
+		if (Math.abs(oldWPM - wpm) < 0.0001) {
 			console.log('Not unic WPM');
 			return false;
 		}

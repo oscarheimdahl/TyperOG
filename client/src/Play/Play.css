@@ -15,3 +15,23 @@
 	z-index: -1;
 	top: 0;
 }
+
+.newrace-button {
+	position: absolute;
+	right: 7vw;
+	padding: 1vw 2vw;
+	margin-top: 1vw;
+	border-radius: 30px;
+	background: rgb(144, 238, 144);
+	border: none;
+	font-size: 1vw;
+	outline: none;
+	cursor: pointer;
+}
+.newrace-button:hover {
+	background: rgb(154, 248, 154);
+}
+
+.newrace-button:active {
+	background: rgb(134, 228, 134);
+}

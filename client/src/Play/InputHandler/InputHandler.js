@@ -313,7 +313,7 @@ export class InputHandler extends Component {
 					{this.renderTextbox()}
 					{this.renderInputfield()}
 				</div>
-				<button onClick={this.props.setComplete}>Tryck mig</button>
+				{/* <button onClick={this.props.setComplete}>Tryck mig</button> */}
 			</div>
 		);
 	}

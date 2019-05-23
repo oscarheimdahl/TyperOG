@@ -1,4 +1,4 @@
-const APIIP = 'http://130.239.238.209';
+const APIIP = 'http://192.168.1.142';
 
 const axios = require('axios');
 
@@ -16,7 +16,8 @@ let game = {
 	text: null
 };
 
-colors = ['#FFE74C', '#FF5964', '#95E06C', '#2978A0', '#C60F7B'];
+colors = ['#2978A0', '#C60F7B', '#95E06C', '#FF5964', , '#FFE74C'];
+let colorIndex = 0;
 
 let player = {
 	username: '',
@@ -106,7 +107,8 @@ module.exports = {
 		player.id = socket.id;
 		socket.join(gameIndex);
 		player.game = gameIndex;
-		player.color = colors[Math.floor(Math.random() * colors.length)];
+		player.color = colors[colorIndex % colors.length];
+		colorIndex++;
 		player.gameIndex = gameIndex;
 		sockets.push(socket);
 		players.push(JSON.parse(JSON.stringify(player)));
@@ -198,10 +200,7 @@ module.exports = {
 						p.inGoal = true;
 					}
 					if (p.inGoal)
-						p.goalPosition = this.setGoalPosition(
-							gme.players,
-							p.wpm
-						);
+						p.goalPosition = this.setGoalPosition(gme.players, p.wpm);
 					this.broadcastProgress(socket, gme.players);
 				}
 			});
