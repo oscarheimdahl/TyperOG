@@ -266,12 +266,12 @@ router.post('/api/users/updatewpm/', checkAuth, (req, res) => {
 		.where('username')
 		.equals(username)
 		.then(res => {
+			if (res[0].latestGames) {
+				latestGames = res[0].latestGames;
+			}
 			if (uniqueWPM(latestGames, wpm)) {
-				if (res[0].latestGames) {
-					latestGames = res[0].latestGames;
-					if (res[0].latestGames.length >= 10) {
-						latestGames.shift();
-					}
+				if (latestGames.length >= 10) {
+					latestGames.shift();
 				}
 				latestGames.push(wpm);
 				User.updateOne(
