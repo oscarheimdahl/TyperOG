@@ -297,13 +297,14 @@ router.post('/api/users/updatewpm/', checkAuth, (req, res) => {
 });
 
 function uniqueWPM(latestGames, wpm) {
+	let uniqueGame = true;
 	latestGames.forEach(oldWPM => {
 		if (Math.abs(oldWPM - wpm) < 0.0001) {
 			console.log('Not unic WPM');
-			return false;
+			uniqueGame = false;
 		}
 	});
-	return true;
+	return uniqueGame;
 }
 
 function getAverageWPM(latestGames) {
