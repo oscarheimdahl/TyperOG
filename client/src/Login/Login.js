@@ -32,12 +32,10 @@ export class Login extends Component {
 			console.log(localStorage.getItem('API') + 'api/users/login');
 			axios
 				.post(localStorage.getItem('API') + 'api/users/login', {
-					//http://130.239.236.226:4000/api/users/login/', {
 					username: this.state.username,
 					password: this.state.password
 				})
 				.then(res => {
-					// this.props.setLoginAttributes(res.data.token, this.state.username);
 					const { cookies } = this.props;
 					cookies.set('token', res.data.token, { path: '/' });
 					cookies.set('username', this.state.username, { path: '/' });
