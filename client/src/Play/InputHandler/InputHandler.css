@@ -7,7 +7,7 @@
 .container {
 	position: relative;
 	left: 0vw;
-	font-size: 30px;
+	font-size: calc(10px + 1vw);
 }
 
 .text {

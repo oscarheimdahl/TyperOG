@@ -17,7 +17,7 @@ app.get('/', function(req, res) {});
 
 io.on('connection', socket => {
 	socket.on('join', (username, guest) => {
-		logic.leaveOldGame(username, true);
+		logic.leaveOldGame(username);
 		logic.joinGame(socket, username, guest);
 	});
 
