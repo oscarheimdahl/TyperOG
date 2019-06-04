@@ -1,9 +1,9 @@
-const APIIP = 'http://130.239.237.147';
+const APIIP = 'http://130.239.236.86';
 
 const axios = require('axios');
 
 const gameSize = 10;
-const playersToStart = 8;
+const playersToStart = 2;
 const countdownTime = 10;
 let guestUsers = 0;
 let games = [];

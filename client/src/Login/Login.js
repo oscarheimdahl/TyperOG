@@ -65,7 +65,7 @@ export class Login extends Component {
 
 	renderRedirectPlay = () => {
 		if (this.state.redirectPlay) {
-			return <Redirect to="/play" />;
+			return <Redirect to="/" />;
 		}
 	};
 

@@ -11,7 +11,7 @@ export default function(props) {
 
 	function renderLoginout() {
 		return props.cookies.get('loggedin') === 'true' ? (
-			<NavLink to="/">
+			<NavLink to="/login">
 				<li onClick={logout}>Logout</li>
 			</NavLink>
 		) : (
@@ -24,7 +24,9 @@ export default function(props) {
 	function renderProfileButton() {
 		return props.cookies.get('loggedin') === 'true' ? (
 			<NavLink to="/user">
-				<span className="usernameprofile">{props.cookies.get('username')}</span>
+				<span className="usernameprofile">
+					{props.cookies.get('username')}
+				</span>
 			</NavLink>
 		) : (
 			<span className="usernameprofile" />
@@ -39,9 +41,6 @@ export default function(props) {
 			<nav>
 				<ul>
 					<NavLink to="/">
-						<li>Home</li>
-					</NavLink>
-					<NavLink to="/play">
 						<li>Play</li>
 					</NavLink>
 					{renderLoginout()}
