@@ -9,7 +9,7 @@
 		"react-cookie": "^3.1.2",
 		"react-dom": "^16.8.6",
 		"react-router-dom": "^5.0.0",
-		"react-scripts": "3.0.0",
+		"react-scripts": "5.0.1",
 		"react-timer-mixin": "^0.13.4",
 		"socket.io": "^2.2.0",
 		"socketio": "^1.0.0"
